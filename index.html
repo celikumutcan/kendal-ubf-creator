@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kendal & Global — Ürün Bilgi Formu (UBF) Stüdyosu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <script src="catalog.js"></script>
+  <style>
+    :root {
+      --primary: #d32f2f;
+      --primary-dark: #b71c1c;
+      --sidebar-bg: #0f172a;
+      --sidebar-card: #1e293b;
+      --sidebar-border: #334155;
+      --sidebar-text: #f8fafc;
+      --sidebar-muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #090d16;
+      color: #0f172a;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP NAVBAR */
+    .app-header {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--sidebar-border);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      color: #fff;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .badge-studio {
+      background: linear-gradient(135deg, #d32f2f, #ef4444);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .header-center {
+      position: relative;
+      width: 380px;
+    }
+
+    .search-input-box {
+      width: 100%;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #fff;
+      padding: 8px 12px 8px 34px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+      background: #0f172a;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      display: none;
+    }
+
+    .search-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid #334155;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .search-item:hover {
+      background: #334155;
+    }
+    .search-item-code {
+      font-weight: 700;
+      color: #38bdf8;
+      font-size: 13px;
+    }
+    .search-item-name {
+      color: #cbd5e1;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary {
+      background: var(--sidebar-card);
+      color: var(--sidebar-text);
+      border-color: var(--sidebar-border);
+    }
+    .btn-secondary:hover {
+      background: #334155;
+      color: #fff;
+    }
+
+    .btn-danger-outline {
+      background: transparent;
+      color: #ef4444;
+      border-color: #ef4444;
+    }
+    .btn-danger-outline:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .btn-success {
+      background: #16a34a;
+      color: #fff;
+    }
+    .btn-success:hover {
+      background: #15803d;
+    }
+
+    /* APP LAYOUT */
+    .app-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    /* SIDEBAR (EDITOR) */
+    .editor-panel {
+      width: 470px;
+      min-width: 450px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .guide-banner {
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .editor-tabs {
+      display: flex;
+      background: #0b1120;
+      border-bottom: 1px solid var(--sidebar-border);
+      padding: 4px;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 8px 6px;
+      background: transparent;
+      border: none;
+      color: var(--sidebar-muted);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: var(--sidebar-card);
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .editor-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 11px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sidebar-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: #0b1120;
+      border: 1px solid var(--sidebar-border);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 52px;
+    }
+
+    .hint {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+
+    .card-box {
+      background: var(--sidebar-card);
+      border: 1px solid var(--sidebar-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* MEKANIK OZELLIK SECENEKLERI */
+    .mech-preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .mech-preset-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mech-preset-btn:hover {
+      background: #334155;
+      color: #f8fafc;
+      border-color: #475569;
+    }
+    .mech-preset-btn.active {
+      background: #0284c7;
+      color: #fff;
+      border-color: #38bdf8;
+    }
+    .mech-prop-card {
+      background: #0b1120;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 7px;
+      transition: border-color 0.15s, opacity 0.15s;
+    }
+    .mech-prop-card.disabled {
+      opacity: 0.45;
+      background: rgba(11, 17, 32, 0.4);
+    }
+    .mech-prop-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mech-check-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+      cursor: pointer;
+      margin-bottom: 0;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .mech-check-label input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: #38bdf8;
+      cursor: pointer;
+    }
+    .mech-prop-input-wrap {
+      margin-top: 6px;
+    }
+
+    /* DRAG & DROP DROPZONE */
+    .dropzone-box {
+      border: 2px dashed #475569;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      background: #0b1120;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dropzone-box:hover {
+      border-color: #38bdf8;
+      background: #0f172a;
+    }
+    .dropzone-text {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    /* ENERGY CLASS CALCULATOR BADGE */
+    .energy-calc-box {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #38bdf8;
+      border-radius: 8px;
+      padding: 9px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .energy-class-letter {
+      font-size: 22px;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: 6px;
+      color: #fff;
+    }
+    .class-A { background: #00843D; }
+    .class-B { background: #4DB343; }
+    .class-C { background: #B2D235; }
+    .class-D { background: #FFD200; color: #000; }
+    .class-E { background: #F39200; }
+    .class-F { background: #E4002B; }
+    .class-G { background: #C5112E; }
+
+    /* PREVIEW CONTAINER */
+    .preview-container {
+      flex: 1;
+      background: #1e2538;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preview-toolbar {
+      background: #131a2a;
+      border-bottom: 1px solid #2d3748;
+      height: 46px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .preview-viewport {
+      flex: 1;
+      overflow: auto;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    }
+
+    /* A4 PAPER DESIGN */
+    .a4-page {
+      width: 210mm;
+      min-width: 210mm;
+      max-width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+      padding: 12mm 14mm 10mm 14mm;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      position: relative;
+      font-family: 'Inter', -apple-system, sans-serif;
+      transform-origin: top center;
+    }
+
+    /* Header */
+    .ubf-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0;
+    }
+
+    .ubf-brand-logo-main {
+      height: 72px;
+      display: flex;
+      align-items: center;
+    }
+    .ubf-brand-logo-main img {
+      height: 50px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
+    }
+    .ubf-brand-logo-main img[src*="vanti"] {
+      height: 70px !important;
+      max-height: 70px !important;
+    }
+    .ubf-brand-logo-main img[src*="k2"] {
+      height: 72px !important;
+      max-height: 72px !important;
+    }
+
+    .ubf-header-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .ubf-title-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ubf-red-bar {
+      width: 4px;
+      height: 40px;
+      background: #d32f2f;
+      border-radius: 2px;
+    }
+
+    .ubf-sheet-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #374151;
+      letter-spacing: -0.3px;
+      line-height: 1.1;
+    }
+
+    .ubf-sheet-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    /* Hero / Title on Left & Product Image on Right */
+    .ubf-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 115px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+    }
+
+    .ubf-hero-left {
+      flex: 1;
+      padding-right: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ubf-prod-name-tr {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+      text-align: left;
+    }
+
+    .ubf-prod-name-en {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #64748b;
+      line-height: 1.25;
+      margin-top: 3px;
+      margin-bottom: 6px;
+      text-align: left;
+    }
+
+    .ubf-bullets {
+      list-style: none;
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .ubf-bullets li {
+      font-size: 11.5px;
+      color: #334155;
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ubf-bullets li::before {
+      content: "•";
+      color: #d32f2f;
+      font-size: 16px;
+    }
+
+    .ubf-hero-right {
+      width: 145px;
+      height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .ubf-hero-right img {
+      max-width: 135px;
+      max-height: 105px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+    }
+
+    /* Dividers */
+    .ubf-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .ubf-sec-marker {
+      width: 4.5px;
+      height: 16px;
+      background: #d32f2f;
+      border-radius: 1px;
+    }
+
+    .ubf-sec-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.1px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      min-width: 65px;
+    }
+
+    .ubf-sec-sub {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .ubf-sec-line {
+      flex: 1;
+      height: 1px;
+      background: #9ca3af;
+      margin-left: 6px;
+    }
+
+    /* 2-Row Specs Grid - GUARANTEES EXACT SAME HORIZONTAL ROW BASELINE */
+    .ubf-specs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
+      margin-bottom: 14px;
+      align-items: start;
+    }
+    .ubf-specs-row:last-child {
+      margin-bottom: 6px;
+    }
+
+    .ubf-spec-block {
+      margin-bottom: 0;
+    }
+
+    .ubf-spec-head {
+      margin-bottom: 8px;
+      border-left: 3.5px solid #d32f2f;
+      padding-left: 9px;
+    }
+
+    .ubf-spec-head-en {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+      letter-spacing: -0.1px;
+    }
+
+    .ubf-spec-head-tr {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .ubf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.2px;
+    }
+
+    .ubf-table tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .ubf-table td {
+      padding: 2.8px 0;
+      vertical-align: middle;
+      color: #374151;
+      line-height: 1.25;
+      font-size: 10.2px;
+    }
+
+    .ubf-table td.label-col {
+      width: 60%;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .ubf-table td.value-col {
+      width: 40%;
+      color: #0f172a;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    /* Technical Drawing Area */
+    .ubf-drawing-box {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      margin: 4px 0 6px 0;
+    }
+
+    .ubf-drawing-box img {
+      max-height: 50px;
+      max-width: 150px;
+      object-fit: contain;
+    }
+
+    /* Bottom SKU / Variant Table */
+    .ubf-bottom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+      font-size: 8.8px;
+      text-align: center;
+    }
+
+    .ubf-bottom-table th {
+      background: #f9fafb;
+      color: #374151;
+      font-weight: 700;
+      padding: 3.5px 2px;
+      border-top: 1px solid #9ca3af;
+      border-bottom: 1px solid #9ca3af;
+      line-height: 1.15;
+    }
+
+    .ubf-bottom-table th .th-sub {
+      display: block;
+      font-weight: 500;
+      font-size: 7.8px;
+      color: #6b7280;
+    }
+
+    .ubf-bottom-table td {
+      padding: 3.2px 2px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .ubf-bottom-table tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    /* Corporate Footer with Kendal Elektrik Manufacturer Info */
+    .ubf-corporate-footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 6px;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5px;
+      color: #64748b;
+    }
+
+    .ubf-footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ubf-footer-logo-badge {
+      background: #0f172a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .ubf-footer-logo-badge img {
+      height: 18px;
+      width: auto;
+      display: block;
+    }
+
+    .ubf-footer-company {
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    /* PRINT RULES */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html, body {
+        background: #fff !important;
+        height: auto !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .no-print,
+      .app-header,
+      .editor-panel,
+      .preview-toolbar {
+        display: none !important;
+      }
+
+      .app-body {
+        display: block !important;
+        height: auto !important;
+      }
+
+      .preview-container, .preview-viewport {
+        background: transparent !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+        height: auto !important;
+      }
+
+      .a4-page {
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        transform: none !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="app-header no-print">
+    <div class="brand-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      <span>Kendal & Global</span>
+      <span class="badge-studio">UBF Stüdyosu</span>
+    </div>
+
+    <!-- AUTOCOMPLETE SEARCH FOR INTERN -->
+    <div class="header-center">
+      <div class="search-input-box">
+        <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="globalProductSearch" class="search-input" placeholder="🔍 Ürün Kodu Ara (Örn: GDL414, KDL403, GES230)..." oninput="handleCatalogSearch(this.value)" autocomplete="off">
+        <div id="searchDropdown" class="search-dropdown"></div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="exportJsonDraft()">
+        <span>💾 Taslağı İndir</span>
+      </button>
+      <button class="btn btn-secondary" onclick="document.getElementById('importJsonInput').click()">
+        <span>📂 Taslak Yükle</span>
+      </button>
+      <input type="file" id="importJsonInput" accept=".json" style="display:none;" onchange="importJsonDraft(this)">
+      <button class="btn btn-danger-outline" onclick="resetFormToNew()">
+        <span>🧹 Formu Temizle</span>
+      </button>
+      <button class="btn btn-success" onclick="window.print()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span>PDF Olarak Kaydet (Yazdır)</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- LEFT SIDEBAR: CONTROLS & EDITOR -->
+    <aside class="editor-panel no-print">
+      <div class="guide-banner">
+        <span>💡 <strong>Stajyer İpucu:</strong> Arama kutusuna ürün kodunu yazınca bilgiler otomatik dolar.</span>
+        <span style="font-size:11px; color:#4ade80;">● Otomatik Kaydediliyor</span>
+      </div>
+
+      <nav class="editor-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-general', this)">1. Başlık & Resim</button>
+        <button class="tab-btn" onclick="switchTab('tab-mech-elec', this)">2. Mekanik & Elektrik</button>
+        <button class="tab-btn" onclick="switchTab('tab-opt-opt', this)">3. Optik & Opsiyon</button>
+        <button class="tab-btn" onclick="switchTab('tab-drawing', this)">4. Çizim & Boyut</button>
+        <button class="tab-btn" onclick="switchTab('tab-variants', this)">5. Tablo Satırları</button>
+      </nav>
+
+      <div class="editor-content">
+
+        <!-- TAB 1: GENEL BILGILER & GORSELLER -->
+        <div id="tab-general" class="tab-pane active">
+          <div class="card-box">
+            <div class="card-title">Ürün Markası (Sol Üst Logo)</div>
+            <div class="form-group">
+              <label>Marka Logosu</label>
+              <select id="inputMainLogo" onchange="updateView()">
+                <option value="images/brands/k2-logo.svg" selected>K2 LED Systems</option>
+                <option value="images/brands/global-logo.svg">Global Lighting</option>
+                <option value="images/brands/vanti-logo.svg">Vanti</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">Ürün Başlıkları</div>
+            <div class="form-group">
+              <label>Ürün Kodu (Model)</label>
+              <input type="text" id="inputModel" value="GDL414" oninput="updateView()">
+            </div>
+            <div class="form-group">
+              <label>Türkçe Ürün Adı</label>
+              <input type="text" id="inputNameTr" value="GDL414 SLIM BACKLIGHT SIVA ALTI PANEL" oninput="updateView()">
+            </div>
+            <div class="form-group">
+              <label>İngilizce Ürün Adı</label>
+              <input type="text" id="inputNameEn" value="GDL414 SLIM BACKLIGHT RECESSED PANEL" oninput="updateView()">
+            </div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">Ürün Fotoğrafı</div>
+            <div class="dropzone-box" onclick="document.getElementById('inputFileProdImg').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewProdImg')">
+              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto; display:block;">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <div class="dropzone-text">Fotoğrafı buraya sürükleyin veya <strong>tıklayıp seçin</strong></div>
+              <input type="file" id="inputFileProdImg" accept="image/*" style="display:none;" onchange="handleImageUpload(this, 'previewProdImg')">
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: MEKANIK VE ELEKTRIKSEL OZELLIKLER -->
+        <div id="tab-mech-elec" class="tab-pane">
+
+          <!-- OTOMATIK ENERJI HESAPLAYICI -->
+          <div class="energy-calc-box">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Otomatik Enerji Sınıfı (EU 2019/2015)</div>
+              <div id="calcStatusText" style="font-size: 13px; font-weight: 600; color: #f8fafc; margin-top: 2px;">Etkinlik: 92 lm/W</div>
+            </div>
+            <div id="badgeEnergyLetter" class="energy-class-letter class-F">F</div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">
+              <span>Mekanik Özellikler (Seçmeli)</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Seçilmeyenler formda gizlenir ("-" yazılmaz)</span>
+            </div>
+
+            <!-- Hızlı Şablonlar / Presets -->
+            <div class="mech-preset-buttons">
+              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('floodlight')">⚡ Projektör / Dış Mekan</button>
+              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('panel')">💡 Panel / Spot</button>
+              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('batten')">📦 Bant Armatür</button>
+              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('none')">❌ Hepsini Kapat</button>
+            </div>
+
+            <!-- 1. Gövde -->
+            <div class="mech-prop-card" id="card_mech_body">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_body" checked onchange="toggleMechProp('body')">
+                  <span>Gövde / Body</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_body">
+                <input type="text" id="input_mech_body" list="list_mech_body" value="Metal" placeholder="Örn: Alüminyum Enjeksiyon" oninput="updateView()">
+                <datalist id="list_mech_body">
+                  <option value="Metal">
+                  <option value="Alüminyum Enjeksiyon (Die-Cast Aluminum)">
+                  <option value="Alüminyum Profil">
+                  <option value="DKP Sac">
+                  <option value="Polikarbon (PC)">
+                  <option value="ABS">
+                  <option value="Termoplastik">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 2. IP Sınıfı -->
+            <div class="mech-prop-card" id="card_mech_ip">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_ip" checked onchange="toggleMechProp('ip')">
+                  <span>IP Koruma Sınıfı / IP Rating</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_ip">
+                <input type="text" id="input_mech_ip" list="list_mech_ip" value="IP40" placeholder="Örn: IP65" oninput="updateView()">
+                <datalist id="list_mech_ip">
+                  <option value="IP20">
+                  <option value="IP40">
+                  <option value="IP44">
+                  <option value="IP54">
+                  <option value="IP65">
+                  <option value="IP66">
+                  <option value="IP67">
+                  <option value="IP68">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 3. IK Gövde Sınıfı -->
+            <div class="mech-prop-card" id="card_mech_ik">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_ik" checked onchange="toggleMechProp('ik')">
+                  <span>IK Gövde Sınıfı / IK Rating</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_ik">
+                <input type="text" id="input_mech_ik" list="list_mech_ik" value="IK06" placeholder="Örn: IK08" oninput="updateView()">
+                <datalist id="list_mech_ik">
+                  <option value="IK02">
+                  <option value="IK04">
+                  <option value="IK06">
+                  <option value="IK08">
+                  <option value="IK10">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 4. Ön Cam / Kapak -->
+            <div class="mech-prop-card disabled" id="card_mech_glass">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_glass" onchange="toggleMechProp('glass')">
+                  <span>Ön Cam / Front Glass (Projektörler)</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_glass" style="display:none;">
+                <input type="text" id="input_mech_glass" list="list_mech_glass" value="Temperli Cam (Tempered Glass)" placeholder="Örn: Temperli Cam" oninput="updateView()">
+                <datalist id="list_mech_glass">
+                  <option value="Temperli Cam (Tempered Glass)">
+                  <option value="Şeffaf Polikarbon (PC)">
+                  <option value="Mat / Opal Cam">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 5. Kablo Rakor -->
+            <div class="mech-prop-card disabled" id="card_mech_gland">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_gland" onchange="toggleMechProp('gland')">
+                  <span>Kablo Rakor / Cable Gland</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_gland" style="display:none;">
+                <input type="text" id="input_mech_gland" list="list_mech_gland" value="PG9 Paslanmaz Rakor" placeholder="Örn: PG9" oninput="updateView()">
+                <datalist id="list_mech_gland">
+                  <option value="PG7">
+                  <option value="PG9">
+                  <option value="PG11">
+                  <option value="PG13.5">
+                  <option value="M16 Paslanmaz Rakor">
+                  <option value="M20 Paslanmaz Rakor">
+                  <option value="Pirinç Rakor">
+                  <option value="Plastik Rakor">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 6. Kablo -->
+            <div class="mech-prop-card disabled" id="card_mech_cable">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_cable" onchange="toggleMechProp('cable')">
+                  <span>Kablo / Cable</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_cable" style="display:none;">
+                <input type="text" id="input_mech_cable" list="list_mech_cable" value="3x1.00mm² H05RN-F (1m)" placeholder="Örn: 3x1.00mm²" oninput="updateView()">
+                <datalist id="list_mech_cable">
+                  <option value="3x1.00mm² H05RN-F (1m)">
+                  <option value="3x1.50mm² H05RN-F">
+                  <option value="3x0.75mm² H05RN-F">
+                  <option value="2x0.75mm²">
+                  <option value="2x0.50mm²">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 7. RAL Kodu -->
+            <div class="mech-prop-card" id="card_mech_ral">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_ral" checked onchange="toggleMechProp('ral')">
+                  <span>RAL Kodu / RAL Code</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_ral">
+                <input type="text" id="input_mech_ral" list="list_mech_ral" value="9016" placeholder="Örn: 9005 Siyah" oninput="updateView()">
+                <datalist id="list_mech_ral">
+                  <option value="9016 (Beyaz)">
+                  <option value="9005 (Siyah)">
+                  <option value="7040 (Gri)">
+                  <option value="7016 (Antrasit Gri)">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 8. Montaj Tipi -->
+            <div class="mech-prop-card" id="card_mech_mounting">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_mounting" checked onchange="toggleMechProp('mounting')">
+                  <span>Montaj Tipi / Mounting Type</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_mounting">
+                <input type="text" id="input_mech_mounting" list="list_mech_mounting" value="Surface Mounted Sıva Altı" placeholder="Örn: Braketli Ayak Montajı" oninput="updateView()">
+                <datalist id="list_mech_mounting">
+                  <option value="Braketli Ayak Montajı (Bracket)">
+                  <option value="Surface Mounted Sıva Altı">
+                  <option value="Surface Mounted Sıva Üstü">
+                  <option value="Sarkıt Montaj (Pendant)">
+                  <option value="Direk Üstü / Konsol (Pole Top)">
+                  <option value="Ray Tipi (Track Mounted)">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 9. Alev Koruması -->
+            <div class="mech-prop-card disabled" id="card_mech_fire">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_fire" onchange="toggleMechProp('fire')">
+                  <span>Alev Koruması / Fire Protection</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_fire" style="display:none;">
+                <input type="text" id="input_mech_fire" list="list_mech_fire" value="650°C Glow Wire" placeholder="Örn: 650°C Glow Wire" oninput="updateView()">
+                <datalist id="list_mech_fire">
+                  <option value="650°C Glow Wire">
+                  <option value="850°C Glow Wire">
+                  <option value="UL94 V-0">
+                </datalist>
+              </div>
+            </div>
+
+            <!-- 10. Gövde Boyu -->
+            <div class="mech-prop-card disabled" id="card_mech_length">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_length" onchange="toggleMechProp('length')">
+                  <span>Gövde Boyu / Body Length (Bant Armatür)</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_length" style="display:none;">
+                <input type="text" id="input_mech_length" list="list_mech_length" value="120cm" placeholder="Örn: 60cm / 120cm" oninput="updateView()">
+                <datalist id="list_mech_length">
+                  <option value="60cm">
+                  <option value="120cm">
+                  <option value="150cm">
+                  <option value="60/120cm">
+                </datalist>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">Elektriksel Özellikler</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Giriş Gerilimi</label>
+                <input type="text" id="inputVolt" value="220-240Vac" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Frekans</label>
+                <input type="text" id="inputFreq" value="50-60Hz" oninput="updateView()">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Elektrik Sınıfı</label>
+                <select id="inputClass" onchange="updateView()">
+                  <option value="Class I">Class I (Topraklı)</option>
+                  <option value="Class II" selected>Class II (Çift Yalıtımlı)</option>
+                  <option value="Class III">Class III (SELV Düşük Gerilim)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Sistem Ömrü</label>
+                <input type="text" id="inputLife" value=">20.000h" oninput="updateView()">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Güç Faktörü (PF)</label>
+                <input type="text" id="inputPF" value=">0,50" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Çalışma Sıcaklığı</label>
+                <input type="text" id="inputTemp" value="-10°C / +40°C" oninput="updateView()">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Standartlar</label>
+              <input type="text" id="inputStandards" value="IEC60598-2-1 and EN62031" oninput="updateView()">
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: OPTIK VE OPSIYONLAR -->
+        <div id="tab-opt-opt" class="tab-pane">
+          <div class="card-box">
+            <div class="card-title">Optik Özellikler</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Işık Kaynağı</label>
+                <input type="text" id="inputLightSource" value="SMD LED" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Difüzör</label>
+                <input type="text" id="inputDiffuser" list="listDiff" value="PMMA" oninput="updateView()">
+                <datalist id="listDiff">
+                  <option value="PMMA Opal">
+                  <option value="Polikarbon">
+                  <option value="Şeffaf Cam">
+                  <option value="Temperli Cam">
+                </datalist>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>CRI (Renksel Geriverim)</label>
+                <select id="inputCRI" onchange="updateView()">
+                  <option value=">80" selected>>80 (Standart Kalite)</option>
+                  <option value=">90">>90 (Yüksek Renk Doğruluğu)</option>
+                  <option value=">70">>70 (Sokak / Dış Aydınlatma)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Işık Açısı</label>
+                <input type="text" id="inputBeam" value="120°" oninput="updateView()">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Renk Sıcaklığı (Kelvin)</label>
+                <input type="text" id="inputCCT" value="3000K/4000K/6500K" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Fotobiyolojik Risk</label>
+                <input type="text" id="inputBio" value="RG1" oninput="updateView()">
+              </div>
+            </div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">Opsiyonlar (Varsa yazın, yoksa '-' kalabilir)</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>DALI Dim</label>
+                <input type="text" id="inputOptDali" value="-" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>1-10V Dim</label>
+                <input type="text" id="inputOpt110" value="-" oninput="updateView()">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>1 Saat Acil Kit</label>
+                <input type="text" id="inputOpt1h" value="-" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>3 Saat Acil Kit</label>
+                <input type="text" id="inputOpt3h" value="-" oninput="updateView()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: TEKNIK CIZIM & BOYUT -->
+        <div id="tab-drawing" class="tab-pane">
+          <div class="card-box">
+            <div class="card-title">Teknik Çizim / Ölçü Şeması (İsteğe Bağlı)</div>
+            <div class="dropzone-box" onclick="document.getElementById('inputFileDrawingImg').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewDrawingImg')">
+              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto; display:block;">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <div class="dropzone-text">Teknik çizimi buraya sürükleyin veya <strong>tıklayıp seçin</strong></div>
+              <input type="file" id="inputFileDrawingImg" accept="image/*" style="display:none;" onchange="handleImageUpload(this, 'previewDrawingImg')">
+            </div>
+            <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: #94a3b8;">💡 Çizim yoksa formda başlık gizlenir.</span>
+              <button class="btn btn-secondary" type="button" style="font-size: 11px; color: #ef4444;" onclick="removeDrawing()">❌ Çizimi Kaldır</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: VARYANT TABLOSU -->
+        <div id="tab-variants" class="tab-pane">
+          <div class="card-box">
+            <div class="card-title">
+              <span>Alt Tablo Satırları (Watt / Lümen / Kelvin)</span>
+              <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="addVariantRow()">+ Satır Ekle</button>
+            </div>
+            <div id="variantListContainer">
+              <!-- Dynamically populated rows -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- RIGHT: PREVIEW VIEWPORT -->
+    <main class="preview-container">
+      <div class="preview-toolbar no-print">
+        <div>
+          <span>Sayfa Önizleme: <strong>A4 (210 × 297 mm)</strong> — Baskı Öncesi Canlı Görünüm</span>
+        </div>
+        <div style="display:flex; align-items:center; gap: 12px;">
+          <label style="margin:0; font-size:12px; color:#cbd5e1; text-transform:none;">Ölçek:</label>
+          <select id="zoomSelect" style="width: auto; padding: 4px 8px; font-size: 12px;" onchange="applyZoom(this.value)">
+            <option value="0.85">85%</option>
+            <option value="0.95" selected>95% (Önerilen)</option>
+            <option value="1.0">100% (Birebir)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="preview-viewport">
+        <!-- THE A4 PAGE CONTAINER -->
+        <div class="a4-page" id="printableA4">
+
+          <!-- 1. HEADER -->
+          <!-- 1. HEADER: BRAND LOGO AT TOP-LEFT, FORM TITLE AT TOP-RIGHT -->
+          <div class="ubf-header">
+            <div class="ubf-brand-logo-main">
+              <img id="previewMainLogo" src="../images/brands/global-logo.svg" onerror="handleImgError(this)" alt="Brand Logo">
+            </div>
+            <div class="ubf-header-right">
+              <div class="ubf-title-badge">
+                <div class="ubf-sheet-text">
+                  <div class="ubf-sheet-title">ÜRÜN BİLGİ FORMU</div>
+                  <div class="ubf-sheet-sub">PRODUCT INFORMATION SHEET</div>
+                </div>
+                <div class="ubf-red-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. HERO: TITLE & HIGHLIGHTS ON LEFT, PRODUCT PHOTO ON RIGHT -->
+          <div class="ubf-hero">
+            <div class="ubf-hero-left">
+              <div class="ubf-prod-name-tr" id="viewProdNameTr">GDL414 SLIM BACKLIGHT SIVA ALTI PANEL</div>
+              <div class="ubf-prod-name-en" id="viewProdNameEn">GDL414 SLIM BACKLIGHT RECESSED PANEL</div>
+            </div>
+            <div class="ubf-hero-right">
+              <img id="previewProdImg" src="../images/urunler/gdl414.webp" onerror="handleImgError(this)" alt="Ürün Fotoğrafı">
+            </div>
+          </div>
+
+          <!-- 3. SECTION DIVIDER: TEKNİK ÖZELLİKLER -->
+          <div class="ubf-section-divider">
+            <div class="ubf-sec-marker"></div>
+            <div class="ubf-sec-title">
+              <span>Teknik Özellikler</span>
+              <span class="ubf-sec-sub">Technical Specifications</span>
+            </div>
+            <div class="ubf-sec-line"></div>
+          </div>
+
+          <!-- 4. SPECS 2-ROW GRID (GUARANTEES EXACT SAME HORIZONTAL ROW BASELINE) -->
+          <!-- ROW 1: MECHANICAL (LEFT) & OPTICAL (RIGHT) -->
+          <div class="ubf-specs-row">
+            <!-- Mechanical -->
+            <div class="ubf-spec-block">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Mechanical Specifications</div>
+                <div class="ubf-spec-head-tr">Mekanik Özellikler</div>
+              </div>
+              <table class="ubf-table">
+                <tbody id="viewMechanicalRows">
+                  <!-- Dynamically rendered: Only selected & filled rows (Zero '-' rows) -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Optical -->
+            <div class="ubf-spec-block">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Optical Specifications</div>
+                <div class="ubf-spec-head-tr">Optik Özellikler</div>
+              </div>
+              <table class="ubf-table">
+                <tr>
+                  <td class="label-col">Light Source / Işık Kaynağı</td>
+                  <td class="value-col" id="viewLightSource">SMD LED</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Lens / Lens</td>
+                  <td class="value-col" id="viewLens">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Diffuser / Difüzör</td>
+                  <td class="value-col" id="viewDiffuser">PMMA</td>
+                </tr>
+                <tr>
+                  <td class="label-col">CRI</td>
+                  <td class="value-col" id="viewCRI">>80</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Colour Temperature / Renk Sıcaklığı</td>
+                  <td class="value-col" id="viewCCT">3000K/4000K/6500K</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Photobiological Risk / Fotobiyolojik Risk</td>
+                  <td class="value-col" id="viewBio">RG1</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Beam Angle / Işık Açısı</td>
+                  <td class="value-col" id="viewBeam">120°</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- ROW 2: ELECTRICAL (LEFT) & OPTIONS (RIGHT) -->
+          <div class="ubf-specs-row">
+            <!-- Electrical -->
+            <div class="ubf-spec-block">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Electrical Specifications</div>
+                <div class="ubf-spec-head-tr">Elektriksel Özellikler</div>
+              </div>
+              <table class="ubf-table">
+                <tr>
+                  <td class="label-col">Input Voltage / Giriş Gerilimi</td>
+                  <td class="value-col" id="viewVolt">220-240Vac</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Frequency / Frekans</td>
+                  <td class="value-col" id="viewFreq">50-60Hz</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Class / Sınıf</td>
+                  <td class="value-col" id="viewClass">Class II</td>
+                </tr>
+                <tr>
+                  <td class="label-col">System Lifetime / Sistem Ömrü</td>
+                  <td class="value-col" id="viewLife">>20.000h</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Power Factor / Güç Faktörü</td>
+                  <td class="value-col" id="viewPF">>0,50</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Operating Temperature / Çalışma Sıcaklığı</td>
+                  <td class="value-col" id="viewTemp">-10°C / +40°C</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Standards / Standartlar</td>
+                  <td class="value-col" id="viewStandards">IEC60598-2-1 and EN62031</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Energy Class / Enerji Sınıfı</td>
+                  <td class="value-col" id="viewEnergy" style="font-weight: 800; color: #d32f2f;">F</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Options -->
+            <div class="ubf-spec-block">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Options</div>
+                <div class="ubf-spec-head-tr">Opsiyonlar</div>
+              </div>
+              <table class="ubf-table">
+                <tr>
+                  <td class="label-col">DALI</td>
+                  <td class="value-col" id="viewOptDali">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">1-10V</td>
+                  <td class="value-col" id="viewOpt110">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Step DIM</td>
+                  <td class="value-col" id="viewOptStep">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">1hour Emergency Kit / 1 Saat Acil Kit</td>
+                  <td class="value-col" id="viewOpt1h">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">3hour Emergency Kit / 3 Saat Acil Kit</td>
+                  <td class="value-col" id="viewOpt3h">-</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Electrical Protection / Elektriksel Sınıf</td>
+                  <td class="value-col" id="viewOptProt">-</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- 5. TECHNICAL DRAWING SECTION (Sadece çizim varsa gösterilir) -->
+          <div id="sectionTechnicalDrawing" style="display:none;">
+            <div class="ubf-section-divider">
+              <div class="ubf-sec-marker"></div>
+              <div class="ubf-sec-title">
+                <span>Technical Drawing</span>
+                <span class="ubf-sec-sub">Teknik Çizim</span>
+              </div>
+              <div class="ubf-sec-line"></div>
+            </div>
+
+            <div class="ubf-drawing-box">
+              <img id="previewDrawingImg" src="" onerror="handleImgError(this)" alt="Teknik Çizim">
+            </div>
+          </div>
+
+          <!-- 6. BOTTOM SKU / VARIANT TABLE -->
+          <table class="ubf-bottom-table">
+            <thead>
+              <tr>
+                <th>Code No<span class="th-sub">Ürün Kodu</span></th>
+                <th>Power<span class="th-sub">Güç (W)</span></th>
+                <th>Luminous Flux<span class="th-sub">Işık Akısı (lm)</span></th>
+                <th>Colour Temp.<span class="th-sub">Renk Sıcaklığı (K)</span></th>
+                <th>Efficacy Factor<span class="th-sub">Etkinlik (lm/W)</span></th>
+                <th>Dimensions<span class="th-sub">Boyutlar (cm)</span></th>
+                <th>Cut Size<span class="th-sub">Kesim (mm)</span></th>
+                <th>Pcs/Pack<span class="th-sub">Koli Adedi</span></th>
+                <th>Package Vol.<span class="th-sub">Hacim (m3)</span></th>
+                <th>Weight<span class="th-sub">Ağırlık (kg)</span></th>
+              </tr>
+            </thead>
+            <tbody id="viewVariantTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+
+          <!-- 8. CORPORATE FOOTER -->
+          <div class="ubf-corporate-footer">
+            <div class="ubf-footer-brand">
+              <div class="ubf-footer-logo-badge">
+                <img src="../images/kendal-logo.svg" onerror="handleImgError(this)" alt="Kendal Elektrik">
+              </div>
+              <span class="ubf-footer-company">Kendal Elektrik A.Ş. • Üretici Firma / Manufacturer</span>
+            </div>
+            <div>
+              <span>www.kendalelektrik.com • info@kendalelektrik.com</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const IS_STANDALONE = !window.location.pathname.toLowerCase().includes('ubf-creator');
+    const BASE_DIR = IS_STANDALONE ? './' : '../';
+
+    function resolveImg(path) {
+      if (!path) return '';
+      if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) return path;
+      const clean = path.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '').replace(/^\/+/, '');
+      return BASE_DIR + clean;
+    }
+
+    function handleImgError(img) {
+      if (!img || img.dataset.retried) return;
+      img.dataset.retried = '1';
+      const cur = img.getAttribute('src') || '';
+      if (cur.startsWith('../images/')) {
+        img.src = cur.replace('../images/', './images/');
+      } else if (cur.startsWith('./images/')) {
+        img.src = cur.replace('./images/', '../images/');
+      } else if (cur.startsWith('images/')) {
+        img.src = '../' + cur;
+      }
+    }
+
+    // Variants array
+    let variants = [
+      { code: 'GDL414', power: '25W', lumen: '2300lm', cct: '3000K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' },
+      { code: 'GDL414', power: '25W', lumen: '2300lm', cct: '4000K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' },
+      { code: 'GDL414', power: '25W', lumen: '2300lm', cct: '6500K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' }
+    ];
+
+    // AUTOCOMPLETE FOR INTERN
+    function handleCatalogSearch(query) {
+      const dropdown = document.getElementById('searchDropdown');
+      if (!window.UBF_CATALOG || !query || query.trim().length < 2) {
+        dropdown.style.display = 'none';
+        return;
+      }
+
+      const q = query.trim().toUpperCase();
+      const matches = Object.keys(window.UBF_CATALOG)
+        .filter(code => code.toUpperCase().includes(q) || (window.UBF_CATALOG[code].nameTr || '').toUpperCase().includes(q))
+        .slice(0, 10);
+
+      if (matches.length === 0) {
+        dropdown.innerHTML = '<div style="padding:10px; font-size:12px; color:#94a3b8; text-align:center;">Eşleşen ürün bulunamadı.</div>';
+        dropdown.style.display = 'block';
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(code => {
+        const item = window.UBF_CATALOG[code];
+        return `
+          <div class="search-item" onclick="selectCatalogProduct('${code}')">
+            <div>
+              <span class="search-item-code">${item.code}</span>
+              <span style="font-size:10px; color:#94a3b8; margin-left:6px;">${item.watt || ''}</span>
+            </div>
+            <div class="search-item-name">${item.nameTr}</div>
+          </div>
+        `;
+      }).join('');
+
+      dropdown.style.display = 'block';
+    }
+
+    function selectCatalogProduct(code) {
+      const item = window.UBF_CATALOG[code];
+      if (!item) return;
+
+      document.getElementById('searchDropdown').style.display = 'none';
+      document.getElementById('globalProductSearch').value = item.code;
+
+      // Populate Basic Info
+      document.getElementById('inputModel').value = item.code;
+      document.getElementById('inputNameTr').value = item.nameTr || item.code;
+      document.getElementById('inputNameEn').value = item.nameEn || item.nameTr || item.code;
+
+      // Brand
+      const b = (item.brand || '').toLowerCase();
+      let brandLogo = 'images/brands/global-logo.svg';
+      if (b.includes('k2')) {
+        brandLogo = 'images/brands/k2-logo.svg';
+      } else if (b.includes('vanti')) {
+        brandLogo = 'images/brands/vanti-logo.svg';
+      }
+      document.getElementById('inputMainLogo').value = brandLogo;
+      document.getElementById('previewMainLogo').src = resolveImg(brandLogo);
+
+      // Feature bullets: JSON veya siteden otomatik çekilmez, stajyer elle ne yazarsa o kalır
+
+      // Product image
+      if (item.image) {
+        document.getElementById('previewProdImg').src = resolveImg('images/' + item.image);
+      }
+
+      // Voltage
+      if (item.voltage) {
+        document.getElementById('inputVolt').value = item.voltage;
+      }
+
+      // Populate Variant Table
+      const wattNum = parseFloat(item.watt) || 25;
+      const lumenNum = parseFloat(item.lumen) || 2000;
+      const eff = Math.round(lumenNum / wattNum);
+
+      variants = [
+        { code: item.code, power: item.watt || '25W', lumen: item.lumen || '2000lm', cct: '3000K', eff: eff.toString(), dim: item.dimensions || '-', cut: '-', pcs: item.pieces || '10', vol: '-', weight: '-' },
+        { code: item.code, power: item.watt || '25W', lumen: item.lumen || '2000lm', cct: '4000K', eff: eff.toString(), dim: item.dimensions || '-', cut: '-', pcs: item.pieces || '10', vol: '-', weight: '-' },
+        { code: item.code, power: item.watt || '25W', lumen: item.lumen || '2000lm', cct: '6500K', eff: eff.toString(), dim: item.dimensions || '-', cut: '-', pcs: item.pieces || '10', vol: '-', weight: '-' }
+      ];
+
+      renderVariantInputs();
+      recalculateEnergyClass();
+      updateView();
+      saveToLocalStorage();
+    }
+
+    // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-input-box')) {
+        document.getElementById('searchDropdown').style.display = 'none';
+      }
+    });
+
+    // RECALCULATE ENERGY CLASS (EU 2019/2015)
+    function recalculateEnergyClass() {
+      if (!variants || variants.length === 0) return;
+      const v = variants[0];
+      const p = parseFloat(v.power) || 0;
+      const l = parseFloat(v.lumen) || 0;
+
+      let eff = 90;
+      if (p > 0 && l > 0) {
+        eff = Math.round(l / p);
+      }
+
+      let energyClass = 'F';
+      if (eff >= 210) energyClass = 'A';
+      else if (eff >= 185) energyClass = 'B';
+      else if (eff >= 160) energyClass = 'C';
+      else if (eff >= 135) energyClass = 'D';
+      else if (eff >= 110) energyClass = 'E';
+      else if (eff >= 85) energyClass = 'F';
+      else energyClass = 'G';
+
+      document.getElementById('calcStatusText').innerText = `Etkinlik: ${eff} lm/W`;
+      const badge = document.getElementById('badgeEnergyLetter');
+      badge.innerText = energyClass;
+      badge.className = 'energy-class-letter class-' + energyClass;
+      document.getElementById('viewEnergy').innerText = energyClass;
+    }
+
+    function renderVariantInputs() {
+      const container = document.getElementById('variantListContainer');
+      container.innerHTML = variants.map((v, i) => `
+        <div style="background:#0b1120; border:1px solid #334155; border-radius:6px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong style="color:#f8fafc; font-size:12px;">Satır #${i + 1} (${v.cct || v.code})</strong>
+            <button class="btn btn-secondary" style="padding:2px 6px; font-size:10px; color:#ef4444;" onclick="removeVariantRow(${i})">Sil</button>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px;">
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Kod</label>
+              <input type="text" value="${v.code}" oninput="updateVariantVal(${i}, 'code', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Güç (W)</label>
+              <input type="text" value="${v.power}" oninput="updateVariantVal(${i}, 'power', this.value); recalculateEnergyClass();">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Lümen (lm)</label>
+              <input type="text" value="${v.lumen}" oninput="updateVariantVal(${i}, 'lumen', this.value); recalculateEnergyClass();">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Kelvin</label>
+              <input type="text" value="${v.cct}" oninput="updateVariantVal(${i}, 'cct', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Etkinlik (lm/W)</label>
+              <input type="text" value="${v.eff}" oninput="updateVariantVal(${i}, 'eff', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Boyutlar</label>
+              <input type="text" value="${v.dim}" oninput="updateVariantVal(${i}, 'dim', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Kesim Ölçüsü</label>
+              <input type="text" value="${v.cut}" oninput="updateVariantVal(${i}, 'cut', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Koli Adeti</label>
+              <input type="text" value="${v.pcs}" oninput="updateVariantVal(${i}, 'pcs', this.value)">
+            </div>
+            <div>
+              <label style="font-size:9.5px; margin-bottom:2px;">Koli Hacmi</label>
+              <input type="text" value="${v.vol}" oninput="updateVariantVal(${i}, 'vol', this.value)">
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      renderVariantTable();
+    }
+
+    function addVariantRow() {
+      const model = document.getElementById('inputModel').value || 'MODEL';
+      variants.push({ code: model, power: '25W', lumen: '2300lm', cct: '4000K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' });
+      renderVariantInputs();
+      saveToLocalStorage();
+    }
+
+    function removeVariantRow(i) {
+      if (variants.length <= 1) return alert('En az 1 satır olmalıdır.');
+      variants.splice(i, 1);
+      renderVariantInputs();
+      saveToLocalStorage();
+    }
+
+    function updateVariantVal(i, key, val) {
+      variants[i][key] = val;
+      renderVariantTable();
+      saveToLocalStorage();
+    }
+
+    function renderVariantTable() {
+      const tbody = document.getElementById('viewVariantTbody');
+      tbody.innerHTML = variants.map(v => `
+        <tr>
+          <td><strong>${v.code || '-'}</strong></td>
+          <td>${v.power || '-'}</td>
+          <td>${v.lumen || '-'}</td>
+          <td>${v.cct || '-'}</td>
+          <td>${v.eff || '-'}</td>
+          <td>${v.dim || '-'}</td>
+          <td>${v.cut || '-'}</td>
+          <td>${v.pcs || '-'}</td>
+          <td>${v.vol || '-'}</td>
+          <td>${v.weight || '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    const MECH_DEFINITIONS = [
+      { key: 'body', label: 'Body / Gövde' },
+      { key: 'ip', label: 'IP Rating / IP Sınıfı' },
+      { key: 'ik', label: 'IK Rating Body / IK Gövde Sınıfı' },
+      { key: 'glass', label: 'Front Glass / Ön Cam' },
+      { key: 'gland', label: 'Cable Gland / Kablo Rakor' },
+      { key: 'cable', label: 'Cable / Kablo' },
+      { key: 'ral', label: 'RAL Code / Ral Kodu' },
+      { key: 'mounting', label: 'Mounting Type / Montaj Tipi' },
+      { key: 'fire', label: 'Fire Protection / Alev Koruması' },
+      { key: 'length', label: 'Body Length / Gövde Boyu' }
+    ];
+
+    function toggleMechProp(key) {
+      const chk = document.getElementById('chk_mech_' + key);
+      const card = document.getElementById('card_mech_' + key);
+      const wrap = document.getElementById('wrap_mech_' + key);
+      if (chk && card && wrap) {
+        if (chk.checked) {
+          card.classList.remove('disabled');
+          wrap.style.display = 'block';
+        } else {
+          card.classList.add('disabled');
+          wrap.style.display = 'none';
+        }
+      }
+      updateView();
+    }
+
+    function setMechPropState(key, enabled, val) {
+      const chk = document.getElementById('chk_mech_' + key);
+      const card = document.getElementById('card_mech_' + key);
+      const wrap = document.getElementById('wrap_mech_' + key);
+      const inp = document.getElementById('input_mech_' + key);
+      if (chk && card && wrap) {
+        chk.checked = !!enabled;
+        if (enabled) {
+          card.classList.remove('disabled');
+          wrap.style.display = 'block';
+        } else {
+          card.classList.add('disabled');
+          wrap.style.display = 'none';
+        }
+      }
+      if (inp && val !== undefined) {
+        inp.value = val;
+      }
+    }
+
+    function applyMechPreset(type) {
+      if (type === 'floodlight') {
+        // Projektör: Gövde (Alüminyum Enjeksiyon), IP (IP65), IK (IK08), Ön Cam (Temperli Cam), Kablo Rakor (PG9), Kablo (3x1.00mm²), RAL (9005), Braketli Ayak Montajı
+        setMechPropState('body', true, 'Alüminyum Enjeksiyon (Die-Cast Aluminum)');
+        setMechPropState('ip', true, 'IP65');
+        setMechPropState('ik', true, 'IK08');
+        setMechPropState('glass', true, 'Temperli Cam (Tempered Glass)');
+        setMechPropState('gland', true, 'PG9 Paslanmaz Rakor');
+        setMechPropState('cable', true, '3x1.00mm² H05RN-F (1m)');
+        setMechPropState('ral', true, '9005 (Siyah)');
+        setMechPropState('mounting', true, 'Braketli Ayak Montajı (Bracket)');
+        setMechPropState('fire', false);
+        setMechPropState('length', false);
+      } else if (type === 'panel') {
+        // Panel / Spot: Gövde (Metal), IP (IP40), IK (IK06), Montaj (Sıva Altı), RAL (9016)
+        setMechPropState('body', true, 'Metal');
+        setMechPropState('ip', true, 'IP40');
+        setMechPropState('ik', true, 'IK06');
+        setMechPropState('glass', false);
+        setMechPropState('gland', false);
+        setMechPropState('cable', false);
+        setMechPropState('ral', true, '9016 (Beyaz)');
+        setMechPropState('mounting', true, 'Surface Mounted Sıva Altı');
+        setMechPropState('fire', false);
+        setMechPropState('length', false);
+      } else if (type === 'batten') {
+        // Bant Armatür: Gövde (Metal), IP (IP20), Kablo (2x0.75mm²), Montaj (Sıva Üstü), Gövde Boyu (120cm)
+        setMechPropState('body', true, 'Metal');
+        setMechPropState('ip', true, 'IP20');
+        setMechPropState('ik', false);
+        setMechPropState('glass', false);
+        setMechPropState('gland', false);
+        setMechPropState('cable', true, '2x0.75mm²');
+        setMechPropState('ral', true, '9016');
+        setMechPropState('mounting', true, 'Surface Mounted Sıva Üstü');
+        setMechPropState('fire', false);
+        setMechPropState('length', true, '120cm');
+      } else if (type === 'none') {
+        MECH_DEFINITIONS.forEach(def => setMechPropState(def.key, false));
+      }
+      updateView();
+    }
+
+    function renderMechanicalRows() {
+      const tbody = document.getElementById('viewMechanicalRows');
+      if (!tbody) return;
+      let html = '';
+      MECH_DEFINITIONS.forEach(def => {
+        const chk = document.getElementById('chk_mech_' + def.key);
+        const inp = document.getElementById('input_mech_' + def.key);
+        if (chk && chk.checked && inp) {
+          const val = inp.value.trim();
+          if (val && val !== '-') {
+            html += `<tr><td class="label-col">${def.label}</td><td class="value-col">${val}</td></tr>`;
+          }
+        }
+      });
+      tbody.innerHTML = html;
+    }
+
+    function updateView() {
+      // Titles
+      document.getElementById('viewProdNameTr').innerText = document.getElementById('inputNameTr').value;
+      document.getElementById('viewProdNameEn').innerText = document.getElementById('inputNameEn').value;
+
+      // Logos
+      document.getElementById('previewMainLogo').src = resolveImg(document.getElementById('inputMainLogo').value);
+
+      // Mechanical (Seçilen ve değeri olanlar forma eklenir, '-' olanlar otomatik gizlenir)
+      renderMechanicalRows();
+
+      // Electrical
+      document.getElementById('viewVolt').innerText = document.getElementById('inputVolt').value;
+      document.getElementById('viewFreq').innerText = document.getElementById('inputFreq').value;
+      document.getElementById('viewClass').innerText = document.getElementById('inputClass').value;
+      document.getElementById('viewLife').innerText = document.getElementById('inputLife').value;
+      document.getElementById('viewPF').innerText = document.getElementById('inputPF').value;
+      document.getElementById('viewTemp').innerText = document.getElementById('inputTemp').value;
+      document.getElementById('viewStandards').innerText = document.getElementById('inputStandards').value;
+
+      // Optical
+      document.getElementById('viewLightSource').innerText = document.getElementById('inputLightSource').value;
+      document.getElementById('viewDiffuser').innerText = document.getElementById('inputDiffuser').value;
+      document.getElementById('viewCRI').innerText = document.getElementById('inputCRI').value;
+      document.getElementById('viewCCT').innerText = document.getElementById('inputCCT').value;
+      document.getElementById('viewBio').innerText = document.getElementById('inputBio').value;
+      document.getElementById('viewBeam').innerText = document.getElementById('inputBeam').value;
+
+      // Options
+      document.getElementById('viewOptDali').innerText = document.getElementById('inputOptDali').value;
+      document.getElementById('viewOpt110').innerText = document.getElementById('inputOpt110').value;
+      document.getElementById('viewOpt1h').innerText = document.getElementById('inputOpt1h').value;
+      document.getElementById('viewOpt3h').innerText = document.getElementById('inputOpt3h').value;
+
+      // Conditional Technical Drawing Section (Varsa görünür, yoksa başlık ve kutu tamamen gizlenir)
+      const drawImg = document.getElementById('previewDrawingImg');
+      const drawSec = document.getElementById('sectionTechnicalDrawing');
+      if (drawSec) {
+        const src = drawImg ? (drawImg.getAttribute('src') || '') : '';
+        const hasValidSrc = src && src.trim() !== '' && !src.endsWith('/') && drawImg.style.display !== 'none';
+        drawSec.style.display = hasValidSrc ? 'block' : 'none';
+      }
+
+      saveToLocalStorage();
+    }
+
+    function removeDrawing() {
+      const img = document.getElementById('previewDrawingImg');
+      if (img) {
+        img.removeAttribute('src');
+        img.src = '';
+      }
+      const fileInput = document.getElementById('inputFileDrawingImg');
+      if (fileInput) fileInput.value = '';
+      updateView();
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function applyZoom(val) {
+      document.getElementById('printableA4').style.transform = `scale(${val})`;
+    }
+
+    function handleImageUpload(input, targetImgId) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById(targetImgId).src = e.target.result;
+          saveToLocalStorage();
+          updateView();
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function handleDrop(event, targetImgId) {
+      event.preventDefault();
+      if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById(targetImgId).src = e.target.result;
+          saveToLocalStorage();
+          updateView();
+        };
+        reader.readAsDataURL(event.dataTransfer.files[0]);
+      }
+    }
+
+    // FORM RESET FOR INTERN (START NEXT PRODUCT CLEANLY)
+    function resetFormToNew() {
+      if (!confirm('Formu yeni bir ürün için temizlemek istiyor musunuz?')) return;
+      document.getElementById('inputModel').value = '';
+      document.getElementById('inputNameTr').value = '';
+      document.getElementById('inputNameEn').value = '';
+      applyMechPreset('panel');
+      document.getElementById('inputVolt').value = '220-240Vac';
+      document.getElementById('inputFreq').value = '50-60Hz';
+      document.getElementById('inputClass').value = 'Class II';
+      document.getElementById('inputLife').value = '>30.000h';
+      document.getElementById('inputPF').value = '>0,90';
+      document.getElementById('inputTemp').value = '-20°C / +45°C';
+      document.getElementById('inputLightSource').value = 'SMD LED';
+      document.getElementById('inputDiffuser').value = 'Opal PMMA';
+      document.getElementById('inputCRI').value = '>80';
+      document.getElementById('inputBeam').value = '120°';
+      document.getElementById('inputCCT').value = '3000K/4000K/6500K';
+
+      variants = [
+        { code: '', power: '', lumen: '', cct: '4000K', eff: '', dim: '', cut: '', pcs: '', vol: '', weight: '' }
+      ];
+
+      renderVariantInputs();
+      recalculateEnergyClass();
+      updateView();
+      localStorage.removeItem('ubf_saved_draft');
+    }
+
+    // LOCAL STORAGE PERSISTENCE
+    function saveToLocalStorage() {
+      const mechState = {};
+      MECH_DEFINITIONS.forEach(def => {
+        const chk = document.getElementById('chk_mech_' + def.key);
+        const inp = document.getElementById('input_mech_' + def.key);
+        mechState[def.key] = {
+          enabled: chk ? chk.checked : false,
+          val: inp ? inp.value : ''
+        };
+      });
+
+      const state = {
+        model: document.getElementById('inputModel').value,
+        nameTr: document.getElementById('inputNameTr').value,
+        nameEn: document.getElementById('inputNameEn').value,
+        mainLogo: document.getElementById('inputMainLogo').value,
+        mechanical: mechState,
+        volt: document.getElementById('inputVolt').value,
+        freq: document.getElementById('inputFreq').value,
+        classVal: document.getElementById('inputClass').value,
+        life: document.getElementById('inputLife').value,
+        pf: document.getElementById('inputPF').value,
+        temp: document.getElementById('inputTemp').value,
+        standards: document.getElementById('inputStandards').value,
+        lightSource: document.getElementById('inputLightSource').value,
+        diffuser: document.getElementById('inputDiffuser').value,
+        cri: document.getElementById('inputCRI').value,
+        beam: document.getElementById('inputBeam').value,
+        cct: document.getElementById('inputCCT').value,
+        bio: document.getElementById('inputBio').value,
+        dali: document.getElementById('inputOptDali').value,
+        opt110: document.getElementById('inputOpt110').value,
+        opt1h: document.getElementById('inputOpt1h').value,
+        opt3h: document.getElementById('inputOpt3h').value,
+        variants: variants
+      };
+      localStorage.setItem('ubf_saved_draft', JSON.stringify(state));
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('ubf_saved_draft');
+      if (!saved) return false;
+      try {
+        const state = JSON.parse(saved);
+        if (state.model) document.getElementById('inputModel').value = state.model;
+        if (state.nameTr) document.getElementById('inputNameTr').value = state.nameTr;
+        if (state.nameEn) document.getElementById('inputNameEn').value = state.nameEn;
+        if (state.mainLogo) document.getElementById('inputMainLogo').value = state.mainLogo;
+
+        if (state.mechanical) {
+          MECH_DEFINITIONS.forEach(def => {
+            const item = state.mechanical[def.key];
+            if (item) setMechPropState(def.key, item.enabled, item.val);
+          });
+        } else {
+          // Fallback legacy draft
+          if (state.body) setMechPropState('body', true, state.body);
+          if (state.ip) setMechPropState('ip', true, state.ip);
+          if (state.ik) setMechPropState('ik', true, state.ik);
+          if (state.ral) setMechPropState('ral', true, state.ral);
+          if (state.mounting) setMechPropState('mounting', true, state.mounting);
+          if (state.fire && state.fire !== '-') setMechPropState('fire', true, state.fire);
+        }
+
+        if (state.volt) document.getElementById('inputVolt').value = state.volt;
+        if (state.freq) document.getElementById('inputFreq').value = state.freq;
+        if (state.classVal) document.getElementById('inputClass').value = state.classVal;
+        if (state.life) document.getElementById('inputLife').value = state.life;
+        if (state.pf) document.getElementById('inputPF').value = state.pf;
+        if (state.temp) document.getElementById('inputTemp').value = state.temp;
+        if (state.standards) document.getElementById('inputStandards').value = state.standards;
+        if (state.lightSource) document.getElementById('inputLightSource').value = state.lightSource;
+        if (state.diffuser) document.getElementById('inputDiffuser').value = state.diffuser;
+        if (state.cri) document.getElementById('inputCRI').value = state.cri;
+        if (state.beam) document.getElementById('inputBeam').value = state.beam;
+        if (state.cct) document.getElementById('inputCCT').value = state.cct;
+        if (state.bio) document.getElementById('inputBio').value = state.bio;
+        if (state.dali) document.getElementById('inputOptDali').value = state.dali;
+        if (state.opt110) document.getElementById('inputOpt110').value = state.opt110;
+        if (state.opt1h) document.getElementById('inputOpt1h').value = state.opt1h;
+        if (state.opt3h) document.getElementById('inputOpt3h').value = state.opt3h;
+        if (state.variants && state.variants.length > 0) variants = state.variants;
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // EXPORT JSON DRAFT
+    function exportJsonDraft() {
+      const model = document.getElementById('inputModel').value || 'taslak';
+      const state = localStorage.getItem('ubf_saved_draft') || '{}';
+      const blob = new Blob([state], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `UBF_${model}_taslak.json`;
+      a.click();
+    }
+
+    // IMPORT JSON DRAFT
+    function importJsonDraft(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            localStorage.setItem('ubf_saved_draft', e.target.result);
+            loadFromLocalStorage();
+            renderVariantInputs();
+            recalculateEnergyClass();
+            updateView();
+            alert('Taslak başarıyla yüklendi!');
+          } catch(err) {
+            alert('Geçersiz dosya formatı.');
+          }
+        };
+        reader.readAsText(input.files[0]);
+      }
+    }
+
+    window.onload = function() {
+      document.getElementById('previewProdImg').src = resolveImg('images/urunler/gdl414.webp');
+      document.getElementById('previewDrawingImg').src = '';
+      const ftLogo = document.querySelector('.ubf-footer-logo-badge img');
+      if (ftLogo) ftLogo.src = resolveImg('images/kendal-logo.svg');
+
+      const restored = loadFromLocalStorage();
+      if (!restored) {
+        applyMechPreset('panel');
+      }
+      renderVariantInputs();
+      recalculateEnergyClass();
+      updateView();
+      applyZoom(0.95);
+    };
+  </script>
+</body>
+</html>

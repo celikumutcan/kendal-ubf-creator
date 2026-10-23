@@ -1,0 +1,11 @@
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+
+# Output PDFs
+output/
+dist/

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120" style="background:#fff;">
+  <!-- Ceiling mount & stem -->
+  <rect x="180" y="8" width="40" height="10" rx="2" fill="#94a3b8" />
+  <rect x="195" y="18" width="10" height="18" fill="#64748b" />
+  
+  <!-- Fan motor body -->
+  <ellipse cx="200" cy="46" rx="55" ry="14" fill="#0284c7" opacity="0.9" />
+  <ellipse cx="200" cy="48" rx="42" ry="10" fill="#38bdf8" />
+  
+  <!-- Blades -->
+  <path d="M145,46 Q80,48 40,44 Q35,42 42,40 Q85,38 145,44 Z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2" />
+  <path d="M255,46 Q320,48 360,44 Q365,42 358,40 Q315,38 255,44 Z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2" />
+  <ellipse cx="200" cy="50" rx="30" ry="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+  
+  <!-- Dimension Arrow Width (Ø 480 mm) -->
+  <line x1="40" y1="88" x2="360" y2="88" stroke="#334155" stroke-width="1.2" />
+  <polygon points="40,88 48,85 48,91" fill="#334155" />
+  <polygon points="360,88 352,85 352,91" fill="#334155" />
+  <text x="200" y="83" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Ø 480 mm (Çap)</text>
+  
+  <!-- Dimension Arrow Height (195 mm) -->
+  <line x1="382" y1="8" x2="382" y2="58" stroke="#334155" stroke-width="1.2" />
+  <polygon points="382,8 379,16 385,16" fill="#334155" />
+  <polygon points="382,58 379,50 385,50" fill="#334155" />
+  <text x="388" y="38" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#0f172a" alignment-baseline="middle">195 mm</text>
+</svg>
