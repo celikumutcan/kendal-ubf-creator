@@ -1409,14 +1409,6 @@
         <div>
           <span>Sayfa Önizleme: <strong>A4 (210 × 297 mm)</strong> — Baskı Öncesi Canlı Görünüm</span>
         </div>
-        <div style="display:flex; align-items:center; gap: 12px;">
-          <label style="margin:0; font-size:12px; color:#cbd5e1; text-transform:none;">Ölçek:</label>
-          <select id="zoomSelect" style="width: auto; padding: 4px 8px; font-size: 12px;" onchange="applyZoom(this.value)">
-            <option value="0.85">85%</option>
-            <option value="0.95" selected>95% (Önerilen)</option>
-            <option value="1.0">100% (Birebir)</option>
-          </select>
-        </div>
       </div>
 
       <div class="preview-viewport">
@@ -2065,8 +2057,6 @@
       document.getElementById(tabId).classList.add('active');
     }
 
-    function applyZoom(val) {
-      document.getElementById('printableA4').style.transform = `scale(${val})`;
     }
 
     function handleImageUpload(input, targetImgId) {
@@ -2256,7 +2246,6 @@
       renderVariantInputs();
       recalculateEnergyClass();
       updateView();
-      applyZoom(0.95);
     };
   </script>
 </body>
