@@ -1427,7 +1427,7 @@
           <!-- 1. HEADER: BRAND LOGO AT TOP-LEFT, FORM TITLE AT TOP-RIGHT -->
           <div class="ubf-header">
             <div class="ubf-brand-logo-main">
-              <img id="previewMainLogo" src="../images/brands/global-logo.svg" onerror="handleImgError(this)" alt="Brand Logo">
+              <img id="previewMainLogo" src="images/brands/global-logo.svg" onerror="handleImgError(this)" alt="Brand Logo">
             </div>
             <div class="ubf-header-right">
               <div class="ubf-title-badge">
@@ -1447,7 +1447,7 @@
               <div class="ubf-prod-name-en" id="viewProdNameEn">GDL414 SLIM BACKLIGHT RECESSED PANEL</div>
             </div>
             <div class="ubf-hero-right">
-              <img id="previewProdImg" src="../images/urunler/gdl414.webp" onerror="handleImgError(this)" alt="Ürün Fotoğrafı">
+              <img id="previewProdImg" src="images/urunler/gdl414.webp" onerror="handleImgError(this)" alt="Ürün Fotoğrafı">
             </div>
           </div>
 
@@ -1636,7 +1636,7 @@
           <div class="ubf-corporate-footer">
             <div class="ubf-footer-brand">
               <div class="ubf-footer-logo-badge">
-                <img src="../images/kendal-logo.svg" onerror="handleImgError(this)" alt="Kendal Elektrik">
+                <img src="images/kendal-logo.svg" onerror="handleImgError(this)" alt="Kendal Elektrik">
               </div>
               <span class="ubf-footer-company">Kendal Elektrik A.Ş. • Üretici Firma / Manufacturer</span>
             </div>
@@ -1651,8 +1651,7 @@
   </div>
 
   <script>
-    const IS_STANDALONE = !window.location.pathname.toLowerCase().includes('ubf-creator');
-    const BASE_DIR = IS_STANDALONE ? './' : '../';
+    const BASE_DIR = "./";
 
     function resolveImg(path) {
       if (!path) return '';
@@ -1665,10 +1664,10 @@
       if (!img || img.dataset.retried) return;
       img.dataset.retried = '1';
       const cur = img.getAttribute('src') || '';
-      if (cur.startsWith('../images/')) {
-        img.src = cur.replace('../images/', './images/');
+      if (cur.startsWith('images/')) {
+        img.src = cur.replace('images/', './images/');
       } else if (cur.startsWith('./images/')) {
-        img.src = cur.replace('./images/', '../images/');
+        img.src = cur.replace('./images/', 'images/');
       } else if (cur.startsWith('images/')) {
         img.src = '../' + cur;
       }
