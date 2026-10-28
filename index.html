@@ -2155,6 +2155,7 @@
         <ul>
           <li><strong>📋 Kayıtlı UBF'ler</strong> ile klasördeki tüm formları görüp açabilirsiniz.</li>
           <li>Kayıtlı bir formu katalog verisiyle sıfırlamak için açıldığında çıkan <strong>"Katalogdan baştan başla"</strong> bağlantısını kullanın.</li>
+          <li><strong>Eski hale dönmek:</strong> Her form değiştirilmeden önceki hali ortak klasördeki <code>_yedek\ÜRÜN KODU</code> klasörüne otomatik saklanır (son 20 sürüm). Gereken dosyayı <strong>📂 Taslak Yükle</strong> ile açıp devam edin.</li>
         </ul>
       </div>
     </div>
@@ -2958,7 +2959,10 @@
     let sharedOpenedFile = null;   // { name, lastModified } — bu formun ait olduğu dosya; başkası değiştirdiyse uyarmak için
     let sharedLastJson = '';       // son yazılan/okunan içerik; değişiklik yoksa tekrar yazılmaz
     let sharedAutoSaveTimer = null;
-    let sharedUserEdited = false;  // sadece göz atılan katalog ürünleri için klasörde dosya açılmasın
+    let sharedUserEdited = false;
+    let sharedBackedUpName = null; // bu oturumda yedeği alınmış dosya (otomatik kayıtta her tuşta yedek alınmasın)
+    const SHARED_BACKUP_DIR = '_yedek';
+    const SHARED_BACKUP_KEEP = 20;  // sadece göz atılan katalog ürünleri için klasörde dosya açılmasın
     let sharedIndex = new Set();   // klasördeki .json dosya adları
     let sharedListCache = [];
 
@@ -2968,6 +2972,7 @@
 
     // Formun hangi ortak dosyaya ait olduğu sayfa yenilense de hatırlanır
     function setSharedOwner(owner) {
+      if (!owner || owner.name !== sharedBackedUpName) sharedBackedUpName = null;
       sharedOpenedFile = owner;
       sharedUserEdited = false;
       try {
@@ -3104,13 +3109,37 @@
           if (isSameFile && existing.lastModified !== sharedOpenedFile.lastModified &&
               !confirm(`"${code}" UBF'si siz açtıktan sonra başka biri tarafından değiştirilmiş (${formatDate(existing.lastModified)}).\n\nYine de sizin halinizle üzerine yazılsın mı?`)) return;
         }
-        await writeSharedFile(name);
+        await writeSharedFile(name, true);
       } catch (e) {
         alert('Kaydedilemedi: ' + e.message);
       }
     }
 
-    async function writeSharedFile(name) {
+    // Üzerine yazmadan önce dosyanın mevcut halini _yedek/<KOD>/ altına saklar (ürün başına son 20 sürüm)
+    async function backupSharedFile(name) {
+      let existing;
+      try {
+        existing = await (await sharedDir.getFileHandle(name)).getFile();
+      } catch (e) {
+        if (e.name === 'NotFoundError') return;
+        throw e;
+      }
+      const code = name.replace(/\.json$/i, '');
+      const backupRoot = await sharedDir.getDirectoryHandle(SHARED_BACKUP_DIR, { create: true });
+      const dir = await backupRoot.getDirectoryHandle(code, { create: true });
+      const stamp = new Date(existing.lastModified).toISOString().replace(/[:T]/g, '-').slice(0, 19);
+      const copy = await (await dir.getFileHandle(`${code}_${stamp}.json`, { create: true })).createWritable();
+      await copy.write(await existing.text());
+      await copy.close();
+      const versions = [];
+      for await (const [n, h] of dir.entries()) if (h.kind === 'file') versions.push(n);
+      versions.sort();
+      for (const old of versions.slice(0, Math.max(0, versions.length - SHARED_BACKUP_KEEP))) await dir.removeEntry(old);
+      sharedBackedUpName = name;
+    }
+
+    async function writeSharedFile(name, forceBackup = false) {
+      if (forceBackup || sharedBackedUpName !== name) await backupSharedFile(name);
       const json = JSON.stringify(collectFormState());
       const state = JSON.parse(json);
       state.savedAt = new Date().toISOString();
@@ -3162,6 +3191,7 @@
 
     async function openSharedFile(name) {
       const file = await (await sharedDir.getFileHandle(name)).getFile();
+      sharedBackedUpName = null;
       setSharedOwner({ name, lastModified: file.lastModified });
       loadFormState(JSON.parse(await file.text()));
       sharedLastJson = JSON.stringify(collectFormState());

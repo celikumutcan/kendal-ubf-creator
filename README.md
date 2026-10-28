@@ -83,6 +83,7 @@ Projektörlerden spotlara kadar 10 farklı mekanik parametre sunulur:
 - Form **otomatik kaydedilir**: her değişiklikten kısa süre sonra `<ÜRÜN KODU>.json` olarak klasöre yazılır (fotoğraf ve teknik çizim dahil). Sadece göz atılan ürünler için dosya oluşturulmaz.
 - Ürün kodu aratıldığında kayıtlı UBF varsa **💾 Kayıtlı** rozeti çıkar ve form doğrudan kaldığı yerden açılır. Tüm kayıtlar **📋 Kayıtlı UBF'ler** listesinden de açılabilir.
 - Otomatik kayıt başkasının kaydını asla sessizce ezmez: başkası değiştirdiyse veya form kayıtlı dosyadan açılmadıysa durur ve uyarı gösterir.
+- **Sürüm yedeği:** Bir form değiştirilmeden önceki hali klasördeki `_yedek/<ÜRÜN KODU>/` altına otomatik saklanır (ürün başına son 20 sürüm); geri dönmek için dosya **📂 Taslak Yükle** ile açılır.
 - Kullanım kılavuzu uygulama içinde **❓ Nasıl?** butonundadır.
 
 ---
