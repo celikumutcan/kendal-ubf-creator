@@ -1790,27 +1790,28 @@
               </table>
             </div>
 
-            <!-- Options + Solar (Sağ sütun: sadece dolu satırlar gösterilir) -->
-            <div>
-              <div class="ubf-spec-block" id="sectionOptions">
-                <div class="ubf-spec-head">
-                  <div class="ubf-spec-head-en">Options</div>
-                  <div class="ubf-spec-head-tr">Opsiyonlar</div>
-                </div>
-                <table class="ubf-table">
-                  <tbody id="viewOptionRows"></tbody>
-                </table>
+            <!-- Options (Sadece dolu satırlar gösterilir) -->
+            <div class="ubf-spec-block" id="sectionOptions">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Options</div>
+                <div class="ubf-spec-head-tr">Opsiyonlar</div>
               </div>
+              <table class="ubf-table">
+                <tbody id="viewOptionRows"></tbody>
+              </table>
+            </div>
+          </div>
 
-              <div class="ubf-spec-block" id="sectionSolar" style="display:none;">
-                <div class="ubf-spec-head">
-                  <div class="ubf-spec-head-en">Solar Energy Specifications</div>
-                  <div class="ubf-spec-head-tr">Solar Enerji Özellikleri</div>
-                </div>
-                <table class="ubf-table">
-                  <tbody id="viewSolarRows"></tbody>
-                </table>
+          <!-- ROW 3: SOLAR (LEFT) & yeni blok gelirse (RIGHT) — sadece solar ürünlerde gösterilir -->
+          <div class="ubf-specs-row" id="sectionSolar" style="display:none;">
+            <div class="ubf-spec-block">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Solar Energy Specifications</div>
+                <div class="ubf-spec-head-tr">Solar Enerji Özellikleri</div>
               </div>
+              <table class="ubf-table">
+                <tbody id="viewSolarRows"></tbody>
+              </table>
             </div>
           </div>
 
@@ -2280,9 +2281,7 @@
       const html = enabled ? buildSpecRows(SOLAR_DEFINITIONS, def => document.getElementById('input_solar_' + def.key)) : '';
       document.getElementById('viewSolarRows').innerHTML = html;
       const section = document.getElementById('sectionSolar');
-      section.style.display = html ? 'block' : 'none';
-      // Opsiyonlar da görünüyorsa araya boşluk bırak
-      section.style.marginTop = document.getElementById('sectionOptions').style.display !== 'none' ? '14px' : '0';
+      section.style.display = html ? 'grid' : 'none';
     }
 
     function updateView() {
