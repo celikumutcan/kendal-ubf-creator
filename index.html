@@ -1365,6 +1365,26 @@
                 </datalist>
               </div>
             </div>
+
+            <!-- 11. Standart Uzunluk -->
+            <div class="mech-prop-card disabled" id="card_mech_stdlength">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_stdlength" onchange="toggleMechProp('stdlength')">
+                  <span>Standart Uzunluk / Standard Length</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_stdlength" style="display:none;">
+                <input type="text" id="input_mech_stdlength" list="list_mech_stdlength" value="5m" placeholder="Örn: 5m / 50m" oninput="updateView()">
+                <datalist id="list_mech_stdlength">
+                  <option value="1m">
+                  <option value="2m">
+                  <option value="5m">
+                  <option value="10m">
+                  <option value="50m">
+                </datalist>
+              </div>
+            </div>
           </div>
 
           <div class="card-box">
@@ -2013,7 +2033,8 @@
       { key: 'ral', label: 'RAL Code / Ral Kodu' },
       { key: 'mounting', label: 'Mounting Type / Montaj Tipi' },
       { key: 'fire', label: 'Fire Protection / Alev Koruması' },
-      { key: 'length', label: 'Body Length / Gövde Boyu' }
+      { key: 'length', label: 'Body Length / Gövde Boyu' },
+      { key: 'stdlength', label: 'Standard Length / Standart Uzunluk' }
     ];
 
     function toggleMechProp(key) {
@@ -2065,6 +2086,7 @@
         setMechPropState('mounting', true, 'Braketli Ayak Montajı (Bracket)');
         setMechPropState('fire', false);
         setMechPropState('length', false);
+        setMechPropState('stdlength', false);
       } else if (type === 'panel') {
         // Panel / Spot: Gövde (Metal), IP (IP40), IK (IK06), Montaj (Sıva Altı), RAL (9016)
         setMechPropState('body', true, 'Metal');
@@ -2077,6 +2099,7 @@
         setMechPropState('mounting', true, 'Surface Mounted Sıva Altı');
         setMechPropState('fire', false);
         setMechPropState('length', false);
+        setMechPropState('stdlength', false);
       } else if (type === 'batten') {
         // Bant Armatür: Gövde (Metal), IP (IP20), Kablo (2x0.75mm²), Montaj (Sıva Üstü), Gövde Boyu (120cm)
         setMechPropState('body', true, 'Metal');
@@ -2089,6 +2112,7 @@
         setMechPropState('mounting', true, 'Surface Mounted Sıva Üstü');
         setMechPropState('fire', false);
         setMechPropState('length', true, '120cm');
+        setMechPropState('stdlength', false);
       } else if (type === 'none') {
         MECH_DEFINITIONS.forEach(def => setMechPropState(def.key, false));
       }
