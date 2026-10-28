@@ -72,7 +72,7 @@ Projektörlerden spotlara kadar 10 farklı mekanik parametre sunulur:
 
 ### 7. 🖨️ Kusursuz A4 PDF Çıktısı
 - `@media print` ve `@page { size: A4 portrait; margin: 0; }` kuralları ile sayfa taşması yaşanmaz.
-- Sağ üstteki **"PDF Olarak Kaydet (Yazdır)"** butonuna basıldığında Chrome/Edge yazdırma penceresinde tam 1 sayfalık kurumsal A4 PDF çıktısı alınır.
+- Sağ üstteki **"PDF Olarak Kaydet (Yazdır)"** butonuna basıldığında Chrome/Edge yazdırma penceresinde kurumsal A4 PDF çıktısı alınır. İçerik tek sayfaya sığmazsa sığmayan bölümler bölünmeden 2. sayfaya geçer.
 
 ### 8. 💾 Taslak Kaydetme & Yedekleme
 - Yapılan tüm düzenlemeler anlık olarak tarayıcı hafızasına (`localStorage`) kaydedilir.

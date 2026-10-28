@@ -599,9 +599,15 @@
       overflow: auto;
       padding: 24px;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
       background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    }
+
+    /* 2. SAYFA: Sığmayan bölümler buraya bütün olarak taşınır */
+    .ubf-page2-flow {
+      margin-top: 18px;
     }
 
     /* A4 PAPER DESIGN */
@@ -1008,11 +1014,17 @@
         width: 210mm !important;
         height: 297mm !important;
         max-height: 297mm !important;
-        page-break-after: avoid !important;
+        page-break-after: always !important;
+        break-after: page !important;
         page-break-inside: avoid !important;
         transform: none !important;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
+      }
+
+      .a4-page.is-last-page {
+        page-break-after: auto !important;
+        break-after: auto !important;
       }
     }
   </style>
@@ -1682,7 +1694,7 @@
           </div>
 
           <!-- 3. SECTION DIVIDER: TEKNİK ÖZELLİKLER -->
-          <div class="ubf-section-divider">
+          <div class="ubf-section-divider ubf-flow ubf-keep-with-next">
             <div class="ubf-sec-marker"></div>
             <div class="ubf-sec-title">
               <span>Teknik Özellikler</span>
@@ -1693,7 +1705,7 @@
 
           <!-- 4. SPECS 2-ROW GRID (GUARANTEES EXACT SAME HORIZONTAL ROW BASELINE) -->
           <!-- ROW 1: MECHANICAL (LEFT) & OPTICAL (RIGHT) -->
-          <div class="ubf-specs-row">
+          <div class="ubf-specs-row ubf-flow">
             <!-- Mechanical -->
             <div class="ubf-spec-block">
               <div class="ubf-spec-head">
@@ -1747,7 +1759,7 @@
           </div>
 
           <!-- ROW 2: ELECTRICAL (LEFT) & OPTIONS (RIGHT) -->
-          <div class="ubf-specs-row">
+          <div class="ubf-specs-row ubf-flow">
             <!-- Electrical -->
             <div class="ubf-spec-block">
               <div class="ubf-spec-head">
@@ -1803,7 +1815,7 @@
           </div>
 
           <!-- ROW 3: SOLAR (LEFT) & yeni blok gelirse (RIGHT) — sadece solar ürünlerde gösterilir -->
-          <div class="ubf-specs-row" id="sectionSolar" style="display:none;">
+          <div class="ubf-specs-row ubf-flow" id="sectionSolar" style="display:none;">
             <div class="ubf-spec-block">
               <div class="ubf-spec-head">
                 <div class="ubf-spec-head-en">Solar Energy Specifications</div>
@@ -1816,7 +1828,7 @@
           </div>
 
           <!-- 5. TECHNICAL DRAWING SECTION (Sadece çizim varsa gösterilir) -->
-          <div id="sectionTechnicalDrawing" style="display:none;">
+          <div class="ubf-flow" id="sectionTechnicalDrawing" style="display:none;">
             <div class="ubf-section-divider">
               <div class="ubf-sec-marker"></div>
               <div class="ubf-sec-title">
@@ -1832,7 +1844,7 @@
           </div>
 
           <!-- 6. BOTTOM SKU / VARIANT TABLE -->
-          <table class="ubf-bottom-table">
+          <table class="ubf-bottom-table ubf-flow">
             <thead>
               <tr>
                 <th>Code No<span class="th-sub">Ürün Kodu</span></th>
@@ -1853,7 +1865,7 @@
           </table>
 
           <!-- 8. CORPORATE FOOTER -->
-          <div class="ubf-corporate-footer">
+          <div class="ubf-corporate-footer" id="page1Footer">
             <div class="ubf-footer-brand">
               <div class="ubf-footer-logo-badge">
                 <img src="images/kendal-logo.svg" onerror="handleImgError(this)" alt="Kendal Elektrik">
@@ -1865,6 +1877,13 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- 2. SAYFA (Sadece 1. sayfaya sığmayan bölüm varsa gösterilir) -->
+        <div class="a4-page" id="printableA4Page2" style="display:none;">
+          <div id="page2Header"></div>
+          <div class="ubf-page2-flow" id="page2Flow"></div>
+          <div id="page2Footer" style="margin-top: auto;"></div>
         </div>
       </div>
     </main>
@@ -2110,6 +2129,7 @@
           <td>${v.weight || '-'}</td>
         </tr>
       `).join('');
+      paginatePages();
     }
 
     const MECH_DEFINITIONS = [
@@ -2284,6 +2304,65 @@
       section.style.display = html ? 'grid' : 'none';
     }
 
+    // Optik / Elektrik gibi sabit tablolarda boş veya '-' satırları gizle; satırı kalmayan blok ve sırayı da gizle
+    function hideEmptySpecRows() {
+      document.querySelectorAll('.a4-page .ubf-table tr').forEach(tr => {
+        const valCell = tr.querySelector('td.value-col');
+        if (!valCell) return;
+        const val = valCell.innerText.trim();
+        tr.style.display = (!val || val === '-') ? 'none' : '';
+      });
+      document.querySelectorAll('.a4-page .ubf-spec-block').forEach(block => {
+        const hasRow = [...block.querySelectorAll('.ubf-table tr')].some(tr => tr.style.display !== 'none');
+        block.style.display = hasRow ? '' : 'none';
+      });
+    }
+
+    // Sayfalama: 1. sayfaya sığmayan bölüm (ve sonrasındakiler) bütün olarak 2. sayfaya taşınır, hiçbir bölüm bölünmez
+    let FLOW_UNITS = null;
+    function paginatePages() {
+      const page1 = document.getElementById('printableA4');
+      const page2 = document.getElementById('printableA4Page2');
+      const footer1 = document.getElementById('page1Footer');
+      if (!page1 || !page2 || !footer1) return;
+      if (!FLOW_UNITS) FLOW_UNITS = [...page1.querySelectorAll('.ubf-flow')];
+
+      // Önce her şeyi 1. sayfaya geri al
+      FLOW_UNITS.forEach(unit => page1.insertBefore(unit, footer1));
+      page2.style.display = 'none';
+
+      const pageRect = page1.getBoundingClientRect();
+      const scale = pageRect.height / page1.offsetHeight || 1;
+      const padBottom = parseFloat(getComputedStyle(page1).paddingBottom) * scale;
+      const limit = pageRect.bottom - padBottom - footer1.getBoundingClientRect().height - 8 * scale;
+
+      let breakIdx = FLOW_UNITS.findIndex(unit => {
+        const r = unit.getBoundingClientRect();
+        return r.height > 0 && r.bottom > limit;
+      });
+
+      if (breakIdx !== -1) {
+        // Başlık tek başına 1. sayfada kalmasın
+        while (breakIdx > 0 && FLOW_UNITS[breakIdx - 1].classList.contains('ubf-keep-with-next')) breakIdx--;
+
+        const header2 = page1.querySelector('.ubf-header').cloneNode(true);
+        const footer2 = footer1.cloneNode(true);
+        [header2, footer2].forEach(el => {
+          el.removeAttribute('id');
+          el.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+        });
+        document.getElementById('page2Header').replaceChildren(header2);
+        document.getElementById('page2Footer').replaceChildren(footer2);
+
+        const flow2 = document.getElementById('page2Flow');
+        FLOW_UNITS.slice(breakIdx).forEach(unit => flow2.appendChild(unit));
+        page2.style.display = '';
+      }
+
+      page1.classList.toggle('is-last-page', breakIdx === -1);
+      page2.classList.add('is-last-page');
+    }
+
     function updateView() {
       // Titles
       document.getElementById('viewProdNameTr').innerText = document.getElementById('inputNameTr').value;
@@ -2324,6 +2403,9 @@
         const hasValidSrc = src && src.trim() !== '' && !src.endsWith('/') && drawImg.style.display !== 'none';
         drawSec.style.display = hasValidSrc ? 'block' : 'none';
       }
+
+      hideEmptySpecRows();
+      paginatePages();
 
       saveToLocalStorage();
     }
@@ -2551,6 +2633,8 @@
       renderVariantInputs();
       recalculateEnergyClass();
       updateView();
+      // Yazı tipi geç yüklenirse yükseklikler değişir; sayfalamayı tekrar hesapla
+      if (document.fonts) document.fonts.ready.then(paginatePages);
     };
   </script>
 </body>

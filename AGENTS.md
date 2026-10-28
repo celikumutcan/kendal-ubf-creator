@@ -8,7 +8,7 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
 - **Proje Adı:** Ürün Bilgi Formu Oluşturucu (Kendal UBF Creator)
 - **Repo:** `celikumutcan/kendal-ubf-creator`
 - **Canlı URL:** `https://celikumutcan.github.io/kendal-ubf-creator/`
-- **Amaç:** Kendal Elektrik A.Ş. markaları (K2, Global, Vanti) için standart 1 sayfalık dikey A4 Ürün Bilgi Formu (Datasheet) oluşturmak, önizlemek ve yazdırmak/PDF almak.
+- **Amaç:** Kendal Elektrik A.Ş. markaları (K2, Global, Vanti) için standart dikey A4 (gerekirse 2 sayfa) Ürün Bilgi Formu (Datasheet) oluşturmak, önizlemek ve yazdırmak/PDF almak.
 
 ---
 
@@ -24,14 +24,16 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
 
 3. **Tire (`-`) Karakteri Kuralı:**
    - Boş bırakılan veya seçilmeyen hiçbir teknik/mekanik özellik forma `-` (tire) olarak yazdırılmaz.
-   - Boş alanlar her zaman DOM'dan tamamen gizlenir (`display: none`).
+   - Boş alanlar her zaman DOM'dan tamamen gizlenir (`display: none`). Sabit tablolarda (Optik, Elektrik) bu işi `hideEmptySpecRows()` yapar.
 
 4. **Marka Logoları Hiyerarşisi:**
    - Üst marka logosu alanında sadece: **K2 LED Systems**, **Global Lighting**, **Vanti** bulunur.
    - **Kendal Elektrik** logosu formun en altında ("Üretici Firma: Kendal Elektrik") kalıcı olarak bulunduğu için üst marka listesinde yer almaz.
 
 5. **A4 Baskı Uyumu:**
-   - Form çıktısı kesinlikle **tek sayfa (1 Page A4 Portrait)** kalmalıdır. Sayfa altına taşan veya ikinci boş sayfa üreten CSS değişiklikleri kesinlikle engellenmelidir.
+   - Form normalde **tek sayfa (A4 Portrait)** çıkar. İçerik sığmazsa `paginatePages()` sığmayan bölümü ve sonrasındakileri **bütün olarak** 2. sayfaya taşır (başlık + alt bilgi 2. sayfada da tekrarlanır).
+   - Hiçbir bölüm (spec satırı, teknik çizim, varyant tablosu) iki sayfaya bölünmez; yeni bölüm eklerken `ubf-flow` sınıfı verilmelidir.
+   - Sayfa içinden taşan veya boş sayfa üreten CSS değişiklikleri engellenmelidir.
 
 ---
 
