@@ -33,6 +33,7 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
 5. **A4 Baskı Uyumu:**
    - Form normalde **tek sayfa (A4 Portrait)** çıkar. İçerik sığmazsa `paginatePages()` sığmayan bölümü ve sonrasındakileri **bütün olarak** 2. sayfaya taşır (başlık + alt bilgi 2. sayfada da tekrarlanır).
    - Hiçbir bölüm (spec satırı, teknik çizim, varyant tablosu) iki sayfaya bölünmez; yeni bölüm eklerken `ubf-flow` sınıfı verilmelidir.
+   - Spec blokları (Mekanik, Optik, Elektrik, Opsiyonlar, Solar) `arrangeSpecBlocks()` ile görünenler sırayla ikişer ikişer satırlara dizilir; boş blok atlanır, sıradaki yerine geçer. Yeni spec bloğu eklenirse `SPEC_BLOCK_ORDER`'a (gerekirse `SPEC_ROW_IDS`'e yeni satır) eklenmelidir.
    - Sayfa içinden taşan veya boş sayfa üreten CSS değişiklikleri engellenmelidir.
 
 ---

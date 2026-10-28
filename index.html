@@ -1857,9 +1857,9 @@
 
           <!-- 4. SPECS 2-ROW GRID (GUARANTEES EXACT SAME HORIZONTAL ROW BASELINE) -->
           <!-- ROW 1: MECHANICAL (LEFT) & OPTICAL (RIGHT) -->
-          <div class="ubf-specs-row ubf-flow">
+          <div class="ubf-specs-row ubf-flow" id="specsRow1">
             <!-- Mechanical -->
-            <div class="ubf-spec-block">
+            <div class="ubf-spec-block" id="blockMech">
               <div class="ubf-spec-head">
                 <div class="ubf-spec-head-en">Mechanical Specifications</div>
                 <div class="ubf-spec-head-tr">Mekanik Özellikler</div>
@@ -1872,7 +1872,7 @@
             </div>
 
             <!-- Optical -->
-            <div class="ubf-spec-block">
+            <div class="ubf-spec-block" id="blockOptical">
               <div class="ubf-spec-head">
                 <div class="ubf-spec-head-en">Optical Specifications</div>
                 <div class="ubf-spec-head-tr">Optik Özellikler</div>
@@ -1911,9 +1911,9 @@
           </div>
 
           <!-- ROW 2: ELECTRICAL (LEFT) & OPTIONS (RIGHT) -->
-          <div class="ubf-specs-row ubf-flow">
+          <div class="ubf-specs-row ubf-flow" id="specsRow2">
             <!-- Electrical -->
-            <div class="ubf-spec-block">
+            <div class="ubf-spec-block" id="blockElectrical">
               <div class="ubf-spec-head">
                 <div class="ubf-spec-head-en">Electrical Specifications</div>
                 <div class="ubf-spec-head-tr">Elektriksel Özellikler</div>
@@ -1966,9 +1966,9 @@
             </div>
           </div>
 
-          <!-- ROW 3: SOLAR (LEFT) & yeni blok gelirse (RIGHT) — sadece solar ürünlerde gösterilir -->
+          <!-- ROW 3: Görünen bloklar ikişer ikişer dizildiğinde artan blok(lar) buraya gelir -->
           <div class="ubf-specs-row ubf-flow" id="sectionSolar" style="display:none;">
-            <div class="ubf-spec-block">
+            <div class="ubf-spec-block" id="blockSolar">
               <div class="ubf-spec-head">
                 <div class="ubf-spec-head-en">Solar Energy Specifications</div>
                 <div class="ubf-spec-head-tr">Solar Enerji Özellikleri</div>
@@ -1978,6 +1978,9 @@
               </table>
             </div>
           </div>
+
+          <!-- Boş (gizli) spec blokları sıralama sırasında burada bekler -->
+          <div id="specHiddenBlocks" style="display:none;"></div>
 
           <!-- 5. TECHNICAL DRAWING SECTION (Sadece çizim varsa gösterilir) -->
           <div class="ubf-flow" id="sectionTechnicalDrawing" style="display:none;">
@@ -2524,6 +2527,22 @@
       });
     }
 
+    // Görünen spec bloklarını sırayla ikişer ikişer satırlara diz: boş blok atlanır, sıradaki onun yerine geçer
+    // (yan yana bloklar her zaman aynı hizada başlar, sağda boş delik kalmaz)
+    const SPEC_BLOCK_ORDER = ['blockMech', 'blockOptical', 'blockElectrical', 'sectionOptions', 'blockSolar'];
+    const SPEC_ROW_IDS = ['specsRow1', 'specsRow2', 'sectionSolar'];
+    function arrangeSpecBlocks() {
+      const blocks = SPEC_BLOCK_ORDER.map(id => document.getElementById(id));
+      const visible = blocks.filter(b => b.style.display !== 'none');
+      document.getElementById('specHiddenBlocks').append(...blocks.filter(b => b.style.display === 'none'));
+      SPEC_ROW_IDS.forEach((rowId, i) => {
+        const row = document.getElementById(rowId);
+        const pair = visible.slice(i * 2, i * 2 + 2);
+        row.append(...pair);
+        row.style.display = pair.length ? 'grid' : 'none';
+      });
+    }
+
     // Sayfalama: 1. sayfaya sığmayan bölüm (ve sonrasındakiler) bütün olarak 2. sayfaya taşınır, hiçbir bölüm bölünmez
     let FLOW_UNITS = null;
     function paginatePages() {
@@ -2611,6 +2630,7 @@
       }
 
       hideEmptySpecRows();
+      arrangeSpecBlocks();
       paginatePages();
       scheduleSharedAutoSave();
 
