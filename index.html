@@ -1549,6 +1549,27 @@
                 </datalist>
               </div>
             </div>
+
+            <!-- 12. Duy Tipi -->
+            <div class="mech-prop-card disabled" id="card_mech_lampbase">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_lampbase" onchange="toggleMechProp('lampbase')">
+                  <span>Duy Tipi / Lamp Base (Ampul)</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_lampbase" style="display:none;">
+                <input type="text" id="input_mech_lampbase" list="list_mech_lampbase" value="E27" placeholder="Örn: E27 / GU10" oninput="updateView()">
+                <datalist id="list_mech_lampbase">
+                  <option value="E27">
+                  <option value="E14">
+                  <option value="GU10">
+                  <option value="G9">
+                  <option value="MR16">
+                  <option value="G13">
+                </datalist>
+              </div>
+            </div>
           </div>
 
           <div class="card-box">
@@ -1562,6 +1583,14 @@
                 <label>Frekans</label>
                 <input type="text" id="inputFreq" value="50-60Hz" oninput="updateView()">
               </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Güç (Varsa)</label>
+                <input type="text" id="inputPower" value="" placeholder="Örn: 50W (solar ürünler)" oninput="updateView()">
+              </div>
+              <div class="form-group"></div>
             </div>
 
             <div class="form-row">
@@ -1620,12 +1649,24 @@
 
             <div class="form-row">
               <div class="form-group">
+                <label>Lens (Varsa)</label>
+                <input type="text" id="inputLens" value="" placeholder="Örn: PC Lens" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Reflektör (Varsa)</label>
+                <input type="text" id="inputReflector" value="" placeholder="Örn: Alüminyum / Plastik" oninput="updateView()">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
                 <label>CRI (Renksel Geriverim)</label>
-                <select id="inputCRI" onchange="updateView()">
-                  <option value=">80" selected>>80 (Standart Kalite)</option>
-                  <option value=">90">>90 (Yüksek Renk Doğruluğu)</option>
-                  <option value=">70">>70 (Sokak / Dış Aydınlatma)</option>
-                </select>
+                <input type="text" id="inputCRI" list="listCRI" value=">80" oninput="updateView()">
+                <datalist id="listCRI">
+                  <option value=">80">
+                  <option value=">90">
+                  <option value=">70">
+                </datalist>
               </div>
               <div class="form-group">
                 <label>Işık Açısı</label>
@@ -1715,6 +1756,13 @@
                 </label>
               </div>
               <div id="wrap_solar" style="display:none; margin-top: 8px;">
+                <div class="form-group">
+                  <label>Bölüm Başlığı</label>
+                  <select id="input_solar_title" onchange="updateView()">
+                    <option value="solar" selected>Solar Energy Specifications / Solar Enerji Özellikleri</option>
+                    <option value="battery">Battery Specifications / Batarya Özellikleri</option>
+                  </select>
+                </div>
                 <div class="form-row">
                   <div class="form-group">
                     <label>Şarj/Deşarj Süresi</label>
@@ -1763,6 +1811,13 @@
                       <option value="No">
                     </datalist>
                   </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Değiştirilebilir Batarya</label>
+                    <input type="text" id="input_solar_replaceable" list="list_solar_photocell" value="" placeholder="Örn: Yes" oninput="updateView()">
+                  </div>
+                  <div class="form-group"></div>
                 </div>
               </div>
             </div>
@@ -1887,6 +1942,10 @@
                   <td class="value-col" id="viewLens">-</td>
                 </tr>
                 <tr>
+                  <td class="label-col">Reflector / Reflektör</td>
+                  <td class="value-col" id="viewReflector"></td>
+                </tr>
+                <tr>
                   <td class="label-col">Diffuser / Difüzör</td>
                   <td class="value-col" id="viewDiffuser">PMMA</td>
                 </tr>
@@ -1922,6 +1981,10 @@
                 <tr>
                   <td class="label-col">Input Voltage / Giriş Gerilimi</td>
                   <td class="value-col" id="viewVolt">220-240Vac</td>
+                </tr>
+                <tr>
+                  <td class="label-col">Power / Güç</td>
+                  <td class="value-col" id="viewPower"></td>
                 </tr>
                 <tr>
                   <td class="label-col">Frequency / Frekans</td>
@@ -1970,8 +2033,8 @@
           <div class="ubf-specs-row ubf-flow" id="sectionSolar" style="display:none;">
             <div class="ubf-spec-block" id="blockSolar">
               <div class="ubf-spec-head">
-                <div class="ubf-spec-head-en">Solar Energy Specifications</div>
-                <div class="ubf-spec-head-tr">Solar Enerji Özellikleri</div>
+                <div class="ubf-spec-head-en" id="viewSolarHeadEn">Solar Energy Specifications</div>
+                <div class="ubf-spec-head-tr" id="viewSolarHeadTr">Solar Enerji Özellikleri</div>
               </div>
               <table class="ubf-table">
                 <tbody id="viewSolarRows"></tbody>
@@ -2223,28 +2286,44 @@
     });
 
     // RECALCULATE ENERGY CLASS (EU 2019/2015)
+    // EU 2019/2015: ηTM = (lm / W) × FTM — FTM şebeke gerilimli üründe 0,926, şebeke dışı / düşük gerilimde 1,000
+    // (Kalite biriminin "ENERJİ SINIFI HESAPLAMA DOSYASI.xlsx" ile aynı yöntem)
+    function energyFtm(volt) {
+      const v = String(volt || '').toLowerCase();
+      if (/şebeke\s*dışı|off-?grid/.test(v)) return 1;
+      const nums = (v.match(/\d+(?:[.,]\d+)?(?=\s*-?\s*\d*\s*v)/g) || []).map(n => parseFloat(n.replace(',', '.')));
+      if (nums.some(n => n >= 100)) return 0.926;
+      if (nums.length) return 1;
+      return 0.926;
+    }
+
     function recalculateEnergyClass() {
       if (!variants || variants.length === 0) return;
       const v = variants[0];
-      const p = parseFloat(v.power) || 0;
-      const l = parseFloat(v.lumen) || 0;
+      const num = x => parseFloat(String(x || '').replace(',', '.')) || 0;
+      const p = num(v.power);
+      const l = num(v.lumen);
+      const badge = document.getElementById('badgeEnergyLetter');
 
-      let eff = 90;
-      if (p > 0 && l > 0) {
-        eff = Math.round(l / p);
+      if (!(p > 0 && l > 0)) {
+        document.getElementById('calcStatusText').innerText = 'Güç ve ışık akısı girilince hesaplanır';
+        badge.innerText = '-';
+        badge.className = 'energy-class-letter';
+        document.getElementById('viewEnergy').innerText = '';
+        return;
       }
 
-      let energyClass = 'F';
+      const ftm = energyFtm(document.getElementById('inputVolt').value);
+      const eff = l / p * ftm;
+      let energyClass = 'G';
       if (eff >= 210) energyClass = 'A';
       else if (eff >= 185) energyClass = 'B';
       else if (eff >= 160) energyClass = 'C';
       else if (eff >= 135) energyClass = 'D';
       else if (eff >= 110) energyClass = 'E';
       else if (eff >= 85) energyClass = 'F';
-      else energyClass = 'G';
 
-      document.getElementById('calcStatusText').innerText = `Etkinlik: ${eff} lm/W`;
-      const badge = document.getElementById('badgeEnergyLetter');
+      document.getElementById('calcStatusText').innerText = `ηTM: ${eff.toFixed(1)} lm/W (FTM ${ftm === 1 ? '1,000' : '0,926'})`;
       badge.innerText = energyClass;
       badge.className = 'energy-class-letter class-' + energyClass;
       document.getElementById('viewEnergy').innerText = energyClass;
@@ -2352,7 +2431,8 @@
       { key: 'mounting', label: 'Mounting Type / Montaj Tipi' },
       { key: 'fire', label: 'Fire Protection / Alev Koruması' },
       { key: 'length', label: 'Body Length / Gövde Boyu' },
-      { key: 'stdlength', label: 'Standard Length / Standart Uzunluk' }
+      { key: 'stdlength', label: 'Standard Length / Standart Uzunluk' },
+      { key: 'lampbase', label: 'Lamp Base / Duy Tipi' }
     ];
 
     function toggleMechProp(key) {
@@ -2473,7 +2553,8 @@
       { key: 'controller', label: 'Charge Controller / Şarj Kontrol Cihazı' },
       { key: 'battery', label: 'Battery Type / Batarya Tipi' },
       { key: 'voltage', label: 'Battery Voltage / Batarya Gerilimi' },
-      { key: 'photocell', label: 'Photocell / Fotosel' }
+      { key: 'photocell', label: 'Photocell / Fotosel' },
+      { key: 'replaceable', label: 'Replaceable / Değiştirilebilir' }
     ];
 
     function buildSpecRows(defs, getInput) {
@@ -2601,15 +2682,19 @@
 
       // Electrical
       document.getElementById('viewVolt').innerText = document.getElementById('inputVolt').value;
+      document.getElementById('viewPower').innerText = document.getElementById('inputPower').value;
       document.getElementById('viewFreq').innerText = document.getElementById('inputFreq').value;
       document.getElementById('viewClass').innerText = document.getElementById('inputClass').value;
       document.getElementById('viewLife').innerText = document.getElementById('inputLife').value;
       document.getElementById('viewPF').innerText = document.getElementById('inputPF').value;
       document.getElementById('viewTemp').innerText = document.getElementById('inputTemp').value;
       document.getElementById('viewStandards').innerText = document.getElementById('inputStandards').value;
+      recalculateEnergyClass(); // gerilim değişince FTM katsayısı da değişir
 
       // Optical
       document.getElementById('viewLightSource').innerText = document.getElementById('inputLightSource').value;
+      document.getElementById('viewLens').innerText = document.getElementById('inputLens').value;
+      document.getElementById('viewReflector').innerText = document.getElementById('inputReflector').value;
       document.getElementById('viewDiffuser').innerText = document.getElementById('inputDiffuser').value;
       document.getElementById('viewCRI').innerText = document.getElementById('inputCRI').value;
       document.getElementById('viewCCT').innerText = document.getElementById('inputCCT').value;
@@ -2619,6 +2704,9 @@
       // Options & Solar (Boş veya '-' olan satırlar gizlenir)
       renderOptionRows();
       renderSolarRows();
+      const isBattery = document.getElementById('input_solar_title').value === 'battery';
+      document.getElementById('viewSolarHeadEn').innerText = isBattery ? 'Battery Specifications' : 'Solar Energy Specifications';
+      document.getElementById('viewSolarHeadTr').innerText = isBattery ? 'Batarya Özellikleri' : 'Solar Enerji Özellikleri';
 
       // Conditional Technical Drawing Section (Varsa görünür, yoksa başlık ve kutu tamamen gizlenir)
       const drawImg = document.getElementById('previewDrawingImg');
@@ -2688,6 +2776,7 @@
       document.getElementById('inputNameEn').value = '';
       applyMechPreset('panel');
       OPTION_DEFINITIONS.forEach(def => { document.getElementById(def.id).value = '-'; });
+      ['inputPower', 'inputLens', 'inputReflector'].forEach(id => { document.getElementById(id).value = ''; });
       setSolarState(false);
       document.getElementById('inputVolt').value = '220-240Vac';
       document.getElementById('inputFreq').value = '50-60Hz';
@@ -2713,6 +2802,15 @@
     }
 
     // LOCAL STORAGE PERSISTENCE
+    // Kayıt dosyasındaki anahtar → editördeki alan
+    const FORM_FIELDS = {
+      model: 'inputModel', nameTr: 'inputNameTr', nameEn: 'inputNameEn', mainLogo: 'inputMainLogo',
+      volt: 'inputVolt', power: 'inputPower', freq: 'inputFreq', classVal: 'inputClass', life: 'inputLife',
+      pf: 'inputPF', temp: 'inputTemp', standards: 'inputStandards',
+      lightSource: 'inputLightSource', lens: 'inputLens', reflector: 'inputReflector', diffuser: 'inputDiffuser',
+      cri: 'inputCRI', beam: 'inputBeam', cct: 'inputCCT', bio: 'inputBio'
+    };
+
     function collectFormState() {
       const mechState = {};
       MECH_DEFINITIONS.forEach(def => {
@@ -2729,36 +2827,26 @@
         optionState[def.key] = document.getElementById(def.id).value;
       });
 
-      const solarState = { enabled: document.getElementById('chk_solar').checked };
+      const solarState = {
+        enabled: document.getElementById('chk_solar').checked,
+        title: document.getElementById('input_solar_title').value
+      };
       SOLAR_DEFINITIONS.forEach(def => {
         solarState[def.key] = document.getElementById('input_solar_' + def.key).value;
       });
 
-      const state = {
-        model: document.getElementById('inputModel').value,
-        nameTr: document.getElementById('inputNameTr').value,
-        nameEn: document.getElementById('inputNameEn').value,
-        mainLogo: document.getElementById('inputMainLogo').value,
+      const state = {};
+      Object.entries(FORM_FIELDS).forEach(([key, id]) => {
+        state[key] = document.getElementById(id).value;
+      });
+      Object.assign(state, {
         mechanical: mechState,
-        volt: document.getElementById('inputVolt').value,
-        freq: document.getElementById('inputFreq').value,
-        classVal: document.getElementById('inputClass').value,
-        life: document.getElementById('inputLife').value,
-        pf: document.getElementById('inputPF').value,
-        temp: document.getElementById('inputTemp').value,
-        standards: document.getElementById('inputStandards').value,
-        lightSource: document.getElementById('inputLightSource').value,
-        diffuser: document.getElementById('inputDiffuser').value,
-        cri: document.getElementById('inputCRI').value,
-        beam: document.getElementById('inputBeam').value,
-        cct: document.getElementById('inputCCT').value,
-        bio: document.getElementById('inputBio').value,
         options: optionState,
         solar: solarState,
         prodImg: document.getElementById('previewProdImg').getAttribute('src') || '',
         drawingImg: document.getElementById('previewDrawingImg').getAttribute('src') || '',
         variants: variants
-      };
+      });
       return state;
     }
 
@@ -2782,15 +2870,16 @@
     }
 
     function applyFormState(state) {
-      if (state.model) document.getElementById('inputModel').value = state.model;
-      if (state.nameTr) document.getElementById('inputNameTr').value = state.nameTr;
-      if (state.nameEn) document.getElementById('inputNameEn').value = state.nameEn;
-      if (state.mainLogo) document.getElementById('inputMainLogo').value = state.mainLogo;
+      // Kayıtta olan her alan (boş olsa bile) yazılır; önceki formdan değer taşınmaz
+      Object.entries(FORM_FIELDS).forEach(([key, id]) => {
+        if (state[key] !== undefined) document.getElementById(id).value = state[key];
+      });
 
       if (state.mechanical) {
         MECH_DEFINITIONS.forEach(def => {
           const item = state.mechanical[def.key];
-          if (item) setMechPropState(def.key, item.enabled, item.val);
+          // Kayıtta olmayan özellik kapalı sayılır (önceki formdan taşınmaz)
+          setMechPropState(def.key, item ? item.enabled : false, item ? item.val : undefined);
         });
       } else {
         // Fallback legacy draft
@@ -2802,19 +2891,6 @@
         if (state.fire && state.fire !== '-') setMechPropState('fire', true, state.fire);
       }
 
-      if (state.volt) document.getElementById('inputVolt').value = state.volt;
-      if (state.freq) document.getElementById('inputFreq').value = state.freq;
-      if (state.classVal) document.getElementById('inputClass').value = state.classVal;
-      if (state.life) document.getElementById('inputLife').value = state.life;
-      if (state.pf) document.getElementById('inputPF').value = state.pf;
-      if (state.temp) document.getElementById('inputTemp').value = state.temp;
-      if (state.standards) document.getElementById('inputStandards').value = state.standards;
-      if (state.lightSource) document.getElementById('inputLightSource').value = state.lightSource;
-      if (state.diffuser) document.getElementById('inputDiffuser').value = state.diffuser;
-      if (state.cri) document.getElementById('inputCRI').value = state.cri;
-      if (state.beam) document.getElementById('inputBeam').value = state.beam;
-      if (state.cct) document.getElementById('inputCCT').value = state.cct;
-      if (state.bio) document.getElementById('inputBio').value = state.bio;
       // Eski taslaklar opsiyonları üst seviyede (dali, opt110, ...) tutuyordu
       const savedOptions = state.options || state;
       OPTION_DEFINITIONS.forEach(def => {
@@ -2823,8 +2899,9 @@
 
       if (state.solar) {
         SOLAR_DEFINITIONS.forEach(def => {
-          if (state.solar[def.key] !== undefined) document.getElementById('input_solar_' + def.key).value = state.solar[def.key];
+          document.getElementById('input_solar_' + def.key).value = state.solar[def.key] !== undefined ? state.solar[def.key] : '';
         });
+        document.getElementById('input_solar_title').value = state.solar.title || 'solar';
       }
       setSolarState(state.solar ? state.solar.enabled : false);
       if (state.variants && state.variants.length > 0) variants = state.variants;
