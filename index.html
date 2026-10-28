@@ -1482,7 +1482,10 @@
           </div>
 
           <div class="card-box">
-            <div class="card-title">Opsiyonlar (Varsa yazın, yoksa '-' kalabilir)</div>
+            <div class="card-title">
+              <span>Opsiyonlar</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Boş veya "-" olanlar formda gizlenir</span>
+            </div>
             <div class="form-row">
               <div class="form-group">
                 <label>DALI Dim</label>
@@ -1495,12 +1498,108 @@
             </div>
             <div class="form-row">
               <div class="form-group">
+                <label>Step DIM</label>
+                <input type="text" id="inputOptStep" value="-" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Elektriksel Sınıf (Protection)</label>
+                <input type="text" id="inputOptProt" value="-" oninput="updateView()">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
                 <label>1 Saat Acil Kit</label>
                 <input type="text" id="inputOpt1h" value="-" oninput="updateView()">
               </div>
               <div class="form-group">
                 <label>3 Saat Acil Kit</label>
                 <input type="text" id="inputOpt3h" value="-" oninput="updateView()">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Radar Sensör (Microwave)</label>
+                <input type="text" id="inputOptSensor" value="-" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>UGR&lt;19 Difüzör</label>
+                <input type="text" id="inputOptUgr" value="-" oninput="updateView()">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Şarj Tipi</label>
+                <input type="text" id="inputOptCharging" value="-" placeholder="Örn: Type-C Charging" oninput="updateView()">
+              </div>
+              <div class="form-group">
+                <label>Pil Ömrü</label>
+                <input type="text" id="inputOptBatLife" value="-" placeholder="Örn: 4-8 hours" oninput="updateView()">
+              </div>
+            </div>
+          </div>
+
+          <div class="card-box">
+            <div class="card-title">
+              <span>Solar Enerji Özellikleri</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Sadece solar ürünlerde açın</span>
+            </div>
+            <div class="mech-prop-card disabled" id="card_solar">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_solar" onchange="toggleSolarSection()">
+                  <span>Solar ürün (bölümü forma ekle)</span>
+                </label>
+              </div>
+              <div id="wrap_solar" style="display:none; margin-top: 8px;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Şarj/Deşarj Süresi</label>
+                    <input type="text" id="input_solar_time" value="6-8H / 12-24H" placeholder="Örn: 6-8H / 12-24H" oninput="updateView()">
+                  </div>
+                  <div class="form-group">
+                    <label>Güneş Paneli</label>
+                    <input type="text" id="input_solar_panel" list="list_solar_panel" value="Tek Kristalli" oninput="updateView()">
+                    <datalist id="list_solar_panel">
+                      <option value="Tek Kristalli">
+                      <option value="Çok Kristalli">
+                      <option value="Monocrystalline">
+                      <option value="Polycrystalline">
+                    </datalist>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Şarj Kontrol Cihazı</label>
+                    <input type="text" id="input_solar_controller" list="list_solar_controller" value="PWM" oninput="updateView()">
+                    <datalist id="list_solar_controller">
+                      <option value="PWM">
+                      <option value="MPPT">
+                    </datalist>
+                  </div>
+                  <div class="form-group">
+                    <label>Batarya Tipi</label>
+                    <input type="text" id="input_solar_battery" list="list_solar_battery" value="LiFePO4" oninput="updateView()">
+                    <datalist id="list_solar_battery">
+                      <option value="LiFePO4">
+                      <option value="Li-ion">
+                      <option value="Ni-MH">
+                    </datalist>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Batarya Gerilimi</label>
+                    <input type="text" id="input_solar_voltage" value="3.2V 4400mAh" placeholder="Örn: 3.2V 4400mAh" oninput="updateView()">
+                  </div>
+                  <div class="form-group">
+                    <label>Fotosel</label>
+                    <input type="text" id="input_solar_photocell" list="list_solar_photocell" value="Yes" oninput="updateView()">
+                    <datalist id="list_solar_photocell">
+                      <option value="Yes">
+                      <option value="No">
+                    </datalist>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1691,38 +1790,27 @@
               </table>
             </div>
 
-            <!-- Options -->
-            <div class="ubf-spec-block">
-              <div class="ubf-spec-head">
-                <div class="ubf-spec-head-en">Options</div>
-                <div class="ubf-spec-head-tr">Opsiyonlar</div>
+            <!-- Options + Solar (Sağ sütun: sadece dolu satırlar gösterilir) -->
+            <div>
+              <div class="ubf-spec-block" id="sectionOptions">
+                <div class="ubf-spec-head">
+                  <div class="ubf-spec-head-en">Options</div>
+                  <div class="ubf-spec-head-tr">Opsiyonlar</div>
+                </div>
+                <table class="ubf-table">
+                  <tbody id="viewOptionRows"></tbody>
+                </table>
               </div>
-              <table class="ubf-table">
-                <tr>
-                  <td class="label-col">DALI</td>
-                  <td class="value-col" id="viewOptDali">-</td>
-                </tr>
-                <tr>
-                  <td class="label-col">1-10V</td>
-                  <td class="value-col" id="viewOpt110">-</td>
-                </tr>
-                <tr>
-                  <td class="label-col">Step DIM</td>
-                  <td class="value-col" id="viewOptStep">-</td>
-                </tr>
-                <tr>
-                  <td class="label-col">1hour Emergency Kit / 1 Saat Acil Kit</td>
-                  <td class="value-col" id="viewOpt1h">-</td>
-                </tr>
-                <tr>
-                  <td class="label-col">3hour Emergency Kit / 3 Saat Acil Kit</td>
-                  <td class="value-col" id="viewOpt3h">-</td>
-                </tr>
-                <tr>
-                  <td class="label-col">Electrical Protection / Elektriksel Sınıf</td>
-                  <td class="value-col" id="viewOptProt">-</td>
-                </tr>
-              </table>
+
+              <div class="ubf-spec-block" id="sectionSolar" style="display:none;">
+                <div class="ubf-spec-head">
+                  <div class="ubf-spec-head-en">Solar Energy Specifications</div>
+                  <div class="ubf-spec-head-tr">Solar Enerji Özellikleri</div>
+                </div>
+                <table class="ubf-table">
+                  <tbody id="viewSolarRows"></tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -2136,6 +2224,67 @@
       tbody.innerHTML = html;
     }
 
+    const OPTION_DEFINITIONS = [
+      { key: 'dali', id: 'inputOptDali', label: 'DALI' },
+      { key: 'opt110', id: 'inputOpt110', label: '1-10V' },
+      { key: 'step', id: 'inputOptStep', label: 'Step DIM' },
+      { key: 'opt1h', id: 'inputOpt1h', label: '1hour Emergency Kit / 1 Saat Acil Kit' },
+      { key: 'opt3h', id: 'inputOpt3h', label: '3hour Emergency Kit / 3 Saat Acil Kit' },
+      { key: 'prot', id: 'inputOptProt', label: 'Electrical Protection / Elektriksel Sınıf' },
+      { key: 'sensor', id: 'inputOptSensor', label: 'Microwave Sensor / Radar Sensör' },
+      { key: 'charging', id: 'inputOptCharging', label: 'Charging Type / Şarj Tipi' },
+      { key: 'batLife', id: 'inputOptBatLife', label: 'Battery Life / Pil Ömrü' },
+      { key: 'ugr', id: 'inputOptUgr', label: 'UGR&lt;19 Diffuser / UGR&lt;19 Difüzör' }
+    ];
+
+    const SOLAR_DEFINITIONS = [
+      { key: 'time', label: 'Charge/Discharge Time / Şarj/Deşarj Süresi' },
+      { key: 'panel', label: 'Solar Panel / Güneş Paneli' },
+      { key: 'controller', label: 'Charge Controller / Şarj Kontrol Cihazı' },
+      { key: 'battery', label: 'Battery Type / Batarya Tipi' },
+      { key: 'voltage', label: 'Battery Voltage / Batarya Gerilimi' },
+      { key: 'photocell', label: 'Photocell / Fotosel' }
+    ];
+
+    function buildSpecRows(defs, getInput) {
+      let html = '';
+      defs.forEach(def => {
+        const inp = getInput(def);
+        const val = inp ? inp.value.trim() : '';
+        if (val && val !== '-') {
+          html += `<tr><td class="label-col">${def.label}</td><td class="value-col">${val}</td></tr>`;
+        }
+      });
+      return html;
+    }
+
+    function renderOptionRows() {
+      const html = buildSpecRows(OPTION_DEFINITIONS, def => document.getElementById(def.id));
+      document.getElementById('viewOptionRows').innerHTML = html;
+      document.getElementById('sectionOptions').style.display = html ? 'block' : 'none';
+    }
+
+    function setSolarState(enabled) {
+      document.getElementById('chk_solar').checked = !!enabled;
+      document.getElementById('card_solar').classList.toggle('disabled', !enabled);
+      document.getElementById('wrap_solar').style.display = enabled ? 'block' : 'none';
+    }
+
+    function toggleSolarSection() {
+      setSolarState(document.getElementById('chk_solar').checked);
+      updateView();
+    }
+
+    function renderSolarRows() {
+      const enabled = document.getElementById('chk_solar').checked;
+      const html = enabled ? buildSpecRows(SOLAR_DEFINITIONS, def => document.getElementById('input_solar_' + def.key)) : '';
+      document.getElementById('viewSolarRows').innerHTML = html;
+      const section = document.getElementById('sectionSolar');
+      section.style.display = html ? 'block' : 'none';
+      // Opsiyonlar da görünüyorsa araya boşluk bırak
+      section.style.marginTop = document.getElementById('sectionOptions').style.display !== 'none' ? '14px' : '0';
+    }
+
     function updateView() {
       // Titles
       document.getElementById('viewProdNameTr').innerText = document.getElementById('inputNameTr').value;
@@ -2164,11 +2313,9 @@
       document.getElementById('viewBio').innerText = document.getElementById('inputBio').value;
       document.getElementById('viewBeam').innerText = document.getElementById('inputBeam').value;
 
-      // Options
-      document.getElementById('viewOptDali').innerText = document.getElementById('inputOptDali').value;
-      document.getElementById('viewOpt110').innerText = document.getElementById('inputOpt110').value;
-      document.getElementById('viewOpt1h').innerText = document.getElementById('inputOpt1h').value;
-      document.getElementById('viewOpt3h').innerText = document.getElementById('inputOpt3h').value;
+      // Options & Solar (Boş veya '-' olan satırlar gizlenir)
+      renderOptionRows();
+      renderSolarRows();
 
       // Conditional Technical Drawing Section (Varsa görünür, yoksa başlık ve kutu tamamen gizlenir)
       const drawImg = document.getElementById('previewDrawingImg');
@@ -2232,6 +2379,8 @@
       document.getElementById('inputNameTr').value = '';
       document.getElementById('inputNameEn').value = '';
       applyMechPreset('panel');
+      OPTION_DEFINITIONS.forEach(def => { document.getElementById(def.id).value = '-'; });
+      setSolarState(false);
       document.getElementById('inputVolt').value = '220-240Vac';
       document.getElementById('inputFreq').value = '50-60Hz';
       document.getElementById('inputClass').value = 'Class II';
@@ -2266,6 +2415,16 @@
         };
       });
 
+      const optionState = {};
+      OPTION_DEFINITIONS.forEach(def => {
+        optionState[def.key] = document.getElementById(def.id).value;
+      });
+
+      const solarState = { enabled: document.getElementById('chk_solar').checked };
+      SOLAR_DEFINITIONS.forEach(def => {
+        solarState[def.key] = document.getElementById('input_solar_' + def.key).value;
+      });
+
       const state = {
         model: document.getElementById('inputModel').value,
         nameTr: document.getElementById('inputNameTr').value,
@@ -2285,10 +2444,8 @@
         beam: document.getElementById('inputBeam').value,
         cct: document.getElementById('inputCCT').value,
         bio: document.getElementById('inputBio').value,
-        dali: document.getElementById('inputOptDali').value,
-        opt110: document.getElementById('inputOpt110').value,
-        opt1h: document.getElementById('inputOpt1h').value,
-        opt3h: document.getElementById('inputOpt3h').value,
+        options: optionState,
+        solar: solarState,
         variants: variants
       };
       localStorage.setItem('ubf_saved_draft', JSON.stringify(state));
@@ -2332,10 +2489,18 @@
         if (state.beam) document.getElementById('inputBeam').value = state.beam;
         if (state.cct) document.getElementById('inputCCT').value = state.cct;
         if (state.bio) document.getElementById('inputBio').value = state.bio;
-        if (state.dali) document.getElementById('inputOptDali').value = state.dali;
-        if (state.opt110) document.getElementById('inputOpt110').value = state.opt110;
-        if (state.opt1h) document.getElementById('inputOpt1h').value = state.opt1h;
-        if (state.opt3h) document.getElementById('inputOpt3h').value = state.opt3h;
+        // Eski taslaklar opsiyonları üst seviyede (dali, opt110, ...) tutuyordu
+        const savedOptions = state.options || state;
+        OPTION_DEFINITIONS.forEach(def => {
+          if (savedOptions[def.key] !== undefined) document.getElementById(def.id).value = savedOptions[def.key];
+        });
+
+        if (state.solar) {
+          SOLAR_DEFINITIONS.forEach(def => {
+            if (state.solar[def.key] !== undefined) document.getElementById('input_solar_' + def.key).value = state.solar[def.key];
+          });
+        }
+        setSolarState(state.solar ? state.solar.enabled : false);
         if (state.variants && state.variants.length > 0) variants = state.variants;
         return true;
       } catch (e) {
