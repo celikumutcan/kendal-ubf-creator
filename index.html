@@ -1238,9 +1238,9 @@
 
       <!-- ORTAK KLASÖR: UBF'ler ürün koduyla JSON olarak saklanır, herkes açıp devam edebilir -->
       <div class="shared-bar">
-        <span id="sharedStatus" class="shared-status">📁 Ortak klasör bağlı değil</span>
+        <span id="sharedStatus" class="shared-status warn">📁 Ortak klasör bağlı değil — kayıtlar sadece bu bilgisayarda kalır</span>
         <div class="shared-actions">
-          <button class="btn btn-secondary btn-sm" id="sharedConnectBtn" onclick="connectSharedFolder()">📁 Klasörü Bağla</button>
+          <button class="btn btn-success btn-sm" id="sharedConnectBtn" onclick="connectSharedFolder()">📁 Klasörü Bağla</button>
           <button class="btn btn-secondary btn-sm" onclick="showSharedList()">📋 Kayıtlı UBF'ler</button>
           <button class="btn btn-success btn-sm" onclick="saveToSharedFolder()" title="Ctrl+S">💾 Kaydet</button>
           <button class="btn btn-secondary btn-sm" onclick="document.getElementById('helpModal').classList.add('open')">❓ Nasıl?</button>
@@ -2120,23 +2120,45 @@
   </div>
 
   <!-- KULLANIM KILAVUZU -->
-  <div id="helpModal" class="shared-modal no-print" onclick="if (event.target === this) this.classList.remove('open')">
+  <div id="helpModal" class="shared-modal no-print" onclick="if (event.target === this) closeHelp()">
     <div class="shared-modal-box">
       <div class="shared-modal-head">
-        <span>❓ Ortak Klasör Nasıl Kullanılır?</span>
-        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('helpModal').classList.remove('open')">✕</button>
+        <span>❓ Ürün Bilgi Formu Oluşturucu — Nasıl Kullanılır?</span>
+        <button class="btn btn-secondary btn-sm" onclick="closeHelp()">✕</button>
       </div>
       <div class="help-body">
-        <h4>1. İlk sefer (kişi başı bir kez)</h4>
+        <h4>👋 İlk kullanım (kişi başı bir kez)</h4>
         <ol>
           <li>Siteyi <strong>Google Chrome</strong> veya <strong>Microsoft Edge</strong> ile açın.</li>
           <li><strong>📁 Klasörü Bağla</strong>'ya basın.</li>
           <li>Açılan pencerenin üstteki adres çubuğuna ortak UBF klasörünün yolunu yapıştırıp Enter'a basın, <strong>Klasörü seç</strong> deyin.<br>
-            <small>(Yol ekibe iletildi; ortak klasördeki "NASIL KULLANILIR" dosyasında da yazıyor.)</small></li>
+            <small>(Klasör yolu size <strong>e-posta ile iletildi</strong>. Bulamazsanız Umutcan Çelik'e sorun.)</small></li>
           <li>Tarayıcı izin sorarsa <strong>Dosyaları düzenle / İzin ver</strong> deyin.</li>
         </ol>
 
-        <h4>2. Her gün</h4>
+        <h4>Form nasıl doldurulur?</h4>
+        <ol>
+          <li>Üstteki aramaya <strong>ürün kodunu</strong> yazıp listeden seçin. Ad, marka, fotoğraf ve watt/lümen bilgileri kendiliğinden gelir.</li>
+          <li>Soldaki sekmeleri sırayla gezin:
+            <ul>
+              <li><strong>1. Başlık &amp; Resim:</strong> marka logosu, ürün adı, fotoğraf (sürükle-bırak).</li>
+              <li><strong>2. Mekanik &amp; Elektrik:</strong> üstteki hazır şablonlardan birini seçin (Projektör, Panel, Bant), sonra ürüne uyan kutuları işaretleyip değerleri düzeltin.</li>
+              <li><strong>3. Optik &amp; Opsiyon:</strong> optik değerler, opsiyonlar; solar/şarjlı ürünlerde Solar bölümünü açın.</li>
+              <li><strong>4. Çizim &amp; Boyut:</strong> varsa teknik çizimi yükleyin.</li>
+              <li><strong>5. Tablo Satırları:</strong> her varyant için güç, lümen, renk sıcaklığı… <em>Enerji sınıfı buradan otomatik hesaplanır.</em></li>
+            </ul>
+          </li>
+          <li>Sağdaki önizleme anında güncellenir. <strong>Boş bırakılan alanlar formda görünmez</strong>, "-" yazmanıza gerek yoktur.</li>
+        </ol>
+
+        <h4>PDF nasıl alınır?</h4>
+        <ol>
+          <li>Sağ üstteki <strong>PDF Olarak Kaydet (Yazdır)</strong>'a basın.</li>
+          <li>Hedef: <strong>PDF olarak kaydet</strong> · Kenar boşlukları: <strong>Varsayılan</strong> · Ölçek: <strong>Varsayılan</strong>.</li>
+          <li>"Diğer ayarlar"da <strong>Arka plan grafikleri</strong> işaretli olsun (renkler için). <strong>Kaydet</strong>'e basın.</li>
+        </ol>
+
+        <h4>Her gün</h4>
         <ul>
           <li>Sayfaya ilk tıkladığınızda izin sorulursa <strong>"Her ziyarette izin ver"</strong> seçin; bir daha sorulmaz.</li>
           <li>Üstteki aramaya ürün kodunu yazın. <span class="ok">💾 Kayıtlı</span> rozeti olan ürünlerde form <strong>kaldığı yerden</strong> açılır, olmayanlarda katalogdan gelir.</li>
@@ -2144,7 +2166,7 @@
           <li>Bitince <strong>PDF Olarak Kaydet (Yazdır)</strong> ile PDF alın.</li>
         </ul>
 
-        <h4>3. Sarı uyarı görürseniz</h4>
+        <h4>Sarı uyarı görürseniz</h4>
         <ul>
           <li><span class="warn">⚠️ Kayıtlı form var, otomatik kaydedilmedi</span>: Bu ürünün daha önce yapılmış formu var. Genelde <strong>"Kayıtlı formu aç"</strong> doğru seçimdir.</li>
           <li><span class="warn">⚠️ Başka biri tarafından değiştirildi</span>: Siz çalışırken bir başkası aynı formu kaydetti. <strong>"Güncel hali aç"</strong> ile onun halini alın ya da <strong>"Benimkiyle değiştir"</strong> ile kendi halinizi yazın.</li>
@@ -3005,6 +3027,13 @@
     function updateSharedStatus(message) {
       const el = document.getElementById('sharedStatus');
       const btn = document.getElementById('sharedConnectBtn');
+      btn.className = 'btn btn-sm ' + (sharedDir ? 'btn-secondary' : 'btn-success');
+      if (!window.showDirectoryPicker) {
+        el.className = 'shared-status warn';
+        el.textContent = '⚠️ Bu tarayıcı ortak klasörü desteklemiyor — siteyi Google Chrome veya Microsoft Edge ile açın';
+        btn.disabled = true;
+        return;
+      }
       if (sharedDir) {
         el.className = 'shared-status ok';
         el.innerHTML = message || `📁 <strong>${escapeHtml(sharedDir.name)}</strong> · ${sharedIndex.size} kayıtlı UBF`;
@@ -3035,6 +3064,7 @@
     }
 
     async function restoreSharedFolder() {
+      updateSharedStatus();
       if (!window.showDirectoryPicker || !window.indexedDB) return;
       try {
         sharedOpenedFile = JSON.parse(localStorage.getItem('ubf_shared_owner') || 'null');
@@ -3263,6 +3293,11 @@
       }
     }
 
+    function closeHelp() {
+      document.getElementById('helpModal').classList.remove('open');
+      try { localStorage.setItem('ubf_help_seen', '1'); } catch (e) {}
+    }
+
     function closeSharedList() {
       document.getElementById('sharedListModal').classList.remove('open');
     }
@@ -3288,7 +3323,7 @@
       }
       if (e.key === 'Escape') {
         closeSharedList();
-        document.getElementById('helpModal').classList.remove('open');
+        closeHelp();
       }
     });
 
@@ -3308,6 +3343,10 @@
       // Yazı tipi geç yüklenirse yükseklikler değişir; sayfalamayı tekrar hesapla
       if (document.fonts) document.fonts.ready.then(paginatePages);
       restoreSharedFolder();
+      // İlk kez gelen kullanıcıya kılavuzu göster
+      let seen = false;
+      try { seen = !!localStorage.getItem('ubf_help_seen'); } catch (e) {}
+      if (!seen) document.getElementById('helpModal').classList.add('open');
     };
   </script>
 </body>
