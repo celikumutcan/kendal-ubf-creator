@@ -45,6 +45,7 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
   - `/* A4 PREVIEW CONTAINER */`: Sağ sütundaki canlı A4 kağıt önizleme alanı.
   - `/* PRINT STYLES */`: `@media print` kuralları ile tarayıcı yazdırma görünümü.
   - `<script>` bloğu: Form senkronizasyonu, `localStorage` oto-kayıt, EU 2019/2015 enerji etiketi hesaplama motoru, JSON import/export, dinamik mekanik özellik butonları.
+  - Ortak klasör kaydı (File System Access API): UBF'ler ortak ağ klasörüne `<ÜRÜN KODU>.json` olarak yazılır/okunur; klasör izni IndexedDB'de saklanır. Form durumu `collectFormState()` / `applyFormState()` ile tek yerden toplanır — yeni bir alan eklerken bu ikisine de eklenmelidir. İç ağ adresleri (IP, paylaşım yolu) bu herkese açık repoya yazılmamalıdır.
 
 - **`catalog.js`**:
   - `window.PRODUCT_CATALOG = [...]`: 353 adet hazır ürünün kod, ad, watt, lümen, voltaj, ebat ve resim yolu verileri.

@@ -78,6 +78,12 @@ Projektörlerden spotlara kadar 10 farklı mekanik parametre sunulur:
 - Yapılan tüm düzenlemeler anlık olarak tarayıcı hafızasına (`localStorage`) kaydedilir.
 - İstenirse form bir JSON dosyası olarak bilgisayara indirilebilir (`💾 Taslağı İndir`) veya önceki taslak yüklenebilir (`📂 Taslak Yükle`).
 
+### 9. 📁 Ortak Klasör (Ekipçe Kaldığı Yerden Devam)
+- Sol paneldeki **📁 Klasörü Bağla** ile şirketin ortak ağ klasörü bir kez seçilir (Chrome/Edge). Tarayıcı seçimi hatırlar; yeni oturumda **🔓 İzin Ver** demek yeterlidir.
+- **💾 Kaydet** (veya `Ctrl+S`) formu `<ÜRÜN KODU>.json` olarak klasöre yazar (fotoğraf ve teknik çizim dahil).
+- Ürün kodu aratıldığında kayıtlı UBF varsa **💾 Kayıtlı** rozeti çıkar ve form kaldığı yerden açılır. Tüm kayıtlar **📋 Kayıtlı UBF'ler** listesinden de açılabilir.
+- Başka biri dosyayı siz açtıktan sonra değiştirdiyse kaydederken uyarı verilir.
+
 ---
 
 ## 📂 Dosya ve Dizin Yapısı
