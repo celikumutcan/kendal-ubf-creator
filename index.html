@@ -1269,6 +1269,7 @@
             <div class="form-group">
               <label>Marka Logosu</label>
               <select id="inputMainLogo" onchange="updateView()">
+                <option value="">-- Logo Yok (Boş) --</option>
                 <option value="images/brands/k2-logo.svg" selected>K2 LED Systems</option>
                 <option value="images/brands/global-logo.svg">Global Lighting</option>
                 <option value="images/brands/vanti-logo.svg">Vanti</option>
@@ -1615,6 +1616,7 @@
               <div class="form-group">
                 <label>Elektrik Sınıfı</label>
                 <select id="inputClass" onchange="updateView()">
+                  <option value="">-- Belirtilmemiş (Boş) --</option>
                   <option value="Class I">Class I (Topraklı)</option>
                   <option value="Class II" selected>Class II (Çift Yalıtımlı)</option>
                   <option value="Class III">Class III (SELV Düşük Gerilim)</option>
@@ -2340,7 +2342,9 @@
         brandLogo = 'images/brands/vanti-logo.svg';
       }
       document.getElementById('inputMainLogo').value = brandLogo;
-      document.getElementById('previewMainLogo').src = resolveImg(brandLogo);
+      const previewMainLogoEl = document.getElementById('previewMainLogo');
+      previewMainLogoEl.src = resolveImg(brandLogo);
+      previewMainLogoEl.style.display = '';
 
       // Feature bullets: JSON veya siteden otomatik çekilmez, stajyer elle ne yazarsa o kalır
 
@@ -2812,7 +2816,15 @@
       document.getElementById('viewProdNameEn').innerText = document.getElementById('inputNameEn').value;
 
       // Logos
-      document.getElementById('previewMainLogo').src = resolveImg(document.getElementById('inputMainLogo').value);
+      const mainLogoVal = document.getElementById('inputMainLogo').value;
+      const previewMainLogo = document.getElementById('previewMainLogo');
+      if (mainLogoVal) {
+        previewMainLogo.src = resolveImg(mainLogoVal);
+        previewMainLogo.style.display = '';
+      } else {
+        previewMainLogo.src = '';
+        previewMainLogo.style.display = 'none';
+      }
 
       // Mechanical (Seçilen ve değeri olanlar forma eklenir, '-' olanlar otomatik gizlenir)
       renderMechanicalRows();
