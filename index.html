@@ -1025,6 +1025,11 @@
       text-align: left;
     }
 
+    /* Görseli olmayan üründe kırık resim simgesi basılmasın */
+    .a4-page img:not([src]) {
+      visibility: hidden;
+    }
+
     /* Technical Drawing Area */
     .ubf-drawing-box {
       height: 52px;
@@ -1570,6 +1575,19 @@
                 </datalist>
               </div>
             </div>
+
+            <!-- 13. Paket İçi Adet -->
+            <div class="mech-prop-card disabled" id="card_mech_boxqty">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_mech_boxqty" onchange="toggleMechProp('boxqty')">
+                  <span>Paket İçi Adet / Box Quantity</span>
+                </label>
+              </div>
+              <div class="mech-prop-input-wrap" id="wrap_mech_boxqty" style="display:none;">
+                <input type="text" id="input_mech_boxqty" value="1" placeholder="Örn: 2" oninput="updateView()">
+              </div>
+            </div>
           </div>
 
           <div class="card-box">
@@ -1822,6 +1840,50 @@
               </div>
             </div>
           </div>
+
+          <div class="card-box">
+            <div class="card-title">
+              <span>Performans Özellikleri</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Vantilatör, soğutucu vb. cihazlarda açın</span>
+            </div>
+            <div class="mech-prop-card disabled" id="card_perf">
+              <div class="mech-prop-card-header">
+                <label class="mech-check-label">
+                  <input type="checkbox" id="chk_perf" onchange="togglePerfSection()">
+                  <span>Performans bölümünü forma ekle</span>
+                </label>
+              </div>
+              <div id="wrap_perf" style="display:none; margin-top: 8px;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Soğutma Alanı</label>
+                    <input type="text" id="input_perf_area" value="" placeholder="Örn: 25-35m²" oninput="updateView()">
+                  </div>
+                  <div class="form-group">
+                    <label>Su Tankı Kapasitesi</label>
+                    <input type="text" id="input_perf_tank" value="" placeholder="Örn: 35L" oninput="updateView()">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Fan Hız Kademesi</label>
+                    <input type="text" id="input_perf_fanSpeed" value="" placeholder="Örn: 3 Kademe" oninput="updateView()">
+                  </div>
+                  <div class="form-group">
+                    <label>Zamanlayıcı</label>
+                    <input type="text" id="input_perf_timer" value="" placeholder="Örn: 7h" oninput="updateView()">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Soğutma Pedi</label>
+                    <input type="text" id="input_perf_pad" value="" placeholder="Örn: Petek Tipi" oninput="updateView()">
+                  </div>
+                  <div class="form-group"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- TAB 4: TEKNIK CIZIM & BOYUT -->
@@ -1848,8 +1910,16 @@
         <div id="tab-variants" class="tab-pane">
           <div class="card-box">
             <div class="card-title">
-              <span>Alt Tablo Satırları (Watt / Lümen / Kelvin)</span>
+              <span>Alt Tablo Satırları</span>
               <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="addVariantRow()">+ Satır Ekle</button>
+            </div>
+            <div class="form-group">
+              <label>Tablo Tipi (sütunlar)</label>
+              <select id="inputTableType" onchange="changeTableType(this.value)">
+                <option value="lighting">Armatür — Güç / Lümen / Renk Sıcaklığı</option>
+                <option value="driver">Trafo / Sürücü — Giriş / Çıkış Gerilimi / Çıkış Akımı</option>
+                <option value="appliance">Elektrikli Cihaz — Gerilim / Anma Akımı / Güç Faktörü</option>
+              </select>
             </div>
             <div id="variantListContainer">
               <!-- Dynamically populated rows -->
@@ -2040,6 +2110,15 @@
                 <tbody id="viewSolarRows"></tbody>
               </table>
             </div>
+            <div class="ubf-spec-block" id="blockPerformance">
+              <div class="ubf-spec-head">
+                <div class="ubf-spec-head-en">Performance Specifications</div>
+                <div class="ubf-spec-head-tr">Performans Özellikleri</div>
+              </div>
+              <table class="ubf-table">
+                <tbody id="viewPerfRows"></tbody>
+              </table>
+            </div>
           </div>
 
           <!-- Boş (gizli) spec blokları sıralama sırasında burada bekler -->
@@ -2064,17 +2143,8 @@
           <!-- 6. BOTTOM SKU / VARIANT TABLE -->
           <table class="ubf-bottom-table ubf-flow">
             <thead>
-              <tr>
-                <th>Code No<span class="th-sub">Ürün Kodu</span></th>
-                <th>Power<span class="th-sub">Güç (W)</span></th>
-                <th>Luminous Flux<span class="th-sub">Işık Akısı (lm)</span></th>
-                <th>Colour Temp.<span class="th-sub">Renk Sıcaklığı (K)</span></th>
-                <th>Efficacy Factor<span class="th-sub">Etkinlik (lm/W)</span></th>
-                <th>Dimensions<span class="th-sub">Boyutlar (cm)</span></th>
-                <th>Cut Size<span class="th-sub">Kesim (mm)</span></th>
-                <th>Pcs/Pack<span class="th-sub">Koli Adedi</span></th>
-                <th>Package Vol.<span class="th-sub">Hacim (m3)</span></th>
-                <th>Weight<span class="th-sub">Ağırlık (kg)</span></th>
+              <tr id="viewVariantHead">
+                <!-- Tablo tipine göre JS ile doldurulur (TABLE_TYPES) -->
               </tr>
             </thead>
             <tbody id="viewVariantTbody">
@@ -2294,6 +2364,7 @@
         { code: item.code, power: item.watt || '25W', lumen: item.lumen || '2000lm', cct: '4000K', eff: eff.toString(), dim: item.dimensions || '-', cut: '-', pcs: item.pieces || '10', vol: '-', weight: '-' },
         { code: item.code, power: item.watt || '25W', lumen: item.lumen || '2000lm', cct: '6500K', eff: eff.toString(), dim: item.dimensions || '-', cut: '-', pcs: item.pieces || '10', vol: '-', weight: '-' }
       ];
+      setTableType('lighting');
 
       renderVariantInputs();
       recalculateEnergyClass();
@@ -2352,51 +2423,74 @@
       document.getElementById('viewEnergy').innerText = energyClass;
     }
 
+    // Alt tablo sütunları ürün tipine göre değişir (armatür / trafo-sürücü / elektrikli cihaz)
+    const TABLE_TYPES = {
+      lighting: [
+        { key: 'code', en: 'Code No', tr: 'Ürün Kodu', input: 'Kod' },
+        { key: 'power', en: 'Power', tr: 'Güç (W)', input: 'Güç (W)' },
+        { key: 'lumen', en: 'Luminous Flux', tr: 'Işık Akısı (lm)', input: 'Lümen (lm)' },
+        { key: 'cct', en: 'Colour Temp.', tr: 'Renk Sıcaklığı (K)', input: 'Kelvin' },
+        { key: 'eff', en: 'Efficacy Factor', tr: 'Etkinlik (lm/W)', input: 'Etkinlik (lm/W)' },
+        { key: 'dim', en: 'Dimensions', tr: 'Boyutlar (cm)', input: 'Boyutlar' },
+        { key: 'cut', en: 'Cut Size', tr: 'Kesim (mm)', input: 'Kesim Ölçüsü' },
+        { key: 'pcs', en: 'Pcs/Pack', tr: 'Koli Adedi', input: 'Koli Adeti' },
+        { key: 'vol', en: 'Package Vol.', tr: 'Hacim (m3)', input: 'Koli Hacmi' },
+        { key: 'weight', en: 'Weight', tr: 'Ağırlık (kg)', input: 'Koli Ağırlığı' }
+      ],
+      driver: [
+        { key: 'code', en: 'Code No', tr: 'Ürün Kodu', input: 'Kod' },
+        { key: 'power', en: 'Power', tr: 'Güç (W)', input: 'Güç (W)' },
+        { key: 'inV', en: 'Input Voltage', tr: 'Giriş Gerilimi (V)', input: 'Giriş Gerilimi' },
+        { key: 'outV', en: 'Output Voltage', tr: 'Çıkış Gerilimi (V)', input: 'Çıkış Gerilimi' },
+        { key: 'outA', en: 'Output Current', tr: 'Çıkış Akımı (A)', input: 'Çıkış Akımı' },
+        { key: 'freq', en: 'Frequency', tr: 'Frekans (Hz)', input: 'Frekans' },
+        { key: 'dim', en: 'Dimensions', tr: 'Boyutlar (mm)', input: 'Boyutlar' },
+        { key: 'pcs', en: 'Pcs/Pack', tr: 'Koli Adedi', input: 'Koli Adeti' },
+        { key: 'vol', en: 'Package Vol.', tr: 'Hacim (m3)', input: 'Koli Hacmi' },
+        { key: 'weight', en: 'Weight', tr: 'Ağırlık (kg)', input: 'Koli Ağırlığı' }
+      ],
+      appliance: [
+        { key: 'code', en: 'Code No', tr: 'Ürün Kodu', input: 'Kod' },
+        { key: 'power', en: 'Power', tr: 'Güç (W)', input: 'Güç (W)' },
+        { key: 'inV', en: 'Input Voltage', tr: 'Giriş Gerilimi (V)', input: 'Giriş Gerilimi' },
+        { key: 'current', en: 'Rated Current', tr: 'Anma Akımı (A)', input: 'Anma Akımı' },
+        { key: 'pfVal', en: 'Power Factor', tr: 'Güç Faktörü', input: 'Güç Faktörü' },
+        { key: 'freq', en: 'Frequency', tr: 'Frekans (Hz)', input: 'Frekans' },
+        { key: 'dim', en: 'Dimensions', tr: 'Boyutlar (mm)', input: 'Boyutlar' },
+        { key: 'pcs', en: 'Pcs/Pack', tr: 'Koli Adedi', input: 'Koli Adeti' },
+        { key: 'vol', en: 'Package Vol.', tr: 'Hacim (m3)', input: 'Koli Hacmi' },
+        { key: 'weight', en: 'Weight', tr: 'Ağırlık (kg)', input: 'Koli Ağırlığı' }
+      ]
+    };
+    let tableType = 'lighting';
+
+    function setTableType(type) {
+      tableType = TABLE_TYPES[type] ? type : 'lighting';
+      document.getElementById('inputTableType').value = tableType;
+    }
+
+    function changeTableType(type) {
+      setTableType(type);
+      renderVariantInputs();
+      recalculateEnergyClass();
+      updateView();
+    }
+
     function renderVariantInputs() {
+      const cols = TABLE_TYPES[tableType];
       const container = document.getElementById('variantListContainer');
       container.innerHTML = variants.map((v, i) => `
         <div style="background:#0b1120; border:1px solid #334155; border-radius:6px; padding:10px; margin-bottom:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <strong style="color:#f8fafc; font-size:12px;">Satır #${i + 1} (${v.cct || v.code})</strong>
+            <strong style="color:#f8fafc; font-size:12px;">Satır #${i + 1} (${(tableType === 'lighting' && v.cct) || v.code})</strong>
             <button class="btn btn-secondary" style="padding:2px 6px; font-size:10px; color:#ef4444;" onclick="removeVariantRow(${i})">Sil</button>
           </div>
           <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px;">
+            ${cols.map(c => `
             <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Kod</label>
-              <input type="text" value="${v.code}" oninput="updateVariantVal(${i}, 'code', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Güç (W)</label>
-              <input type="text" value="${v.power}" oninput="updateVariantVal(${i}, 'power', this.value); recalculateEnergyClass();">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Lümen (lm)</label>
-              <input type="text" value="${v.lumen}" oninput="updateVariantVal(${i}, 'lumen', this.value); recalculateEnergyClass();">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Kelvin</label>
-              <input type="text" value="${v.cct}" oninput="updateVariantVal(${i}, 'cct', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Etkinlik (lm/W)</label>
-              <input type="text" value="${v.eff}" oninput="updateVariantVal(${i}, 'eff', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Boyutlar</label>
-              <input type="text" value="${v.dim}" oninput="updateVariantVal(${i}, 'dim', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Kesim Ölçüsü</label>
-              <input type="text" value="${v.cut}" oninput="updateVariantVal(${i}, 'cut', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Koli Adeti</label>
-              <input type="text" value="${v.pcs}" oninput="updateVariantVal(${i}, 'pcs', this.value)">
-            </div>
-            <div>
-              <label style="font-size:9.5px; margin-bottom:2px;">Koli Hacmi</label>
-              <input type="text" value="${v.vol}" oninput="updateVariantVal(${i}, 'vol', this.value)">
-            </div>
+              <label style="font-size:9.5px; margin-bottom:2px;">${c.input}</label>
+              <input type="text" value="${v[c.key] || ''}" oninput="updateVariantVal(${i}, '${c.key}', this.value)${c.key === 'power' || c.key === 'lumen' ? '; recalculateEnergyClass();' : ''}">
+            </div>`).join('')}
           </div>
         </div>
       `).join('');
@@ -2406,7 +2500,10 @@
 
     function addVariantRow() {
       const model = document.getElementById('inputModel').value || 'MODEL';
-      variants.push({ code: model, power: '25W', lumen: '2300lm', cct: '4000K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' });
+      const row = tableType === 'lighting'
+        ? { code: model, power: '25W', lumen: '2300lm', cct: '4000K', eff: '92', dim: '30*30', cut: '-', pcs: '10', vol: '20', weight: '-' }
+        : Object.fromEntries(TABLE_TYPES[tableType].map(c => [c.key, c.key === 'code' ? model : '-']));
+      variants.push(row);
       renderVariantInputs();
       saveToLocalStorage();
     }
@@ -2425,20 +2522,11 @@
     }
 
     function renderVariantTable() {
+      const cols = TABLE_TYPES[tableType];
+      document.getElementById('viewVariantHead').innerHTML = cols.map(c => `<th>${c.en}<span class="th-sub">${c.tr}</span></th>`).join('');
       const tbody = document.getElementById('viewVariantTbody');
       tbody.innerHTML = variants.map(v => `
-        <tr>
-          <td><strong>${v.code || '-'}</strong></td>
-          <td>${v.power || '-'}</td>
-          <td>${v.lumen || '-'}</td>
-          <td>${v.cct || '-'}</td>
-          <td>${v.eff || '-'}</td>
-          <td>${v.dim || '-'}</td>
-          <td>${v.cut || '-'}</td>
-          <td>${v.pcs || '-'}</td>
-          <td>${v.vol || '-'}</td>
-          <td>${v.weight || '-'}</td>
-        </tr>
+        <tr>${cols.map(c => c.key === 'code' ? `<td><strong>${v.code || '-'}</strong></td>` : `<td>${v[c.key] || '-'}</td>`).join('')}</tr>
       `).join('');
       paginatePages();
     }
@@ -2455,7 +2543,8 @@
       { key: 'fire', label: 'Fire Protection / Alev Koruması' },
       { key: 'length', label: 'Body Length / Gövde Boyu' },
       { key: 'stdlength', label: 'Standard Length / Standart Uzunluk' },
-      { key: 'lampbase', label: 'Lamp Base / Duy Tipi' }
+      { key: 'lampbase', label: 'Lamp Base / Duy Tipi' },
+      { key: 'boxqty', label: 'Box Quantity / Paket İçi Adet' }
     ];
 
     function toggleMechProp(key) {
@@ -2580,6 +2669,14 @@
       { key: 'replaceable', label: 'Replaceable / Değiştirilebilir' }
     ];
 
+    const PERFORMANCE_DEFINITIONS = [
+      { key: 'area', label: 'Cooling Area / Soğutma Alanı' },
+      { key: 'tank', label: 'Water Tank Capacity / Su Tankı Kapasitesi' },
+      { key: 'fanSpeed', label: 'Fan Speed Levels / Fan Hız Kademesi' },
+      { key: 'timer', label: 'Timer / Zamanlayıcı' },
+      { key: 'pad', label: 'Cooling Pad / Soğutma Pedi' }
+    ];
+
     function buildSpecRows(defs, getInput) {
       let html = '';
       defs.forEach(def => {
@@ -2617,6 +2714,23 @@
       section.style.display = html ? 'grid' : 'none';
     }
 
+    function setPerfState(enabled) {
+      document.getElementById('chk_perf').checked = !!enabled;
+      document.getElementById('card_perf').classList.toggle('disabled', !enabled);
+      document.getElementById('wrap_perf').style.display = enabled ? 'block' : 'none';
+    }
+
+    function togglePerfSection() {
+      setPerfState(document.getElementById('chk_perf').checked);
+      updateView();
+    }
+
+    function renderPerfRows() {
+      const enabled = document.getElementById('chk_perf').checked;
+      document.getElementById('viewPerfRows').innerHTML = enabled
+        ? buildSpecRows(PERFORMANCE_DEFINITIONS, def => document.getElementById('input_perf_' + def.key)) : '';
+    }
+
     // Optik / Elektrik gibi sabit tablolarda boş veya '-' satırları gizle; satırı kalmayan blok ve sırayı da gizle
     function hideEmptySpecRows() {
       document.querySelectorAll('.a4-page .ubf-table tr').forEach(tr => {
@@ -2633,7 +2747,7 @@
 
     // Görünen spec bloklarını sırayla ikişer ikişer satırlara diz: boş blok atlanır, sıradaki onun yerine geçer
     // (yan yana bloklar her zaman aynı hizada başlar, sağda boş delik kalmaz)
-    const SPEC_BLOCK_ORDER = ['blockMech', 'blockOptical', 'blockElectrical', 'sectionOptions', 'blockSolar'];
+    const SPEC_BLOCK_ORDER = ['blockMech', 'blockOptical', 'blockElectrical', 'sectionOptions', 'blockSolar', 'blockPerformance'];
     const SPEC_ROW_IDS = ['specsRow1', 'specsRow2', 'sectionSolar'];
     function arrangeSpecBlocks() {
       const blocks = SPEC_BLOCK_ORDER.map(id => document.getElementById(id));
@@ -2727,6 +2841,7 @@
       // Options & Solar (Boş veya '-' olan satırlar gizlenir)
       renderOptionRows();
       renderSolarRows();
+      renderPerfRows();
       const isBattery = document.getElementById('input_solar_title').value === 'battery';
       document.getElementById('viewSolarHeadEn').innerText = isBattery ? 'Battery Specifications' : 'Solar Energy Specifications';
       document.getElementById('viewSolarHeadTr').innerText = isBattery ? 'Batarya Özellikleri' : 'Solar Enerji Özellikleri';
@@ -2801,6 +2916,8 @@
       OPTION_DEFINITIONS.forEach(def => { document.getElementById(def.id).value = '-'; });
       ['inputPower', 'inputLens', 'inputReflector'].forEach(id => { document.getElementById(id).value = ''; });
       setSolarState(false);
+      setPerfState(false);
+      setTableType('lighting');
       document.getElementById('inputVolt').value = '220-240Vac';
       document.getElementById('inputFreq').value = '50-60Hz';
       document.getElementById('inputClass').value = 'Class II';
@@ -2858,6 +2975,11 @@
         solarState[def.key] = document.getElementById('input_solar_' + def.key).value;
       });
 
+      const perfState = { enabled: document.getElementById('chk_perf').checked };
+      PERFORMANCE_DEFINITIONS.forEach(def => {
+        perfState[def.key] = document.getElementById('input_perf_' + def.key).value;
+      });
+
       const state = {};
       Object.entries(FORM_FIELDS).forEach(([key, id]) => {
         state[key] = document.getElementById(id).value;
@@ -2866,6 +2988,8 @@
         mechanical: mechState,
         options: optionState,
         solar: solarState,
+        performance: perfState,
+        tableType: tableType,
         prodImg: document.getElementById('previewProdImg').getAttribute('src') || '',
         drawingImg: document.getElementById('previewDrawingImg').getAttribute('src') || '',
         variants: variants
@@ -2927,8 +3051,18 @@
         document.getElementById('input_solar_title').value = state.solar.title || 'solar';
       }
       setSolarState(state.solar ? state.solar.enabled : false);
+      PERFORMANCE_DEFINITIONS.forEach(def => {
+        document.getElementById('input_perf_' + def.key).value = state.performance && state.performance[def.key] !== undefined ? state.performance[def.key] : '';
+      });
+      setPerfState(state.performance ? state.performance.enabled : false);
+      setTableType(state.tableType); // eski kayıtlarda yok → armatür tablosu
       if (state.variants && state.variants.length > 0) variants = state.variants;
-      if (state.prodImg) document.getElementById('previewProdImg').src = state.prodImg;
+      const prodImg = document.getElementById('previewProdImg');
+      if (state.prodImg) {
+        prodImg.src = state.prodImg;
+      } else if (state.prodImg === '') {
+        prodImg.removeAttribute('src'); // önceki ürünün görseli kalmasın
+      }
       const drawImg = document.getElementById('previewDrawingImg');
       if (state.drawingImg) {
         drawImg.src = state.drawingImg;
