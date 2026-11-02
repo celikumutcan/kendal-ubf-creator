@@ -48,7 +48,7 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
   - `<script>` bloğu: Form senkronizasyonu, `localStorage` oto-kayıt, EU 2019/2015 enerji etiketi hesaplama motoru, JSON import/export, dinamik mekanik özellik butonları.
   - Ortak klasör kaydı (File System Access API): UBF'ler ortak ağ klasörüne `<ÜRÜN KODU>.json` olarak yazılır/okunur; klasör izni IndexedDB'de saklanır. Form durumu `collectFormState()` / `applyFormState()` ile tek yerden toplanır — yeni bir düz alan `FORM_FIELDS`'e, mekanik/opsiyon/solar/performans alanı ilgili `*_DEFINITIONS` dizisine eklenmelidir.
   - Alt tablo sütunları `TABLE_TYPES`'tan gelir (`tableType`: `lighting` armatür, `driver` trafo/sürücü, `appliance` elektrikli cihaz); kayıtta `tableType` yoksa armatür tablosu kullanılır. Yeni ürün tipi gerekirse buraya yeni sütun listesi eklenir.
-  - Enerji sınıfı (`recalculateEnergyClass`): ηTM = lm / W × FTM; FTM şebeke gerilimli üründe 0,926, şebeke dışı / düşük gerilimde 1,000 (Kalite biriminin Excel hesaplayıcısıyla aynı, Giriş Gerilimi'nden otomatik seçilir). İç ağ adresleri (IP, paylaşım yolu) bu herkese açık repoya yazılmamalıdır.
+  - Enerji sınıfı (`recalculateEnergyClass`): ηTM = lm / W (katsayısız doğrudan etkinlik değeri üzerinden: A ≥210, B ≥185, C ≥160, D ≥135, E ≥110, F ≥85, G <85 lm/W). İç ağ adresleri (IP, paylaşım yolu) bu herkese açık repoya yazılmamalıdır.
 
 - **`catalog.js`**:
   - `window.PRODUCT_CATALOG = [...]`: 353 adet hazır ürünün kod, ad, watt, lümen, voltaj, ebat ve resim yolu verileri.

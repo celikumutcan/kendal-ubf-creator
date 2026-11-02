@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ürün Bilgi Formu Oluşturucu — Kendal & Global</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@400;700&display=swap"
+    rel="stylesheet">
   <script src="catalog.js"></script>
   <style>
     :root {
@@ -73,6 +76,7 @@
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
+
     .brand-icon-box:hover {
       border-color: rgba(56, 189, 248, 0.6);
       box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
@@ -149,10 +153,12 @@
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
     }
+
     .search-input::placeholder {
       color: #64748b;
       font-size: 12.5px;
     }
+
     .search-input:focus {
       border-color: #38bdf8;
       box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 6px 20px rgba(0, 0, 0, 0.35);
@@ -168,7 +174,8 @@
       pointer-events: none;
       transition: color 0.2s;
     }
-    .search-input:focus ~ .search-icon {
+
+    .search-input:focus~.search-icon {
       color: #38bdf8;
     }
 
@@ -213,18 +220,22 @@
       align-items: center;
       transition: background 0.15s;
     }
+
     .search-item:last-child {
       border-bottom: none;
     }
+
     .search-item:hover {
       background: rgba(56, 189, 248, 0.12);
     }
+
     .search-item-code {
       font-weight: 700;
       color: #38bdf8;
       font-size: 13px;
       letter-spacing: 0.3px;
     }
+
     .search-item-name {
       color: #cbd5e1;
       font-size: 12px;
@@ -261,6 +272,7 @@
       border-color: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(6px);
     }
+
     .btn-secondary:hover {
       background: rgba(51, 65, 85, 0.95);
       color: #ffffff;
@@ -268,6 +280,7 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+
     .btn-secondary:active {
       transform: translateY(0);
     }
@@ -277,6 +290,7 @@
       color: #f87171;
       border-color: rgba(239, 68, 68, 0.3);
     }
+
     .btn-danger-outline:hover {
       background: #ef4444;
       color: #ffffff;
@@ -284,6 +298,7 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
     }
+
     .btn-danger-outline:active {
       transform: translateY(0);
     }
@@ -295,12 +310,14 @@
       box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
       font-weight: 700;
     }
+
     .btn-success:hover {
       background: linear-gradient(135deg, #059669 0%, #047857 100%);
       border-color: rgba(52, 211, 153, 0.5);
       transform: translateY(-1px);
       box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
     }
+
     .btn-success:active {
       transform: translateY(0);
     }
@@ -346,32 +363,40 @@
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .shared-status {
       font-size: 11.5px;
       color: #94a3b8;
     }
+
     .shared-status strong {
       color: #e2e8f0;
     }
+
     .shared-status.ok {
       color: #4ade80;
     }
+
     .shared-status.warn {
       color: #fbbf24;
     }
+
     .shared-status a {
       color: #93c5fd;
       cursor: pointer;
       text-decoration: underline;
     }
+
     .shared-actions {
       display: flex;
       gap: 6px;
     }
+
     .btn-sm {
       padding: 4px 9px;
       font-size: 11.5px;
     }
+
     .saved-badge {
       font-size: 9.5px;
       font-weight: 700;
@@ -381,6 +406,7 @@
       padding: 1px 5px;
       margin-left: 6px;
     }
+
     .shared-modal {
       display: none;
       position: fixed;
@@ -391,9 +417,11 @@
       justify-content: center;
       padding-top: 10vh;
     }
+
     .shared-modal.open {
       display: flex;
     }
+
     .shared-modal-box {
       width: min(560px, calc(100vw - 32px));
       max-height: 70vh;
@@ -405,6 +433,7 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       overflow: hidden;
     }
+
     .shared-modal-head {
       display: flex;
       align-items: center;
@@ -415,6 +444,7 @@
       color: #e2e8f0;
       border-bottom: 1px solid #334155;
     }
+
     input[type="text"].shared-modal-filter {
       box-sizing: border-box;
       width: calc(100% - 28px);
@@ -426,10 +456,12 @@
       color: #e2e8f0;
       font-size: 12.5px;
     }
+
     .shared-list-body {
       overflow-y: auto;
       padding: 0 8px 10px;
     }
+
     .shared-list-item {
       display: flex;
       justify-content: space-between;
@@ -440,13 +472,16 @@
       font-size: 12.5px;
       color: #e2e8f0;
     }
+
     .shared-list-item:hover {
       background: #334155;
     }
+
     .shared-list-item small {
       color: #94a3b8;
       font-size: 11px;
     }
+
     .help-body {
       overflow-y: auto;
       padding: 12px 18px 16px;
@@ -454,20 +489,30 @@
       line-height: 1.55;
       color: #cbd5e1;
     }
+
     .help-body h4 {
       margin: 12px 0 4px;
       font-size: 12.5px;
       color: #f8fafc;
     }
+
     .help-body h4:first-child {
       margin-top: 0;
     }
-    .help-body ol, .help-body ul {
+
+    .help-body ol,
+    .help-body ul {
       padding-left: 18px;
       margin: 0;
     }
-    .help-body .ok { color: #4ade80; }
-    .help-body .warn { color: #fbbf24; }
+
+    .help-body .ok {
+      color: #4ade80;
+    }
+
+    .help-body .warn {
+      color: #fbbf24;
+    }
 
     .shared-list-empty {
       padding: 16px;
@@ -520,6 +565,7 @@
     .tab-pane {
       display: none;
     }
+
     .tab-pane.active {
       display: block;
     }
@@ -532,6 +578,7 @@
       display: flex;
       gap: 8px;
     }
+
     .form-row .form-group {
       flex: 1;
     }
@@ -563,7 +610,9 @@
       transition: border-color 0.15s;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       outline: none;
       border-color: #38bdf8;
     }
@@ -606,6 +655,7 @@
       gap: 6px;
       margin-bottom: 12px;
     }
+
     .mech-preset-btn {
       background: #1e293b;
       border: 1px solid #334155;
@@ -617,16 +667,19 @@
       cursor: pointer;
       transition: all 0.15s;
     }
+
     .mech-preset-btn:hover {
       background: #334155;
       color: #f8fafc;
       border-color: #475569;
     }
+
     .mech-preset-btn.active {
       background: #0284c7;
       color: #fff;
       border-color: #38bdf8;
     }
+
     .mech-prop-card {
       background: #0b1120;
       border: 1px solid #1e293b;
@@ -635,15 +688,18 @@
       margin-bottom: 7px;
       transition: border-color 0.15s, opacity 0.15s;
     }
+
     .mech-prop-card.disabled {
       opacity: 0.45;
       background: rgba(11, 17, 32, 0.4);
     }
+
     .mech-prop-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
+
     .mech-check-label {
       display: flex;
       align-items: center;
@@ -656,12 +712,14 @@
       text-transform: none;
       letter-spacing: normal;
     }
+
     .mech-check-label input[type="checkbox"] {
       width: 15px;
       height: 15px;
       accent-color: #38bdf8;
       cursor: pointer;
     }
+
     .mech-prop-input-wrap {
       margin-top: 6px;
     }
@@ -676,10 +734,12 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+
     .dropzone-box:hover {
       border-color: #38bdf8;
       background: #0f172a;
     }
+
     .dropzone-text {
       font-size: 11.5px;
       color: #94a3b8;
@@ -697,6 +757,7 @@
       align-items: center;
       justify-content: space-between;
     }
+
     .energy-class-letter {
       font-size: 22px;
       font-weight: 900;
@@ -704,13 +765,35 @@
       border-radius: 6px;
       color: #fff;
     }
-    .class-A { background: #00843D; }
-    .class-B { background: #4DB343; }
-    .class-C { background: #B2D235; }
-    .class-D { background: #FFD200; color: #000; }
-    .class-E { background: #F39200; }
-    .class-F { background: #E4002B; }
-    .class-G { background: #C5112E; }
+
+    .class-A {
+      background: #00843D;
+    }
+
+    .class-B {
+      background: #4DB343;
+    }
+
+    .class-C {
+      background: #B2D235;
+    }
+
+    .class-D {
+      background: #FFD200;
+      color: #000;
+    }
+
+    .class-E {
+      background: #F39200;
+    }
+
+    .class-F {
+      background: #E4002B;
+    }
+
+    .class-G {
+      background: #C5112E;
+    }
 
     /* PREVIEW CONTAINER */
     .preview-container {
@@ -784,6 +867,7 @@
       display: flex;
       align-items: center;
     }
+
     .ubf-brand-logo-main img {
       height: 50px;
       width: auto;
@@ -791,10 +875,12 @@
       object-fit: contain;
       display: block;
     }
+
     .ubf-brand-logo-main img[src*="vanti"] {
       height: 70px !important;
       max-height: 70px !important;
     }
+
     .ubf-brand-logo-main img[src*="k2"] {
       height: 72px !important;
       max-height: 72px !important;
@@ -913,7 +999,7 @@
       max-width: 135px;
       max-height: 105px;
       object-fit: contain;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
     }
 
     /* Dividers */
@@ -965,6 +1051,7 @@
       margin-bottom: 22px;
       align-items: start;
     }
+
     .ubf-specs-row:last-child {
       margin-bottom: 6px;
     }
@@ -1126,7 +1213,8 @@
         margin: 0;
       }
 
-      html, body {
+      html,
+      body {
         background: #fff !important;
         height: auto !important;
         overflow: visible !important;
@@ -1146,7 +1234,8 @@
         height: auto !important;
       }
 
-      .preview-container, .preview-viewport {
+      .preview-container,
+      .preview-viewport {
         background: transparent !important;
         padding: 0 !important;
         overflow: visible !important;
@@ -1175,13 +1264,15 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- TOP HEADER -->
   <header class="app-header no-print">
     <div class="brand-title">
       <div class="brand-icon-box">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="brand-svg">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round" class="brand-svg">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
           <polyline points="14 2 14 8 20 8"></polyline>
           <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -1201,11 +1292,14 @@
     <!-- AUTOCOMPLETE SEARCH -->
     <div class="header-center">
       <div class="search-input-box">
-        <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="globalProductSearch" class="search-input" placeholder="Ürün Kodu Ara (Örn: GDL414, KDL403, GES230)..." oninput="handleCatalogSearch(this.value)" autocomplete="off">
+        <input type="text" id="globalProductSearch" class="search-input"
+          placeholder="Ürün Kodu Ara (Örn: GDL414, KDL403, GES230)..." oninput="handleCatalogSearch(this.value)"
+          autocomplete="off">
         <span class="search-kbd-badge">KOD ARA</span>
         <div id="searchDropdown" class="search-dropdown"></div>
       </div>
@@ -1237,18 +1331,22 @@
     <!-- LEFT SIDEBAR: CONTROLS & EDITOR -->
     <aside class="editor-panel no-print">
       <div class="guide-banner">
-        <span>💡 <strong>Bilgi:</strong> Ürün kodunu aratarak temel bilgileri ve fotoğrafı yükleyebilir, teknik detayları aşağıdaki sekmelerden tamamlayabilirsiniz.</span>
+        <span>💡 <strong>Bilgi:</strong> Ürün kodunu aratarak temel bilgileri ve fotoğrafı yükleyebilir, teknik
+          detayları aşağıdaki sekmelerden tamamlayabilirsiniz.</span>
         <span style="font-size:11px; color:#4ade80;">● Bu bilgisayarda otomatik kaydediliyor</span>
       </div>
 
       <!-- ORTAK KLASÖR: UBF'ler ürün koduyla JSON olarak saklanır, herkes açıp devam edebilir -->
       <div class="shared-bar">
-        <span id="sharedStatus" class="shared-status warn">📁 Ortak klasör bağlı değil — kayıtlar sadece bu bilgisayarda kalır</span>
+        <span id="sharedStatus" class="shared-status warn">📁 Ortak klasör bağlı değil — kayıtlar sadece bu bilgisayarda
+          kalır</span>
         <div class="shared-actions">
-          <button class="btn btn-success btn-sm" id="sharedConnectBtn" onclick="connectSharedFolder()">📁 Klasörü Bağla</button>
+          <button class="btn btn-success btn-sm" id="sharedConnectBtn" onclick="connectSharedFolder()">📁 Klasörü
+            Bağla</button>
           <button class="btn btn-secondary btn-sm" onclick="showSharedList()">📋 Kayıtlı UBF'ler</button>
           <button class="btn btn-success btn-sm" onclick="saveToSharedFolder()" title="Ctrl+S">💾 Kaydet</button>
-          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('helpModal').classList.add('open')">❓ Nasıl?</button>
+          <button class="btn btn-secondary btn-sm"
+            onclick="document.getElementById('helpModal').classList.add('open')">❓ Nasıl?</button>
         </div>
       </div>
 
@@ -1295,14 +1393,17 @@
 
           <div class="card-box">
             <div class="card-title">Ürün Fotoğrafı</div>
-            <div class="dropzone-box" onclick="document.getElementById('inputFileProdImg').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewProdImg')">
-              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto; display:block;">
+            <div class="dropzone-box" onclick="document.getElementById('inputFileProdImg').click()"
+              ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewProdImg')">
+              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"
+                style="margin:0 auto; display:block;">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <circle cx="8.5" cy="8.5" r="1.5"></circle>
                 <polyline points="21 15 16 10 5 21"></polyline>
               </svg>
               <div class="dropzone-text">Fotoğrafı buraya sürükleyin veya <strong>tıklayıp seçin</strong></div>
-              <input type="file" id="inputFileProdImg" accept="image/*" style="display:none;" onchange="handleImageUpload(this, 'previewProdImg')">
+              <input type="file" id="inputFileProdImg" accept="image/*" style="display:none;"
+                onchange="handleImageUpload(this, 'previewProdImg')">
             </div>
           </div>
         </div>
@@ -1313,8 +1414,10 @@
           <!-- OTOMATIK ENERJI HESAPLAYICI -->
           <div class="energy-calc-box">
             <div>
-              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Otomatik Enerji Sınıfı (EU 2019/2015)</div>
-              <div id="calcStatusText" style="font-size: 13px; font-weight: 600; color: #f8fafc; margin-top: 2px;">Etkinlik: 92 lm/W</div>
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Otomatik Enerji
+                Sınıfı (EU 2019/2015)</div>
+              <div id="calcStatusText" style="font-size: 13px; font-weight: 600; color: #f8fafc; margin-top: 2px;">
+                Etkinlik: 92 lm/W</div>
             </div>
             <div id="badgeEnergyLetter" class="energy-class-letter class-F">F</div>
           </div>
@@ -1322,12 +1425,14 @@
           <div class="card-box">
             <div class="card-title">
               <span>Mekanik Özellikler (Seçmeli)</span>
-              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Seçilmeyenler formda gizlenir ("-" yazılmaz)</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Seçilmeyenler
+                formda gizlenir ("-" yazılmaz)</span>
             </div>
 
             <!-- Hızlı Şablonlar / Presets -->
             <div class="mech-preset-buttons">
-              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('floodlight')">⚡ Projektör / Dış Mekan</button>
+              <button type="button" class="mech-preset-btn" onclick="applyMechPreset('floodlight')">⚡ Projektör / Dış
+                Mekan</button>
               <button type="button" class="mech-preset-btn" onclick="applyMechPreset('panel')">💡 Panel / Spot</button>
               <button type="button" class="mech-preset-btn" onclick="applyMechPreset('batten')">📦 Bant Armatür</button>
               <button type="button" class="mech-preset-btn" onclick="applyMechPreset('none')">❌ Hepsini Kapat</button>
@@ -1342,7 +1447,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_body">
-                <input type="text" id="input_mech_body" list="list_mech_body" value="Metal" placeholder="Örn: Alüminyum Enjeksiyon" oninput="updateView()">
+                <input type="text" id="input_mech_body" list="list_mech_body" value="Metal"
+                  placeholder="Örn: Alüminyum Enjeksiyon" oninput="updateView()">
                 <datalist id="list_mech_body">
                   <option value="Metal">
                   <option value="Alüminyum Enjeksiyon (Die-Cast Aluminum)">
@@ -1364,7 +1470,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_ip">
-                <input type="text" id="input_mech_ip" list="list_mech_ip" value="IP40" placeholder="Örn: IP65" oninput="updateView()">
+                <input type="text" id="input_mech_ip" list="list_mech_ip" value="IP40" placeholder="Örn: IP65"
+                  oninput="updateView()">
                 <datalist id="list_mech_ip">
                   <option value="IP20">
                   <option value="IP40">
@@ -1387,7 +1494,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_ik">
-                <input type="text" id="input_mech_ik" list="list_mech_ik" value="IK06" placeholder="Örn: IK08" oninput="updateView()">
+                <input type="text" id="input_mech_ik" list="list_mech_ik" value="IK06" placeholder="Örn: IK08"
+                  oninput="updateView()">
                 <datalist id="list_mech_ik">
                   <option value="IK02">
                   <option value="IK04">
@@ -1407,7 +1515,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_glass" style="display:none;">
-                <input type="text" id="input_mech_glass" list="list_mech_glass" value="Temperli Cam (Tempered Glass)" placeholder="Örn: Temperli Cam" oninput="updateView()">
+                <input type="text" id="input_mech_glass" list="list_mech_glass" value="Temperli Cam (Tempered Glass)"
+                  placeholder="Örn: Temperli Cam" oninput="updateView()">
                 <datalist id="list_mech_glass">
                   <option value="Temperli Cam (Tempered Glass)">
                   <option value="Şeffaf Polikarbon (PC)">
@@ -1425,7 +1534,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_gland" style="display:none;">
-                <input type="text" id="input_mech_gland" list="list_mech_gland" value="PG9 Paslanmaz Rakor" placeholder="Örn: PG9" oninput="updateView()">
+                <input type="text" id="input_mech_gland" list="list_mech_gland" value="PG9 Paslanmaz Rakor"
+                  placeholder="Örn: PG9" oninput="updateView()">
                 <datalist id="list_mech_gland">
                   <option value="PG7">
                   <option value="PG9">
@@ -1448,7 +1558,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_cable" style="display:none;">
-                <input type="text" id="input_mech_cable" list="list_mech_cable" value="3x1.00mm² H05RN-F (1m)" placeholder="Örn: 3x1.00mm²" oninput="updateView()">
+                <input type="text" id="input_mech_cable" list="list_mech_cable" value="3x1.00mm² H05RN-F (1m)"
+                  placeholder="Örn: 3x1.00mm²" oninput="updateView()">
                 <datalist id="list_mech_cable">
                   <option value="3x1.00mm² H05RN-F (1m)">
                   <option value="3x1.50mm² H05RN-F">
@@ -1468,7 +1579,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_ral">
-                <input type="text" id="input_mech_ral" list="list_mech_ral" value="9016" placeholder="Örn: 9005 Siyah" oninput="updateView()">
+                <input type="text" id="input_mech_ral" list="list_mech_ral" value="9016" placeholder="Örn: 9005 Siyah"
+                  oninput="updateView()">
                 <datalist id="list_mech_ral">
                   <option value="9016 (Beyaz)">
                   <option value="9005 (Siyah)">
@@ -1487,7 +1599,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_mounting">
-                <input type="text" id="input_mech_mounting" list="list_mech_mounting" value="Surface Mounted Sıva Altı" placeholder="Örn: Braketli Ayak Montajı" oninput="updateView()">
+                <input type="text" id="input_mech_mounting" list="list_mech_mounting" value="Surface Mounted Sıva Altı"
+                  placeholder="Örn: Braketli Ayak Montajı" oninput="updateView()">
                 <datalist id="list_mech_mounting">
                   <option value="Braketli Ayak Montajı (Bracket)">
                   <option value="Surface Mounted Sıva Altı">
@@ -1508,7 +1621,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_fire" style="display:none;">
-                <input type="text" id="input_mech_fire" list="list_mech_fire" value="650°C Glow Wire" placeholder="Örn: 650°C Glow Wire" oninput="updateView()">
+                <input type="text" id="input_mech_fire" list="list_mech_fire" value="650°C Glow Wire"
+                  placeholder="Örn: 650°C Glow Wire" oninput="updateView()">
                 <datalist id="list_mech_fire">
                   <option value="650°C Glow Wire">
                   <option value="850°C Glow Wire">
@@ -1526,7 +1640,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_length" style="display:none;">
-                <input type="text" id="input_mech_length" list="list_mech_length" value="120cm" placeholder="Örn: 60cm / 120cm" oninput="updateView()">
+                <input type="text" id="input_mech_length" list="list_mech_length" value="120cm"
+                  placeholder="Örn: 60cm / 120cm" oninput="updateView()">
                 <datalist id="list_mech_length">
                   <option value="60cm">
                   <option value="120cm">
@@ -1545,7 +1660,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_stdlength" style="display:none;">
-                <input type="text" id="input_mech_stdlength" list="list_mech_stdlength" value="5m" placeholder="Örn: 5m / 50m" oninput="updateView()">
+                <input type="text" id="input_mech_stdlength" list="list_mech_stdlength" value="5m"
+                  placeholder="Örn: 5m / 50m" oninput="updateView()">
                 <datalist id="list_mech_stdlength">
                   <option value="1m">
                   <option value="2m">
@@ -1565,7 +1681,8 @@
                 </label>
               </div>
               <div class="mech-prop-input-wrap" id="wrap_mech_lampbase" style="display:none;">
-                <input type="text" id="input_mech_lampbase" list="list_mech_lampbase" value="E27" placeholder="Örn: E27 / GU10" oninput="updateView()">
+                <input type="text" id="input_mech_lampbase" list="list_mech_lampbase" value="E27"
+                  placeholder="Örn: E27 / GU10" oninput="updateView()">
                 <datalist id="list_mech_lampbase">
                   <option value="E27">
                   <option value="E14">
@@ -1607,7 +1724,8 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Güç (Varsa)</label>
-                <input type="text" id="inputPower" value="" placeholder="Örn: 50W (solar ürünler)" oninput="updateView()">
+                <input type="text" id="inputPower" value="" placeholder="Örn: 50W (solar ürünler)"
+                  oninput="updateView()">
               </div>
               <div class="form-group"></div>
             </div>
@@ -1674,7 +1792,8 @@
               </div>
               <div class="form-group">
                 <label>Reflektör (Varsa)</label>
-                <input type="text" id="inputReflector" value="" placeholder="Örn: Alüminyum / Plastik" oninput="updateView()">
+                <input type="text" id="inputReflector" value="" placeholder="Örn: Alüminyum / Plastik"
+                  oninput="updateView()">
               </div>
             </div>
 
@@ -1709,7 +1828,8 @@
           <div class="card-box">
             <div class="card-title">
               <span>Opsiyonlar</span>
-              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Boş veya "-" olanlar formda gizlenir</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Boş veya "-"
+                olanlar formda gizlenir</span>
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -1754,7 +1874,8 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Şarj Tipi</label>
-                <input type="text" id="inputOptCharging" value="-" placeholder="Örn: Type-C Charging" oninput="updateView()">
+                <input type="text" id="inputOptCharging" value="-" placeholder="Örn: Type-C Charging"
+                  oninput="updateView()">
               </div>
               <div class="form-group">
                 <label>Pil Ömrü</label>
@@ -1766,7 +1887,8 @@
           <div class="card-box">
             <div class="card-title">
               <span>Solar Enerji Özellikleri</span>
-              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Sadece solar ürünlerde açın</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Sadece solar
+                ürünlerde açın</span>
             </div>
             <div class="mech-prop-card disabled" id="card_solar">
               <div class="mech-prop-card-header">
@@ -1786,11 +1908,13 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Şarj/Deşarj Süresi</label>
-                    <input type="text" id="input_solar_time" value="6-8H / 12-24H" placeholder="Örn: 6-8H / 12-24H" oninput="updateView()">
+                    <input type="text" id="input_solar_time" value="6-8H / 12-24H" placeholder="Örn: 6-8H / 12-24H"
+                      oninput="updateView()">
                   </div>
                   <div class="form-group">
                     <label>Güneş Paneli</label>
-                    <input type="text" id="input_solar_panel" list="list_solar_panel" value="Tek Kristalli" oninput="updateView()">
+                    <input type="text" id="input_solar_panel" list="list_solar_panel" value="Tek Kristalli"
+                      oninput="updateView()">
                     <datalist id="list_solar_panel">
                       <option value="Tek Kristalli">
                       <option value="Çok Kristalli">
@@ -1802,7 +1926,8 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Şarj Kontrol Cihazı</label>
-                    <input type="text" id="input_solar_controller" list="list_solar_controller" value="PWM" oninput="updateView()">
+                    <input type="text" id="input_solar_controller" list="list_solar_controller" value="PWM"
+                      oninput="updateView()">
                     <datalist id="list_solar_controller">
                       <option value="PWM">
                       <option value="MPPT">
@@ -1810,7 +1935,8 @@
                   </div>
                   <div class="form-group">
                     <label>Batarya Tipi</label>
-                    <input type="text" id="input_solar_battery" list="list_solar_battery" value="LiFePO4" oninput="updateView()">
+                    <input type="text" id="input_solar_battery" list="list_solar_battery" value="LiFePO4"
+                      oninput="updateView()">
                     <datalist id="list_solar_battery">
                       <option value="LiFePO4">
                       <option value="Li-ion">
@@ -1821,11 +1947,13 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Batarya Gerilimi</label>
-                    <input type="text" id="input_solar_voltage" value="3.2V 4400mAh" placeholder="Örn: 3.2V 4400mAh" oninput="updateView()">
+                    <input type="text" id="input_solar_voltage" value="3.2V 4400mAh" placeholder="Örn: 3.2V 4400mAh"
+                      oninput="updateView()">
                   </div>
                   <div class="form-group">
                     <label>Fotosel</label>
-                    <input type="text" id="input_solar_photocell" list="list_solar_photocell" value="Yes" oninput="updateView()">
+                    <input type="text" id="input_solar_photocell" list="list_solar_photocell" value="Yes"
+                      oninput="updateView()">
                     <datalist id="list_solar_photocell">
                       <option value="Yes">
                       <option value="No">
@@ -1835,7 +1963,8 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Değiştirilebilir Batarya</label>
-                    <input type="text" id="input_solar_replaceable" list="list_solar_photocell" value="" placeholder="Örn: Yes" oninput="updateView()">
+                    <input type="text" id="input_solar_replaceable" list="list_solar_photocell" value=""
+                      placeholder="Örn: Yes" oninput="updateView()">
                   </div>
                   <div class="form-group"></div>
                 </div>
@@ -1846,7 +1975,8 @@
           <div class="card-box">
             <div class="card-title">
               <span>Performans Özellikleri</span>
-              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Vantilatör, soğutucu vb. cihazlarda açın</span>
+              <span style="font-size: 10px; font-weight: normal; color: #94a3b8; text-transform: none;">💡 Vantilatör,
+                soğutucu vb. cihazlarda açın</span>
             </div>
             <div class="mech-prop-card disabled" id="card_perf">
               <div class="mech-prop-card-header">
@@ -1869,7 +1999,8 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Fan Hız Kademesi</label>
-                    <input type="text" id="input_perf_fanSpeed" value="" placeholder="Örn: 3 Kademe" oninput="updateView()">
+                    <input type="text" id="input_perf_fanSpeed" value="" placeholder="Örn: 3 Kademe"
+                      oninput="updateView()">
                   </div>
                   <div class="form-group">
                     <label>Zamanlayıcı</label>
@@ -1879,7 +2010,8 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label>Soğutma Pedi</label>
-                    <input type="text" id="input_perf_pad" value="" placeholder="Örn: Petek Tipi" oninput="updateView()">
+                    <input type="text" id="input_perf_pad" value="" placeholder="Örn: Petek Tipi"
+                      oninput="updateView()">
                   </div>
                   <div class="form-group"></div>
                 </div>
@@ -1892,18 +2024,24 @@
         <div id="tab-drawing" class="tab-pane">
           <div class="card-box">
             <div class="card-title">Teknik Çizim / Ölçü Şeması (İsteğe Bağlı)</div>
-            <div class="dropzone-box" onclick="document.getElementById('inputFileDrawingImg').click()" ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewDrawingImg')">
-              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto; display:block;">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <div class="dropzone-box" onclick="document.getElementById('inputFileDrawingImg').click()"
+              ondragover="event.preventDefault()" ondrop="handleDrop(event, 'previewDrawingImg')">
+              <svg width="26" height="26" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"
+                style="margin:0 auto; display:block;">
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
                 <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
               </svg>
               <div class="dropzone-text">Teknik çizimi buraya sürükleyin veya <strong>tıklayıp seçin</strong></div>
-              <input type="file" id="inputFileDrawingImg" accept="image/*" style="display:none;" onchange="handleImageUpload(this, 'previewDrawingImg')">
+              <input type="file" id="inputFileDrawingImg" accept="image/*" style="display:none;"
+                onchange="handleImageUpload(this, 'previewDrawingImg')">
             </div>
             <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 11px; color: #94a3b8;">💡 Çizim yoksa formda başlık gizlenir.</span>
-              <button class="btn btn-secondary" type="button" style="font-size: 11px; color: #ef4444;" onclick="removeDrawing()">❌ Çizimi Kaldır</button>
+              <button class="btn btn-secondary" type="button" style="font-size: 11px; color: #ef4444;"
+                onclick="removeDrawing()">❌ Çizimi Kaldır</button>
             </div>
           </div>
         </div>
@@ -1913,7 +2051,8 @@
           <div class="card-box">
             <div class="card-title">
               <span>Alt Tablo Satırları</span>
-              <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="addVariantRow()">+ Satır Ekle</button>
+              <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="addVariantRow()">+
+                Satır Ekle</button>
             </div>
             <div class="form-group">
               <label>Tablo Tipi (sütunlar)</label>
@@ -1948,7 +2087,8 @@
           <!-- 1. HEADER: BRAND LOGO AT TOP-LEFT, FORM TITLE AT TOP-RIGHT -->
           <div class="ubf-header">
             <div class="ubf-brand-logo-main">
-              <img id="previewMainLogo" src="images/brands/global-logo.svg" onerror="handleImgError(this)" alt="Brand Logo">
+              <img id="previewMainLogo" src="images/brands/global-logo.svg" onerror="handleImgError(this)"
+                alt="Brand Logo">
             </div>
             <div class="ubf-header-right">
               <div class="ubf-title-badge">
@@ -1968,7 +2108,8 @@
               <div class="ubf-prod-name-en" id="viewProdNameEn">GDL414 SLIM BACKLIGHT RECESSED PANEL</div>
             </div>
             <div class="ubf-hero-right">
-              <img id="previewProdImg" src="images/urunler/gdl414.webp" onerror="handleImgError(this)" alt="Ürün Fotoğrafı">
+              <img id="previewProdImg" src="images/urunler/gdl414.webp" onerror="handleImgError(this)"
+                alt="Ürün Fotoğrafı">
             </div>
           </div>
 
@@ -2186,7 +2327,8 @@
         <span>📋 Ortak Klasördeki UBF'ler</span>
         <button class="btn btn-secondary btn-sm" onclick="closeSharedList()">✕</button>
       </div>
-      <input type="text" id="sharedListFilter" class="shared-modal-filter" placeholder="Ürün kodu ile filtrele..." oninput="renderSharedList()" autocomplete="off">
+      <input type="text" id="sharedListFilter" class="shared-modal-filter" placeholder="Ürün kodu ile filtrele..."
+        oninput="renderSharedList()" autocomplete="off">
       <div id="sharedListBody" class="shared-list-body"></div>
     </div>
   </div>
@@ -2203,53 +2345,72 @@
         <ol>
           <li>Siteyi <strong>Google Chrome</strong> veya <strong>Microsoft Edge</strong> ile açın.</li>
           <li><strong>📁 Klasörü Bağla</strong>'ya basın.</li>
-          <li>Açılan pencerenin üstteki adres çubuğuna ortak UBF klasörünün yolunu yapıştırıp Enter'a basın, <strong>Klasörü seç</strong> deyin.<br>
-            <small>(Klasör yolu size <strong>e-posta ile iletildi</strong>. Bulamazsanız Umutcan Çelik'e sorun.)</small></li>
+          <li>Açılan pencerenin üstteki adres çubuğuna ortak UBF klasörünün yolunu yapıştırıp Enter'a basın,
+            <strong>Klasörü seç</strong> deyin.<br>
+            <small>(Klasör yolu size <strong>e-posta ile iletildi</strong>. Bulamazsanız Umutcan Çelik'e sorun.)</small>
+          </li>
           <li>Tarayıcı izin sorarsa <strong>Dosyaları düzenle / İzin ver</strong> deyin.</li>
         </ol>
 
         <h4>Form nasıl doldurulur?</h4>
         <ol>
-          <li>Üstteki aramaya <strong>ürün kodunu</strong> yazıp listeden seçin. Ad, marka, fotoğraf ve watt/lümen bilgileri kendiliğinden gelir.</li>
+          <li>Üstteki aramaya <strong>ürün kodunu</strong> yazıp listeden seçin. Ad, marka, fotoğraf ve watt/lümen
+            bilgileri kendiliğinden gelir.</li>
           <li>Soldaki sekmeleri sırayla gezin:
             <ul>
               <li><strong>1. Başlık &amp; Resim:</strong> marka logosu, ürün adı, fotoğraf (sürükle-bırak).</li>
-              <li><strong>2. Mekanik &amp; Elektrik:</strong> üstteki hazır şablonlardan birini seçin (Projektör, Panel, Bant), sonra ürüne uyan kutuları işaretleyip değerleri düzeltin.</li>
-              <li><strong>3. Optik &amp; Opsiyon:</strong> optik değerler, opsiyonlar; solar/şarjlı ürünlerde Solar bölümünü açın.</li>
+              <li><strong>2. Mekanik &amp; Elektrik:</strong> üstteki hazır şablonlardan birini seçin (Projektör, Panel,
+                Bant), sonra ürüne uyan kutuları işaretleyip değerleri düzeltin.</li>
+              <li><strong>3. Optik &amp; Opsiyon:</strong> optik değerler, opsiyonlar; solar/şarjlı ürünlerde Solar
+                bölümünü açın.</li>
               <li><strong>4. Çizim &amp; Boyut:</strong> varsa teknik çizimi yükleyin.</li>
-              <li><strong>5. Tablo Satırları:</strong> her varyant için güç, lümen, renk sıcaklığı… <em>Enerji sınıfı buradan otomatik hesaplanır.</em></li>
+              <li><strong>5. Tablo Satırları:</strong> her varyant için güç, lümen, renk sıcaklığı… <em>Enerji sınıfı
+                  buradan otomatik hesaplanır.</em></li>
             </ul>
           </li>
-          <li>Sağdaki önizleme anında güncellenir. <strong>Boş bırakılan alanlar formda görünmez</strong>, "-" yazmanıza gerek yoktur.</li>
+          <li>Sağdaki önizleme anında güncellenir. <strong>Boş bırakılan alanlar formda görünmez</strong>, "-" yazmanıza
+            gerek yoktur.</li>
         </ol>
 
         <h4>PDF nasıl alınır?</h4>
         <ol>
           <li>Sağ üstteki <strong>PDF Olarak Kaydet (Yazdır)</strong>'a basın.</li>
-          <li>Hedef: <strong>PDF olarak kaydet</strong> · Kenar boşlukları: <strong>Varsayılan</strong> · Ölçek: <strong>Varsayılan</strong>.</li>
-          <li>"Diğer ayarlar"da <strong>Arka plan grafikleri</strong> işaretli olsun (renkler için). <strong>Kaydet</strong>'e basın.</li>
+          <li>Hedef: <strong>PDF olarak kaydet</strong> · Kenar boşlukları: <strong>Varsayılan</strong> · Ölçek:
+            <strong>Varsayılan</strong>.</li>
+          <li>"Diğer ayarlar"da <strong>Arka plan grafikleri</strong> işaretli olsun (renkler için).
+            <strong>Kaydet</strong>'e basın.</li>
         </ol>
 
         <h4>Her gün</h4>
         <ul>
-          <li>Sayfaya ilk tıkladığınızda izin sorulursa <strong>"Her ziyarette izin ver"</strong> seçin; bir daha sorulmaz.</li>
-          <li>Üstteki aramaya ürün kodunu yazın. <span class="ok">💾 Kayıtlı</span> rozeti olan ürünlerde form <strong>kaldığı yerden</strong> açılır, olmayanlarda katalogdan gelir.</li>
-          <li>Düzenlemeye başlayın — <strong>otomatik kaydedilir</strong>, ayrıca kaydetmeniz gerekmez. Sol üstte <span class="ok">✅ kaydedildi</span> yazısını görürsünüz.</li>
+          <li>Sayfaya ilk tıkladığınızda izin sorulursa <strong>"Her ziyarette izin ver"</strong> seçin; bir daha
+            sorulmaz.</li>
+          <li>Üstteki aramaya ürün kodunu yazın. <span class="ok">💾 Kayıtlı</span> rozeti olan ürünlerde form
+            <strong>kaldığı yerden</strong> açılır, olmayanlarda katalogdan gelir.</li>
+          <li>Düzenlemeye başlayın — <strong>otomatik kaydedilir</strong>, ayrıca kaydetmeniz gerekmez. Sol üstte <span
+              class="ok">✅ kaydedildi</span> yazısını görürsünüz.</li>
           <li>Bitince <strong>PDF Olarak Kaydet (Yazdır)</strong> ile PDF alın.</li>
         </ul>
 
         <h4>Sarı uyarı görürseniz</h4>
         <ul>
-          <li><span class="warn">⚠️ Kayıtlı form var, otomatik kaydedilmedi</span>: Bu ürünün daha önce yapılmış formu var. Genelde <strong>"Kayıtlı formu aç"</strong> doğru seçimdir.</li>
-          <li><span class="warn">⚠️ Başka biri tarafından değiştirildi</span>: Siz çalışırken bir başkası aynı formu kaydetti. <strong>"Güncel hali aç"</strong> ile onun halini alın ya da <strong>"Benimkiyle değiştir"</strong> ile kendi halinizi yazın.</li>
-          <li><span class="warn">📁 Ortak klasör bağlı değil</span>: Form sadece bu bilgisayarda kalır; 1. adımı yapın.</li>
+          <li><span class="warn">⚠️ Kayıtlı form var, otomatik kaydedilmedi</span>: Bu ürünün daha önce yapılmış formu
+            var. Genelde <strong>"Kayıtlı formu aç"</strong> doğru seçimdir.</li>
+          <li><span class="warn">⚠️ Başka biri tarafından değiştirildi</span>: Siz çalışırken bir başkası aynı formu
+            kaydetti. <strong>"Güncel hali aç"</strong> ile onun halini alın ya da <strong>"Benimkiyle
+              değiştir"</strong> ile kendi halinizi yazın.</li>
+          <li><span class="warn">📁 Ortak klasör bağlı değil</span>: Form sadece bu bilgisayarda kalır; 1. adımı yapın.
+          </li>
         </ul>
 
         <h4>İpuçları</h4>
         <ul>
           <li><strong>📋 Kayıtlı UBF'ler</strong> ile klasördeki tüm formları görüp açabilirsiniz.</li>
-          <li>Kayıtlı bir formu katalog verisiyle sıfırlamak için açıldığında çıkan <strong>"Katalogdan baştan başla"</strong> bağlantısını kullanın.</li>
-          <li><strong>Eski hale dönmek:</strong> Her form değiştirilmeden önceki hali ortak klasördeki <code>_yedek\ÜRÜN KODU</code> klasörüne otomatik saklanır (son 20 sürüm). Gereken dosyayı <strong>📂 Taslak Yükle</strong> ile açıp devam edin.</li>
+          <li>Kayıtlı bir formu katalog verisiyle sıfırlamak için açıldığında çıkan <strong>"Katalogdan baştan
+              başla"</strong> bağlantısını kullanın.</li>
+          <li><strong>Eski hale dönmek:</strong> Her form değiştirilmeden önceki hali ortak klasördeki
+            <code>_yedek\ÜRÜN KODU</code> klasörüne otomatik saklanır (son 20 sürüm). Gereken dosyayı <strong>📂 Taslak
+              Yükle</strong> ile açıp devam edin.</li>
         </ul>
       </div>
     </div>
@@ -2377,24 +2538,14 @@
     }
 
     // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!e.target.closest('.search-input-box')) {
         document.getElementById('searchDropdown').style.display = 'none';
       }
     });
 
     // RECALCULATE ENERGY CLASS (EU 2019/2015)
-    // EU 2019/2015: ηTM = (lm / W) × FTM — FTM şebeke gerilimli üründe 0,926, şebeke dışı / düşük gerilimde 1,000
-    // (Kalite biriminin "ENERJİ SINIFI HESAPLAMA DOSYASI.xlsx" ile aynı yöntem)
-    function energyFtm(volt) {
-      const v = String(volt || '').toLowerCase();
-      if (/şebeke\s*dışı|off-?grid/.test(v)) return 1;
-      const nums = (v.match(/\d+(?:[.,]\d+)?(?=\s*-?\s*\d*\s*v)/g) || []).map(n => parseFloat(n.replace(',', '.')));
-      if (nums.some(n => n >= 100)) return 0.926;
-      if (nums.length) return 1;
-      return 0.926;
-    }
-
+    // Formül: ηTM = Lümen / Güç (lm/W)
     function recalculateEnergyClass() {
       if (!variants || variants.length === 0) return;
       const v = variants[0];
@@ -2411,8 +2562,7 @@
         return;
       }
 
-      const ftm = energyFtm(document.getElementById('inputVolt').value);
-      const eff = l / p * ftm;
+      const eff = l / p;
       let energyClass = 'G';
       if (eff >= 210) energyClass = 'A';
       else if (eff >= 185) energyClass = 'B';
@@ -2421,7 +2571,7 @@
       else if (eff >= 110) energyClass = 'E';
       else if (eff >= 85) energyClass = 'F';
 
-      document.getElementById('calcStatusText').innerText = `ηTM: ${eff.toFixed(1)} lm/W (FTM ${ftm === 1 ? '1,000' : '0,926'})`;
+      document.getElementById('calcStatusText').innerText = `ηTM: ${eff.toFixed(1)} lm/W → Sınıf ${energyClass}`;
       badge.innerText = energyClass;
       badge.className = 'energy-class-letter class-' + energyClass;
       document.getElementById('viewEnergy').innerText = energyClass;
@@ -2909,7 +3059,7 @@
       event.preventDefault();
       if (event.dataTransfer.files && event.dataTransfer.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           document.getElementById(targetImgId).src = e.target.result;
           saveToLocalStorage();
           updateView();
@@ -3106,12 +3256,12 @@
     function importJsonDraft(input) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           try {
             setSharedOwner(null);
             loadFormState(JSON.parse(e.target.result));
             alert('Taslak başarıyla yüklendi!');
-          } catch(err) {
+          } catch (err) {
             alert('Geçersiz dosya formatı.');
           }
         };
@@ -3146,7 +3296,7 @@
       try {
         if (owner) localStorage.setItem('ubf_shared_owner', JSON.stringify(owner));
         else localStorage.removeItem('ubf_shared_owner');
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function sharedFileName(code) {
@@ -3214,7 +3364,7 @@
       if (!window.showDirectoryPicker || !window.indexedDB) return;
       try {
         sharedOpenedFile = JSON.parse(localStorage.getItem('ubf_shared_owner') || 'null');
-      } catch (e) {}
+      } catch (e) { }
       try {
         const handle = await handleStore('readonly', store => store.get('dir'));
         if (!handle) return;
@@ -3283,7 +3433,7 @@
           const isSameFile = sharedOpenedFile && sharedOpenedFile.name === name;
           if (!isSameFile && !confirm(`"${code}" için ortak klasörde zaten bir UBF var (son kayıt: ${formatDate(existing.lastModified)}).\n\nÜzerine yazılsın mı?`)) return;
           if (isSameFile && existing.lastModified !== sharedOpenedFile.lastModified &&
-              !confirm(`"${code}" UBF'si siz açtıktan sonra başka biri tarafından değiştirilmiş (${formatDate(existing.lastModified)}).\n\nYine de sizin halinizle üzerine yazılsın mı?`)) return;
+            !confirm(`"${code}" UBF'si siz açtıktan sonra başka biri tarafından değiştirilmiş (${formatDate(existing.lastModified)}).\n\nYine de sizin halinizle üzerine yazılsın mı?`)) return;
         }
         await writeSharedFile(name, true);
       } catch (e) {
@@ -3441,7 +3591,7 @@
 
     function closeHelp() {
       document.getElementById('helpModal').classList.remove('open');
-      try { localStorage.setItem('ubf_help_seen', '1'); } catch (e) {}
+      try { localStorage.setItem('ubf_help_seen', '1'); } catch (e) { }
     }
 
     function closeSharedList() {
@@ -3459,7 +3609,7 @@
 
     // Hatırlanan klasör için izni, kullanıcının sayfadaki ilk tıklamasında iste (ayrı butona gerek kalmasın)
     document.addEventListener('pointerdown', () => {
-      if (sharedPendingDir && !sharedDir) ensureSharedDir().catch(() => {});
+      if (sharedPendingDir && !sharedDir) ensureSharedDir().catch(() => { });
     }, true);
 
     document.addEventListener('keydown', e => {
@@ -3473,7 +3623,7 @@
       }
     });
 
-    window.onload = function() {
+    window.onload = function () {
       document.getElementById('previewProdImg').src = resolveImg('images/urunler/gdl414.webp');
       document.getElementById('previewDrawingImg').src = '';
       const ftLogo = document.querySelector('.ubf-footer-logo-badge img');
@@ -3491,9 +3641,10 @@
       restoreSharedFolder();
       // İlk kez gelen kullanıcıya kılavuzu göster
       let seen = false;
-      try { seen = !!localStorage.getItem('ubf_help_seen'); } catch (e) {}
+      try { seen = !!localStorage.getItem('ubf_help_seen'); } catch (e) { }
       if (!seen) document.getElementById('helpModal').classList.add('open');
     };
   </script>
 </body>
+
 </html>

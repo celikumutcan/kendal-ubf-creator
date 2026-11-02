@@ -67,7 +67,7 @@ Projektörlerden spotlara kadar 10 farklı mekanik parametre sunulur:
 - Çizim yüklendiğinde otomatik olarak şık bir çerçeveyle görüntülenir.
 
 ### 6. ⚡ Otomatik AB Enerji Sınıfı Hesaplayıcı (EU 2019/2015)
-- ηTM = (Işık Akısı ÷ Güç) × FTM. FTM, Giriş Gerilimi'nden otomatik seçilir: şebeke gerilimli (örn. 220-240Vac) ürünlerde **0,926**, şebeke dışı / düşük gerilimli (solar, 12V, 48V) ürünlerde **1,000**.
+- ηTM = Işık Akısı ÷ Güç (lm/W).
 - Sınıflar: A ≥210 · B ≥185 · C ≥160 · D ≥135 · E ≥110 · F ≥85 · G <85 lm/W. Güç veya ışık akısı yoksa sınıf yazılmaz.
 
 ### 7. 🖨️ Kusursuz A4 PDF Çıktısı
