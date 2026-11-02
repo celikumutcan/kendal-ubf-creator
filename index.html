@@ -2548,7 +2548,8 @@
     // Formül: ηTM = Lümen / Güç (lm/W)
     function recalculateEnergyClass() {
       if (!variants || variants.length === 0) return;
-      const v = variants[0];
+      const currentModel = (document.getElementById('inputModel')?.value || '').trim().toUpperCase();
+      const v = (variants && variants.find(x => (x.code || '').trim().toUpperCase() === currentModel)) || variants[0];
       const num = x => parseFloat(String(x || '').replace(',', '.')) || 0;
       const p = num(v.power);
       const l = num(v.lumen);
