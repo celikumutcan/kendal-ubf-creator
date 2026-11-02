@@ -3629,20 +3629,24 @@
       const ftLogo = document.querySelector('.ubf-footer-logo-badge img');
       if (ftLogo) ftLogo.src = resolveImg('images/kendal-logo.svg');
 
-      const restored = loadFromLocalStorage();
-      if (!restored) {
-        applyMechPreset('panel');
+      if (window.PRELOADED_STATE) {
+        loadFormState(window.PRELOADED_STATE);
+      } else {
+        const restored = loadFromLocalStorage();
+        if (!restored) {
+          applyMechPreset('panel');
+        }
+        renderVariantInputs();
+        recalculateEnergyClass();
+        updateView();
       }
-      renderVariantInputs();
-      recalculateEnergyClass();
-      updateView();
       // Yazı tipi geç yüklenirse yükseklikler değişir; sayfalamayı tekrar hesapla
       if (document.fonts) document.fonts.ready.then(paginatePages);
       restoreSharedFolder();
       // İlk kez gelen kullanıcıya kılavuzu göster
       let seen = false;
       try { seen = !!localStorage.getItem('ubf_help_seen'); } catch (e) { }
-      if (!seen) document.getElementById('helpModal').classList.add('open');
+      if (!seen && !window.PRELOADED_STATE) document.getElementById('helpModal').classList.add('open');
     };
   </script>
 </body>
