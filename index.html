@@ -1405,6 +1405,11 @@
               <input type="file" id="inputFileProdImg" accept="image/*" style="display:none;"
                 onchange="handleImageUpload(this, 'previewProdImg')">
             </div>
+            <!-- Çoklu Fotoğraf Seçici (Birden fazla fotoğraf varsa sonuncusu varsayılan seçilir) -->
+            <div id="catalogImageGallery" style="display:none; margin-top:10px;">
+              <div style="font-size:11px; color:#94a3b8; margin-bottom:6px;">📸 Ürün Fotoğrafları (Birden fazla varsa sonuncusu seçilir):</div>
+              <div id="catalogImageThumbs" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+            </div>
           </div>
         </div>
 
@@ -2509,9 +2514,37 @@
 
       // Feature bullets: JSON veya siteden otomatik çekilmez, stajyer elle ne yazarsa o kalır
 
-      // Product image
-      if (item.image) {
-        document.getElementById('previewProdImg').src = resolveImg('images/' + item.image);
+      // Product image: Birden fazla varsa sonuncuyu al kuralı
+      let chosenImg = item.image;
+      if (item.images && item.images.length > 0) {
+        const validImgs = item.images.filter(img => !img.includes('-old'));
+        if (validImgs.length > 0) {
+          chosenImg = validImgs[validImgs.length - 1];
+        }
+      }
+      if (chosenImg) {
+        document.getElementById('previewProdImg').src = resolveImg('images/' + chosenImg);
+      }
+
+      // Çoklu fotoğraf varsa küçük galeri seçiciyi göster
+      const galleryBox = document.getElementById('catalogImageGallery');
+      const thumbsContainer = document.getElementById('catalogImageThumbs');
+      if (galleryBox && thumbsContainer) {
+        const validList = (item.images || []).filter(img => !img.includes('-old'));
+        if (validList.length > 1) {
+          galleryBox.style.display = 'block';
+          thumbsContainer.innerHTML = validList.map((imgSrc, idx) => {
+            const isSelected = imgSrc === chosenImg;
+            return `
+              <div onclick="selectCatalogThumb('${imgSrc}', this)" style="cursor:pointer; border:2px solid ${isSelected ? '#38bdf8' : '#334155'}; border-radius:6px; padding:2px; background:#0f172a; width:52px; height:52px; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s;" title="Görsel ${idx + 1}">
+                <img src="${resolveImg('images/' + imgSrc)}" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:4px;" />
+              </div>
+            `;
+          }).join('');
+        } else {
+          galleryBox.style.display = 'none';
+          thumbsContainer.innerHTML = '';
+        }
       }
 
       // Voltage
@@ -2533,6 +2566,17 @@
 
       renderVariantInputs();
       recalculateEnergyClass();
+      updateView();
+      saveToLocalStorage();
+    }
+
+    function selectCatalogThumb(imgSrc, el) {
+      document.getElementById('previewProdImg').src = resolveImg('images/' + imgSrc);
+      const container = document.getElementById('catalogImageThumbs');
+      if (container) {
+        container.querySelectorAll('div').forEach(d => d.style.borderColor = '#334155');
+      }
+      if (el) el.style.borderColor = '#38bdf8';
       updateView();
       saveToLocalStorage();
     }

@@ -36,6 +36,11 @@ Bu belge, projede çalışacak gelecekteki yapay zeka asistanları (Antigravity,
    - Spec blokları (Mekanik, Optik, Elektrik, Opsiyonlar, Solar) `arrangeSpecBlocks()` ile görünenler sırayla ikişer ikişer satırlara dizilir; boş blok atlanır, sıradaki yerine geçer. Yeni spec bloğu eklenirse `SPEC_BLOCK_ORDER`'a (gerekirse `SPEC_ROW_IDS`'e yeni satır) eklenmelidir.
    - Sayfa içinden taşan veya boş sayfa üreten CSS değişiklikleri engellenmelidir.
 
+6. **Çoklu Fotoğraf Kuralı (Birden Fazla Varsa Sonuncuyu Al):**
+   - Bir ürünün `products.json` içinde birden fazla fotoğrafı (`images[]`) varsa, ürün bilgi formu için **her zaman sonuncu (en güncel/izole) fotoğraf** (`*-2.webp`, `*-3.webp` vb.) baz alınır.
+   - `-old.webp` uzantılı yedek/eski fotoğraflar elenir.
+   - `catalog.js` bu kurala göre güncel tutulmalıdır. Editörde birden fazla fotoğraf olduğunda sonuncusu otomatik varsayılan seçilir ve editör panelinde küçük resim seçici (`#catalogImageGallery`) gösterilir.
+
 ---
 
 ## 3. 📐 Mimari ve Dosya Haritası
