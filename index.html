@@ -2018,7 +2018,11 @@
                     <input type="text" id="input_perf_pad" value="" placeholder="Örn: Petek Tipi"
                       oninput="updateView()">
                   </div>
-                  <div class="form-group"></div>
+                  <div class="form-group">
+                    <label>Motor Gücü</label>
+                    <input type="text" id="input_perf_motorPower" value="" placeholder="Örn: 35W"
+                      oninput="updateView()">
+                  </div>
                 </div>
               </div>
             </div>
@@ -2869,6 +2873,7 @@
     ];
 
     const PERFORMANCE_DEFINITIONS = [
+      { key: 'motorPower', label: 'Motor Power / Motor Gücü' },
       { key: 'area', label: 'Cooling Area / Soğutma Alanı' },
       { key: 'tank', label: 'Water Tank Capacity / Su Tankı Kapasitesi' },
       { key: 'fanSpeed', label: 'Fan Speed Levels / Fan Hız Kademesi' },
